@@ -18,6 +18,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import mx.unam.ciencias.cv.filters;
+
 
 /**
  * @author MacCG  <macfirstall_4@ciencias.unam.mx>
@@ -136,13 +138,14 @@ public class Main extends JFrame {
 	}
 
 
-	/* --------------------------------------------------------------------- */	
-	/* ------------------------------------------------------------- */	
+	/**
+	* Listeners
+	*/
 	private void brightnessAction(AWTEvent evt) {
 		System.out.println("Testing Performance");
         long startTime = System.nanoTime(); 
 		
-		this.ivWork = brightness(this.ivSrc, 70.0);
+		this.ivWork = Filters.grayScale(this.ivSrc);
 		putImageOnScreen(this.ivWork);
 		
 		long estimatedTime = System.nanoTime() - startTime;
@@ -151,28 +154,7 @@ public class Main extends JFrame {
 
 	}
 
-	private BufferedImage brightness(BufferedImage src, double bValue) {
-		WritableRaster rIn = src.getRaster();
-		int width = rIn.getWidth();
-		int height = rIn.getHeight();
-		int type = src.getType();
 
-		BufferedImage r = new BufferedImage(width, height, type);
-        WritableRaster rOut = r.getRaster();
-
-        double[] rgb = new double[3];
-		int i, j;
-        for(i = 0; i < height; i++) {
-            for(j = 0; j < width; j++) {
-                rIn.getPixel(j, i, rgb);
-                double media = (rgb[0]  + rgb[1] + rgb[2])/3;
-                rgb[0] = rgb[1] = rgb[2] =  media;
-               	rOut.setPixel(j, i, rgb);
-            }
-        }
-		
-		return r;
-	}
 
 	
 	/* --------------------------------------------------------------------- */	
