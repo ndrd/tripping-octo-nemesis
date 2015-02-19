@@ -18,7 +18,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import mx.unam.ciencias.cv.filters;
+import mx.unam.ciencias.cv.filters.*;
+import mx.unam.ciencias.cv.models.*;
+
 
 
 /**
@@ -151,6 +153,15 @@ public class Main extends JFrame {
 		long estimatedTime = System.nanoTime() - startTime;
         double seconds = (double)estimatedTime / 1000000000.0;
         System.out.println("Delta: " + seconds);
+        
+        System.out.println("-----Testing Performance");
+        startTime = System.nanoTime(); 
+		
+		ImageD detailed = new ImageD(this.ivSrc);
+		
+		estimatedTime = System.nanoTime() - startTime;
+        seconds = (double)estimatedTime / 1000000000.0;
+        System.out.println("Delta Hists: " + seconds);
 
 	}
 

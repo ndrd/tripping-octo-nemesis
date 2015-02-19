@@ -1,3 +1,8 @@
+package mx.unam.ciencias.cv.filters;
+
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+
 public class Filters {
 
 	public static BufferedImage grayScale(BufferedImage src) {
@@ -11,7 +16,7 @@ public class Filters {
 
         double[] rgb = new double[3];
 	    for (int x = 0; x < width; x++) {
-            for (y = 0; y < height; y++) {
+            for (int y = 0; y < height; y++) {
                 rIn.getPixel(x, y, rgb);
                 double media = (rgb[0]  + rgb[1] + rgb[2])/3;
                 rgb[0] = rgb[1] = rgb[2] =  media;
