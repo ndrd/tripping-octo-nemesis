@@ -25,11 +25,11 @@ public class ImageD extends BufferedImage{
 	/**
 	* Use to store the rgb kindly 
 	*/
-	protected class RGB {
+	public class RGB {
 		
-		private double r;
-		private double g;
-		private double b;
+		double r;
+		double g;
+		double b;
 		private final double  RATIO = (1/3);
 
 		public RGB (double r, double g, double b) {
@@ -63,7 +63,7 @@ public class ImageD extends BufferedImage{
 		super(img.getWidth(), img.getHeight(), img.getType());
 		red = new Histogram(RGB_VALUES);
 		green = new Histogram(RGB_VALUES);
-		red = new Histogram(RGB_VALUES);
+		blue = new Histogram(RGB_VALUES);
 		grayScale = new Histogram(RGB_VALUES);
 
         WritableRaster raster = img.getRaster();
@@ -107,8 +107,21 @@ public class ImageD extends BufferedImage{
 		return grayScale;
 	}
 
-	public RGB meanColor() {
-		return	meanColor;
+	public int[] getMeanColor() {
+		int[] rgb =  new int[3];
+		rgb[0] = (int) meanColor.r;
+		rgb[1] = (int) meanColor.g;
+		rgb[2] = (int) meanColor.b;
+		return rgb;
+	}
+
+	public void report() {
+		p("Mean color: " + meanColor);
+		p("R[min, max]: " + red.minValue + " , " + red.maxValue);
+	}
+
+	private void p(Object o) {
+		System.out.println(o);
 	}
 
 

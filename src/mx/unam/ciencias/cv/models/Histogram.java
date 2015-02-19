@@ -50,10 +50,15 @@ public class Histogram {
 
 	public double getVariance() {
 		double mu = getMeanValue();
-		for (int i = 0;i < table.length; i++) {
-			
-		}
-		return 0;
+		double sigma  = 0;
+		for (int i = 0;i < table.length; i++) 
+			if (table[i] > 0)
+				sigma += Math.pow(table[i] - mu, 2);
+		return sigma/members;
+	}
+
+	public double getStdDeviation() {
+		return Math.sqrt(getVariance()/members);
 	}
 
 

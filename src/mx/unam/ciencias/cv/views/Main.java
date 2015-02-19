@@ -20,6 +20,8 @@ import javax.swing.event.*;
 
 import mx.unam.ciencias.cv.filters.*;
 import mx.unam.ciencias.cv.models.*;
+import mx.unam.ciencias.cv.utils.*;
+
 
 
 
@@ -144,23 +146,17 @@ public class Main extends JFrame {
 	* Listeners
 	*/
 	private void brightnessAction(AWTEvent evt) {
-		System.out.println("Testing Performance");
+		System.out.println("********Training Performance");
         long startTime = System.nanoTime(); 
 		
-		this.ivWork = Filters.grayScale(this.ivSrc);
-		putImageOnScreen(this.ivWork);
-		
+		ImageTrainer trainer = ImageTrainer.getInstance("/home/socrates/projects/computer_vision/Practica0/" +
+									"resources/training");
+
 		long estimatedTime = System.nanoTime() - startTime;
         double seconds = (double)estimatedTime / 1000000000.0;
-        System.out.println("Delta: " + seconds);
-        
-        System.out.println("-----Testing Performance");
-        startTime = System.nanoTime(); 
-		
-		ImageD detailed = new ImageD(this.ivSrc);
-		
-		estimatedTime = System.nanoTime() - startTime;
-        seconds = (double)estimatedTime / 1000000000.0;
+
+        this.ivWork	 = Filters.colorSelector(this.ivSrc, trainer.getLowerBound(), trainer.getUpperBound());
+        putImageOnScreen(this.ivWork);
         System.out.println("Delta Hists: " + seconds);
 
 	}

@@ -68,7 +68,7 @@
     <tar destfile="${pName}.tar" basedir="./"/>
   </target>
   
-  <target name="all" depends="clean,compile,doc,jar" description="Compila y genera la documentación."/>
+  <target name="all" depends="compile" description="Compila y genera la documentación."/>
 
   <target name="jar" depends="compile" description="Crea el jar.">
     <mkdir dir="dist/jar"/>
