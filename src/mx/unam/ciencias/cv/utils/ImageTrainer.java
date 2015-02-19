@@ -95,7 +95,7 @@ public class ImageTrainer {
 		System.out.println("Sigma RGB (" + rs + ", " + gs + ", " + bs );
 
 		lowerBound = new Color((int)(r-rs),(int)(g-gs),(int)(b-bs));
-		upperBound = new Color((int)(r-rs),(int)(g-gs),(int)(b-bs));
+		upperBound = new Color((int)(r+rs),(int)(g+gs),(int)(b+bs));
 
 
 	}

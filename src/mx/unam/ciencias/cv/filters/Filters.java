@@ -45,8 +45,7 @@ public class Filters {
                 if (rgb[0] >= lowerBound.getRed() && rgb[0] <= upperBound.getRed()) {
                 	if (rgb[1] >= lowerBound.getGreen() && rgb[1] <= upperBound.getGreen()) {
                 		if (rgb[2] >= lowerBound.getBlue() && rgb[2] <= upperBound.getBlue()) {
-                			rgb[1] = (rgb[1] + rgb[2]) * 0.5;
-                			rgb[0] = rgb[2] = rgb[1];
+                		}
                 	}
                 } else {
                 	double media = (rgb[0] + rgb[1] + rgb[2]) * 0.33;

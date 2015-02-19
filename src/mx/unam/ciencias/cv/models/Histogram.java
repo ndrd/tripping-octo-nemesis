@@ -52,8 +52,7 @@ public class Histogram {
 		double mu = getMeanValue();
 		double sigma  = 0;
 		for (int i = 0;i < table.length; i++) 
-			if (table[i] > 0)
-				sigma += Math.pow(table[i] - mu, 2);
+			sigma += Math.pow(table[i] - mu, 2);
 		return sigma/members;
 	}
 
