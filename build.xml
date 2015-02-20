@@ -74,7 +74,7 @@
     <mkdir dir="dist/jar"/>
     <jar destfile="dist/jar/${pName}.jar" basedir="build/">
 	<manifest>
-		<attribute name="Main-Class" value="mx.unam.ciencias.cv.views.Main"/>
+		<attribute name="Main-Class" value="mx.unam.ciencias.cv.views.MainS"/>
 	</manifest>
 	</jar>
  </target>

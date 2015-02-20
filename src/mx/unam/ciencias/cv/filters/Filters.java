@@ -2,9 +2,38 @@ package mx.unam.ciencias.cv.filters;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import java.util.LinkedList;
 import java.awt.Color;
 
 public class Filters {
+
+	private static Filters instance;
+	private LinkedList<BufferedImage> images;
+	private double percentage;
+	private boolean ready;
+
+	private Filters () {
+		images = new LinkedList<BufferedImage>();
+		percentage = 0;
+		ready = false;
+	}
+
+	public static Filters getInstance() {
+		if (instance == null)
+			instance = new Filters();
+		return instance;
+	}
+
+	public void addImage(BufferedImage img) {
+		images.add(img);
+		ready = true;
+	}
+
+	public BufferedImage getLastImage() {
+		if ( images.size() > 0) 
+			return images.getLast();
+		return null;
+	}
 
 	public static BufferedImage grayScale(BufferedImage src) {
 		WritableRaster rIn = src.getRaster();
