@@ -19,7 +19,7 @@ package mx.unam.ciencias.cv.models;
  * along with tom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class Histogram {
+public class Histogram implements java.io.Serializable {
 	double [] table;
 	double maxValue;
 	double minValue;

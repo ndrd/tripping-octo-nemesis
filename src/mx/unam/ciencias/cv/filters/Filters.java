@@ -9,6 +9,7 @@ public class Filters {
 
 	private static Filters instance;
 	private LinkedList<BufferedImage> images;
+	private BufferedImage lastWork;
 	private double percentage;
 	private boolean ready;
 
@@ -33,6 +34,14 @@ public class Filters {
 		if ( images.size() > 0) 
 			return images.getLast();
 		return null;
+	}
+
+	public BufferedImage getLastWork() {
+		return lastWork;
+	}
+
+	public void setLastWork(BufferedImage img) {
+		lastWork = img;
 	}
 
 	public static BufferedImage grayScale(BufferedImage src) {

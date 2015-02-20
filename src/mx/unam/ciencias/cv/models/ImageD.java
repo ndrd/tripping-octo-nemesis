@@ -21,11 +21,11 @@ package mx.unam.ciencias.cv.models;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
-public class ImageD extends BufferedImage{
+public class ImageD extends BufferedImage implements java.io.Serializable {
 	/**
 	* Use to store the rgb kindly 
 	*/
-	public class RGB {
+	public class RGB implements java.io.Serializable  {
 		
 		double r;
 		double g;

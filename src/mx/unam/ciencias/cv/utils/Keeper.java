@@ -1,8 +1,8 @@
 package mx.unam.ciencias.cv.utils;
 
 import java.beans.XMLEncoder;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.*;
+
 
 /*
  * This file is part of tom
@@ -44,5 +44,42 @@ public class Keeper {
 		}
 		return null;
 	}
+
+	public static void saving(Object o, String path) {
+		try
+	      {
+	         FileOutputStream fileOut =
+	         new FileOutputStream(path);
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         out.writeObject(o);
+	         out.close();
+	         fileOut.close();
+	         System.out.printf("Serialized data is saved in /tmp/employee.ser");
+	      }catch(IOException i)
+	      {
+	          i.printStackTrace();
+	      }
+	}
+
+	public static Object read(String path) {
+		Object o = null;
+		try
+	      {
+	         FileInputStream fileIn = new FileInputStream(path);
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         o =  in.readObject();
+	         in.close();
+	         fileIn.close();
+	      }catch(IOException i)
+	      {
+	         i.printStackTrace();
+	      }catch(ClassNotFoundException c)
+	      {
+	         c.printStackTrace();
+	      }
+	     return o;
+	}
+
+	
 
 }

@@ -10,8 +10,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.JOptionPane;
+import javax.swing.JDialog;
+import javax.swing.JProgressBar;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import mx.unam.ciencias.cv.filters.*;
+import mx.unam.ciencias.cv.utils.*;
 
 /**
  *
@@ -125,6 +131,11 @@ public class MainS extends javax.swing.JFrame {
 
         menuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         menuSave.setText("Save..");
+        menuSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveImg(evt);
+            }
+        });
         jMenu1.add(menuSave);
         jMenu1.add(jSeparator1);
 
@@ -146,7 +157,7 @@ public class MainS extends javax.swing.JFrame {
 
         jMenu4.setText("ImageColorTraining");
 
-        jMenuItem3.setText("Open Training Set");
+        jMenuItem3.setText("New Training Set");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -197,19 +208,26 @@ public class MainS extends javax.swing.JFrame {
     }                                          
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
+        openDir(evt);
     }                                          
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
+        /* Serialize the trainer */
+        serialize(ImageTrainer.getInstance());
+    }
+
+    ImageTrainer zombie = null;                                          
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
+        zombie = deserialize();
+
     }                                          
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) { 
+        ImageTrainer t = ImageTrainer.getInstance();
+        BufferedImage response = Filters.colorSelector(engine.getLastImage(),t.getLowerBound(), t.getUpperBound());
+        engine.setLastWork(response);
+        putImageOnScreen(response, workedImg);
     }
 
     private boolean openFail = false;
@@ -227,6 +245,126 @@ public class MainS extends javax.swing.JFrame {
             putImageOnScreen(engine.getLastImage(), workedImg);
         }
     }
+
+    private void saveImg(AWTEvent evt) {
+        save();
+        
+    }
+
+    private ImageTrainer deserialize() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File("."));
+        openFail = false;
+        
+        FileNameExtensionFilter fExt = new FileNameExtensionFilter(" SER  (*.ser)", 
+                                                                    "ser");
+        String[] ext = fExt.getExtensions();
+        chooser.setFileFilter(fExt);
+
+        int result = chooser.showOpenDialog(this);
+        if (result == JFileChooser.CANCEL_OPTION) {
+            openFail = true;
+            return null;
+        }
+        else if (result == JFileChooser.APPROVE_OPTION) {
+            String dir = chooser.getSelectedFile().getPath();
+            if (dir == null || dir.equals("")) {
+                openFail = true;
+                System.out.print("Archivo invalido, saliendo");
+                System.exit((0));
+            }
+            try {
+                return (ImageTrainer) Keeper.read(dir);               
+            } 
+            catch(Exception e) {
+                openFail = true;
+            }
+        }
+        return null;
+    }
+
+
+    private void serialize(Object o) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to save"); 
+
+        FileNameExtensionFilter fExt = new FileNameExtensionFilter(" SER (*.ser),", 
+                                                                         "ser");
+        String[] ext = fExt.getExtensions();
+        fileChooser.setFileFilter(fExt);
+  
+         
+        int userSelection = fileChooser.showSaveDialog(this);
+        try {
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+                String path = fileToSave.getName();
+                Keeper.saving(o,path);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Cannot be saved :(");
+        }
+    }
+
+
+    private void save() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to save"); 
+
+        FileNameExtensionFilter fExt = new FileNameExtensionFilter(" JPEG (*.jpg), PNG  (*.png)", 
+                                                                         "jpg", "png");
+        String[] ext = fExt.getExtensions();
+        fileChooser.setFileFilter(fExt);
+  
+         
+        int userSelection = fileChooser.showSaveDialog(this);
+        try {
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File fileToSave = fileChooser.getSelectedFile();
+                ImageIO.write(engine.getLastWork(), "png", fileToSave);
+                System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Cannot be saved :(");
+        }
+    }
+
+    private void openDir(AWTEvent evt) {
+        String path = openDirectory();
+        if(path != null) {
+            ImageTrainer trainer =  ImageTrainer.getInstance();
+
+            JDialog dlg = new JDialog(this, "Progress Dialog", true);
+            dlg.setSize(300, 100);   
+            dlg.setLocationRelativeTo(this);
+
+            JOptionPane pane = new JOptionPane("Your message", JOptionPane.INFORMATION_MESSAGE);
+            JDialog dialog = pane.createDialog(this, "Title");
+
+            Thread t = new Thread()
+            {
+                public void run() {
+                    trainer.trainingFromDir(path);
+                }
+            };
+            t.start();
+
+            new Thread()
+            {
+                public void run() {
+                    dialog.setVisible(true);
+
+                }
+            }.start();
+
+            while (t.isAlive()) {
+            }
+            dialog.dispose();
+
+        }
+    }
+
+ 
 
     private void openImage() {
         JFileChooser chooser = new JFileChooser();
@@ -264,6 +402,37 @@ public class MainS extends javax.swing.JFrame {
             }
         }
         return;
+    }
+
+    private String openDirectory() {
+        File dir = null;
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File("."));
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        openFail = false;
+
+        int result = chooser.showOpenDialog(this);
+        if (result == JFileChooser.CANCEL_OPTION) {
+            openFail = true;
+        }
+        else if (result == JFileChooser.APPROVE_OPTION) {
+             dir = chooser.getSelectedFile();
+            if (dir == null || dir.equals("")) {
+                openFail = true;
+                System.out.print("Archivo invalido, saliendo");
+                System.exit((0));
+            } else {
+                System.out.print("Abriendo..." + dir.getAbsolutePath());
+
+            }
+        }
+        return dir.getAbsolutePath();
+     }
+
+    private javax.swing.JProgressBar pBar =  new javax.swing.JProgressBar();
+
+    private void parsingImages() {
+        pBar.setIndeterminate(true);
     }
                                           
 

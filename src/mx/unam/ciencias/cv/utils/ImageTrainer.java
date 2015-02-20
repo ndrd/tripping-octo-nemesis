@@ -33,7 +33,7 @@ import javax.imageio.ImageIO;
 
 import mx.unam.ciencias.cv.models.*;
 
-public class ImageTrainer {
+public class ImageTrainer implements java.io.Serializable {
 
 	/* Must be a folder */
 	private File folderTraining;
@@ -47,15 +47,40 @@ public class ImageTrainer {
 	private Color lowerBound;
 	private Color upperBound;
 
+	private	double percentaje;
 	private static ImageTrainer instance;
 
 
-	private ImageTrainer (String path) {
+	private ImageTrainer () {
 		specimens = new LinkedList<ImageD>();	
+	}
+
+	public static ImageTrainer getInstance() {
+		if (instance == null)
+			instance = new ImageTrainer();
+		return instance;
+	}
+
+	public Color getMeanColor() {
+		return meanColor;
+	}
+
+	public Color getLowerBound() {
+		return lowerBound;
+	}
+
+	public Color getUpperBound() {
+		return upperBound;
+	}
+
+	public void trainingFromDir(String path) {
 		folderTraining = new File(path);
 		File[] files = folderTraining.listFiles();
 		/* read and list images to manipulate*/
+		double i = 0;
+		percentaje = 0;
 		for(File f : files) {
+			percentaje = ++i/(files.length + 0.0);
 			BufferedImage specimen =  null;
 			try {
 				 specimen = ImageIO.read(f);
@@ -63,8 +88,6 @@ public class ImageTrainer {
 
             if (specimen != null) {
              	specimens.add(new ImageD(specimen));
-            	System.out.println("added " + f.getName());
-
             }
 		}
 
@@ -97,31 +120,10 @@ public class ImageTrainer {
 		lowerBound = new Color((int)(r-rs),(int)(g-gs),(int)(b-bs));
 		upperBound = new Color((int)(r+rs),(int)(g+gs),(int)(b+bs));
 
-
 	}
 
-	public static ImageTrainer getInstance(String route) {
-		if (instance == null)
-			instance = new ImageTrainer(route);
-		return instance;
-	}
-
-	public static ImageTrainer getInstance() {
-		if (instance == null)
-			instance = new ImageTrainer("");
-		return instance;
-	}
-
-	public Color getMeanColor() {
-		return meanColor;
-	}
-
-	public Color getLowerBound() {
-		return lowerBound;
-	}
-
-	public Color getUpperBound() {
-		return upperBound;
+	public double getProgress() {
+		return (int)(percentaje * 100);
 	}
 
 
