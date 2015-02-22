@@ -40,14 +40,13 @@ public class MainS extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
-
-                jTabbedPane2 = new javax.swing.JTabbedPane();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jScrollPane4 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         canvasHolder = new javax.swing.JPanel();
-        canvas1 = new java.awt.Canvas();
+        canvas1 = new MyCanvas();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         textField1 = new java.awt.TextField();
@@ -122,6 +121,11 @@ public class MainS extends javax.swing.JFrame {
         );
 
         jButton1.setText("Add Rectangle");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newRectangle(evt);
+            }
+        });
 
         textField1.setText("0");
         textField1.addActionListener(new java.awt.event.ActionListener() {
@@ -187,6 +191,11 @@ public class MainS extends javax.swing.JFrame {
         });
 
         jButton2.setText("Aplicar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                applyTransform(evt);
+            }
+        });
 
         textField10.setText("0");
         textField10.addActionListener(new java.awt.event.ActionListener() {
@@ -345,10 +354,22 @@ public class MainS extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
+        menuOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         menuOpen.setText("Open...");
+        menuOpen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openImage(evt);
+            }
+        });
         jMenu1.add(menuOpen);
 
-        menuSave.setText("Open...");
+        menuSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        menuSave.setText("Save..");
+        menuSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveImg(evt);
+            }
+        });
         jMenu1.add(menuSave);
         jMenu1.add(jSeparator1);
 
@@ -410,9 +431,33 @@ public class MainS extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
+          jScrollPane3.setViewportView(workedImg);
+        jScrollPane4.setViewportView(srcImg);
+
         pack();
     }// </editor-fold>                        
 
+    private void newRectangle(java.awt.event.ActionEvent evt) {
+        int x = Integer.parseInt(JOptionPane.showInputDialog("(x0) coordinate"));
+        int y = Integer.parseInt(JOptionPane.showInputDialog("(y0) coordinate"));
+        int w = Integer.parseInt(JOptionPane.showInputDialog("width"));
+        int h = Integer.parseInt(JOptionPane.showInputDialog("heigth"));
+        canvas1.newRectangle(x, y, w, h);  
+
+    }
+
+    private void newRectangle() {
+
+      }
+
+    private void applyTransform(java.awt.event.ActionEvent evt) {
+        try{
+          canvas1.transformTest(10);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error transformTest", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:
@@ -427,7 +472,69 @@ public class MainS extends javax.swing.JFrame {
         serialize(ImageTrainer.getInstance());
     }
 
-    ImageTrainer zombie = null;                                          
+            private void textField1ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+    }                                          
+
+    private void textField2ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+    }                                          
+
+    private void textField3ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+    }                                          
+
+    private void textField4ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+    }                                          
+
+    private void textField5ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+    }                                          
+
+    private void textField6ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+    }                                          
+
+    private void textField7ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+    }                                          
+
+    private void textField8ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+    }                                          
+
+    private void textField9ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+    }                                          
+
+    private void textField10ActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+    }                                           
+
+    private void textField11ActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+    }                                           
+
+    private void textField12ActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+    }                                           
+
+    private void textField13ActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+    }                                           
+
+    private void textField14ActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+    }                                           
+
+    private void textField15ActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+    }                                           
+
+    private void textField16ActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+    }
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {                                           
         zombie = deserialize();
@@ -440,6 +547,14 @@ public class MainS extends javax.swing.JFrame {
         engine.setLastWork(response);
         putImageOnScreen(response, workedImg);
     }
+
+    /***
+    * Methods that deal the things
+    ***/
+
+    ImageTrainer zombie = null;
+
+
 
     private boolean openFail = false;
 
@@ -646,72 +761,6 @@ public class MainS extends javax.swing.JFrame {
         pBar.setIndeterminate(true);
     }
 
-        private void textField1ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void textField2ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void textField3ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void textField4ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void textField5ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void textField6ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void textField7ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void textField8ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void textField9ActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void textField10ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    private void textField11ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    private void textField12ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    private void textField13ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    private void textField14ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    private void textField15ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    private void textField16ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-                                          
-
     /**
      * @param args the command line arguments
      */
@@ -725,7 +774,7 @@ public class MainS extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify                     
-    private java.awt.Canvas canvas1;
+    private MyCanvas canvas1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
