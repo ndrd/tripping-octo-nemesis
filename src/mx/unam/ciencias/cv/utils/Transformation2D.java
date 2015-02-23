@@ -9,15 +9,18 @@ public class Transformation2D{
 
 	public void transformPoints(int []x, int []y) throws Exception {
 		for (int i = 0;i < x.length ;i++ ) {
+			System.out.print("(" + x[i] + ", " + y[i] + " ) , ");
+		}
+
+		for (int i = 0;i < x.length ;i++ ) {
 			int [][] newPoint = transformPoint(x[i], y[i]);
-			System.out.println("(" + newPoint[0][1] + ", " + newPoint[0][1] + " )");
+			System.out.print("(" + newPoint[0][0] + ", " + newPoint[0][1] + " ) , ");
 		}
 	}
 
 	public int[][] transformPoint(int x, int y) throws Exception{
 		int [][] hCoords = {{x},{y},{1}};
 		int[][] newPoint = multiplicationMatrix(hCoords, matrix);
-		System.out.println("Response" + newPoint.length);
 		return newPoint;
 	}
 
