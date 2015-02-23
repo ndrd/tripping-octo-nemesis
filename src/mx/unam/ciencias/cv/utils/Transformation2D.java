@@ -15,31 +15,31 @@ public class Transformation2D{
 	}
 
 	public int[][] transformPoint(int x, int y) throws Exception{
-		int [][] hCoords = {{x, y, 1}};
-		int[][] newPoint = multiplicationMatrix(matrix, hCoords);
+		int [][] hCoords = {{x},{y},{1}};
+		int[][] newPoint = multiplicationMatrix(hCoords, matrix);
 		System.out.println("Response" + newPoint.length);
 		return newPoint;
 	}
 
 	private int[][] multiplicationMatrix(int[][] a, int [][] b) throws Exception {
-		int x1 = a.length;
-		int x2 = b.length;
-		int y1 = a[0].length;
-		int y2 = b[0].length;
-		int [][] prod = new int [x1][y2];
+	   int rowsInA = a.length;
+       int columnsInA = a[0].length; // same as rows in B
+       int columnsInB = b[0].length;
+       int[][] c = new int[rowsInA][columnsInB];
 
-		if ( x1 == y2) {
-			for (int i = 0; i < x1 ;i++ ) {
-				for (int j = 0;j <  y2; j++) {
-					for (int k =0;k < y1; k++) {
-						prod[i][j] += a[i][k] * b[k][j];
-					}
-				}
-			}
+		if ( columnsInB == rowsInA) {
+			
+	       for (int i = 0; i < rowsInA; i++) {
+	           for (int j = 0; j < columnsInB; j++) {
+	               for (int k = 0; k < columnsInA; k++) {
+	                   c[i][j] = c[i][j] + a[i][k] * b[k][j];
+	               }
+	           }
+	       }
 		} else {
 			throw new Exception("Invalid Transformation2D");
 		}
 
-		return prod;
+		return c;
 	}
 }
