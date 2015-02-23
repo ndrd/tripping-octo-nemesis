@@ -46,7 +46,7 @@ public class MainS extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         canvasHolder = new javax.swing.JPanel();
-        canvas1 = new MyCanvas();
+        canvas1 = new Leinen();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         textField1 = new java.awt.TextField();
@@ -107,8 +107,6 @@ public class MainS extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Images", jPanel1);
 
-        canvas1.setBackground(new java.awt.Color(255, 82, 82));
-
         javax.swing.GroupLayout canvasHolderLayout = new javax.swing.GroupLayout(canvasHolder);
         canvasHolder.setLayout(canvasHolderLayout);
         canvasHolderLayout.setHorizontalGroup(
@@ -124,6 +122,13 @@ public class MainS extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newRectangle(evt);
+            }
+        });
+
+        jButton2.setText("Escalar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                translateTransform(evt);
             }
         });
 
@@ -190,12 +195,7 @@ public class MainS extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Aplicar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                applyTransform(evt);
-            }
-        });
+        
 
         textField10.setText("0");
         textField10.addActionListener(new java.awt.event.ActionListener() {
@@ -442,7 +442,7 @@ public class MainS extends javax.swing.JFrame {
         int y = Integer.parseInt(JOptionPane.showInputDialog("(y0) coordinate"));
         int w = Integer.parseInt(JOptionPane.showInputDialog("width"));
         int h = Integer.parseInt(JOptionPane.showInputDialog("heigth"));
-        canvas1.newRectangle(x, y, w, h);  
+        canvas1.drawRectangle(x, y, w, h);  
 
     }
 
@@ -450,12 +450,18 @@ public class MainS extends javax.swing.JFrame {
 
       }
 
-    private void applyTransform(java.awt.event.ActionEvent evt) {
+    private boolean debug = true;
+
+    private void translateTransform(java.awt.event.ActionEvent evt) {
         try{
-          canvas1.transformTest(2);
+            int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
+            int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
+            canvas1.applyTransform(Transform.translate(x,y));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error transformTest", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+            
+            if (debug)
+                e.printStackTrace();
         }
     }
 
@@ -774,7 +780,7 @@ public class MainS extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify                     
-    private MyCanvas canvas1;
+    private Leinen canvas1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
