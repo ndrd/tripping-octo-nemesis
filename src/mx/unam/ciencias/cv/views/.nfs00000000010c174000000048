@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.util.LinkedList;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -87,24 +86,6 @@ public class MainS extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         workedImg = new javax.swing.JLabel();
         srcImg = new javax.swing.JLabel();
-        matrixLabels =  new LinkedList<Label>();
-
-        matrixLabels.add(labelF1);
-        matrixLabels.add(labelF2);
-        matrixLabels.add(labelF3);
-        matrixLabels.add(labelF4);
-        matrixLabels.add(labelF5);
-        matrixLabels.add(labelF6);
-        matrixLabels.add(labelF7);
-        matrixLabels.add(labelF8);
-        matrixLabels.add(labelF9);
-        matrixLabels.add(labelF10);
-        matrixLabels.add(labelF11);
-        matrixLabels.add(labelF12);
-        matrixLabels.add(labelF13);
-        matrixLabels.add(labelF14);
-        matrixLabels.add(labelF15);
-        matrixLabels.add(labelF16);
 
         engine = Filters.getInstance();
 
@@ -379,15 +360,6 @@ public class MainS extends javax.swing.JFrame {
 
     }
 
-    private void showMatrix(Matrix m) {
-        for (int i = 0; i < m.rows ; i++) {
-            for (int j = 0; j < m.columns ; j++ ) {
-                Label l = matrixLabels.get(i+j);
-                l.setText(m.get(i,j).toString());
-            }
-        }
-    }
-
 
 
     private boolean debug = true;
@@ -396,7 +368,7 @@ public class MainS extends javax.swing.JFrame {
         try{
             int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
             int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
-            canvas1.applyTransform(Transform.rotate(x));
+            canvas1.applyTransform(Transform.translate(x,y));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error transformTest", JOptionPane.ERROR_MESSAGE);
             
@@ -704,8 +676,6 @@ public class MainS extends javax.swing.JFrame {
     private java.awt.Label labelF9;
     private javax.swing.JLabel workedImg;
     private javax.swing.JLabel srcImg;
-
-    private LinkedList<Label> matrixLabels;
 
     private Filters engine;
   // End of variables declaration                   

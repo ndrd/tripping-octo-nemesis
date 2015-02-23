@@ -90,6 +90,13 @@ public class Matrix {
 		return this.columns;
 	}
 
+	public double get (int x,int y) {
+		if (x > matrix.length || y > matrix[0].length)
+			throw new IllegalArgumentException("Out of Dimentions");
+		else
+			return matrix[x][y];
+	}
+
 	@Override public String toString() {
 		String s = "";
 		for (int i = 0; i < rows ; i++) {
