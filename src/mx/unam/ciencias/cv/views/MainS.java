@@ -452,7 +452,7 @@ public class MainS extends javax.swing.JFrame {
 
     private void applyTransform(java.awt.event.ActionEvent evt) {
         try{
-          canvas1.transformTest(10);
+          canvas1.transformTest(2);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error transformTest", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();

@@ -166,13 +166,16 @@ class MyCanvas extends Canvas implements MouseListener, MouseMotionListener {
   }
 
   public void transformTest(int a) throws Exception {
-    int [][] matrix = {{1,a,0},
-                       {0,1,0},
+    int [][] matrix = {{2,0,0},
+                       {0,2,0},
                        {0,0,1}};
 
     Transformation2D t =  new Transformation2D(matrix);
     if (pointsReady) {
-        t.transformPoints(xPoints, yPoints);
+        int [][] xAndY = t.transformPoints(xPoints, yPoints);
+        xPoints = xAndY[0];
+        yPoints = xAndY[1];
+        repaint();
     }
   }
 }
