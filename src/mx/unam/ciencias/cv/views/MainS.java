@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.util.LinkedList;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -37,7 +38,7 @@ public class MainS extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        tabImages = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -63,12 +64,12 @@ public class MainS extends javax.swing.JFrame {
         label15 = new java.awt.Label();
         label16 = new java.awt.Label();
         tTranslation = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        tSimilarity = new javax.swing.JButton();
+        tEuclidian = new javax.swing.JButton();
         newPolygon = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        labelTransformation = new javax.swing.JLabel();
+        tProyective = new javax.swing.JButton();
+        tAffine = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -89,9 +90,11 @@ public class MainS extends javax.swing.JFrame {
         workedImg = new javax.swing.JLabel();
         srcImg = new javax.swing.JLabel();
         
-
         workedImg.setBackground(Color.black);
         srcImg.setBackground(Color.black);
+
+        srcImg.setOpaque(true);
+        workedImg.setOpaque(true);
 
         engine = Filters.getInstance();
 
@@ -114,7 +117,7 @@ public class MainS extends javax.swing.JFrame {
             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
         );
 
-        jTabbedPane2.addTab("Images", jPanel1);
+        tabImages.addTab("Images", jPanel1);
 
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -130,9 +133,6 @@ public class MainS extends javax.swing.JFrame {
 
         jButton1.setText("Undo");
 
-      
-
-
         tTranslation.setText("Translation");
         tTranslation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,10 +140,34 @@ public class MainS extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("1");
+        tEuclidian.setText("Euclidian");
+        tEuclidian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eclidianTransform(evt);
+            }
+        });
 
+        tSimilarity.setText("Similarity");
+        tSimilarity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                similarityTransform(evt);
+            }
+        });
 
-        jButton4.setText("2");
+        tProyective.setText("Proyective");
+        tProyective.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                proyectiveTransform(evt);
+            }
+        });
+
+        tAffine.setText("Affine");
+        tAffine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                affineTransform(evt);
+            }
+        });
+
 
 
         newPolygon.setText("New Polygon");
@@ -153,11 +177,8 @@ public class MainS extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Transformations");
+        labelTransformation.setText("Transformations");
 
-        jButton7.setText("6");
-
-        jButton8.setText("5");
 
         jLabel2.setText("Kernel");
 
@@ -168,18 +189,18 @@ public class MainS extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tSimilarity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tEuclidian, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tTranslation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tProyective, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tAffine, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(newPolygon)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1)
+                            .addComponent(labelTransformation)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(label16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -224,17 +245,17 @@ public class MainS extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(newPolygon))
                 .addGap(10, 10, 10)
-                .addComponent(jLabel1)
+                .addComponent(labelTransformation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tTranslation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
+                .addComponent(tEuclidian)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(tSimilarity)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton8)
+                .addComponent(tAffine)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7)
+                .addComponent(tProyective)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(17, 17, 17)
@@ -287,9 +308,9 @@ public class MainS extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Canvas", jPanel2);
+        tabImages.addTab("Canvas", jPanel2);
 
-        getContentPane().add(jTabbedPane2);
+        getContentPane().add(tabImages);
 
         jMenu1.setText("File");
 
@@ -330,7 +351,7 @@ public class MainS extends javax.swing.JFrame {
 
         jMenu4.setText("ImageColorTraining");
 
-        jMenuItem3.setText("Open Training Set");
+        jMenuItem3.setText("New Training Set");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -356,7 +377,7 @@ public class MainS extends javax.swing.JFrame {
         jMenu4.add(jMenuItem5);
         jMenu4.add(jSeparator3);
 
-        jMenuItem6.setText("Search");
+        jMenuItem6.setText("Search Matchs");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
@@ -386,10 +407,6 @@ public class MainS extends javax.swing.JFrame {
 
     }
 
-    private void newTranslation(java.awt.event.ActionEvent e) {
-
-    }
-
     private boolean debug = true;
 
     private void translateTransform(java.awt.event.ActionEvent evt) {
@@ -398,12 +415,66 @@ public class MainS extends javax.swing.JFrame {
             int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
             canvas1.applyTransform(Transform.translate(x,y));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error transformTest", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
             
             if (debug)
                 e.printStackTrace();
         }
     }
+
+    private void eclidianTransform(java.awt.event.ActionEvent evt) {
+        try{
+            int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
+            int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
+            canvas1.applyTransform(Transform.translate(x,y));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
+            
+            if (debug)
+                e.printStackTrace();
+        }
+    }
+
+    private void similarityTransform(java.awt.event.ActionEvent evt) {
+        try{
+            int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
+            int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
+            canvas1.applyTransform(Transform.translate(x,y));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
+            
+            if (debug)
+                e.printStackTrace();
+        }
+    }
+
+    private void affineTransform(java.awt.event.ActionEvent evt) {
+        try{
+            int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
+            int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
+            canvas1.applyTransform(Transform.translate(x,y));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
+            
+            if (debug)
+                e.printStackTrace();
+        }
+    }
+
+    private void proyectiveTransform(java.awt.event.ActionEvent evt) {
+        try{
+            int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
+            int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
+            canvas1.applyTransform(Transform.translate(x,y));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
+            
+            if (debug)
+                e.printStackTrace();
+        }
+    }
+
+    
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {                                           
         openDir(evt);
@@ -655,12 +726,12 @@ public class MainS extends javax.swing.JFrame {
     private Leinen canvas1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton tTranslation;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton tSimilarity;
+    private javax.swing.JButton tEuclidian;
     private javax.swing.JButton newPolygon;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton tProyective;
+    private javax.swing.JButton tAffine;
+    private javax.swing.JLabel labelTransformation;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -681,7 +752,7 @@ public class MainS extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
-    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTabbedPane tabImages;
     private javax.swing.JMenuItem menuOpen;
     private javax.swing.JMenuItem menuSave;
     private java.awt.Label label1;
