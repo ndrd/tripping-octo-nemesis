@@ -3,7 +3,7 @@ package mx.unam.ciencias.cv.utils;
 /*
  * This file is part of tom
  *
- * Jonathan Andrade 2015
+ * Copyright Jonathan Andrade 2015
  *
  * tom is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by

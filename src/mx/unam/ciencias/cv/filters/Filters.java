@@ -1,4 +1,22 @@
 package mx.unam.ciencias.cv.filters;
+/*
+ * This file is part of tom
+ *
+ * Copyright Jonathan Andrade 2015
+ *
+ * tom is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * tom is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with tom. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
@@ -12,6 +30,7 @@ public class Filters {
 	private BufferedImage lastWork;
 	private double percentage;
 	private boolean ready;
+	private final double FACTOR = 1/3;
 
 	private Filters () {
 		images = new LinkedList<BufferedImage>();
@@ -57,7 +76,7 @@ public class Filters {
 	    for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 rIn.getPixel(x, y, rgb);
-                double media = (rgb[0]  + rgb[1] + rgb[2])/3;
+                double media = (rgb[0]  + rgb[1] + rgb[2]) * FACTOR;
                 rgb[0] = rgb[1] = rgb[2] =  media;
                	rOut.setPixel(x, y, rgb);
             }
@@ -83,10 +102,11 @@ public class Filters {
                 if (rgb[0] >= lowerBound.getRed() && rgb[0] <= upperBound.getRed()) {
                 	if (rgb[1] >= lowerBound.getGreen() && rgb[1] <= upperBound.getGreen()) {
                 		if (rgb[2] >= lowerBound.getBlue() && rgb[2] <= upperBound.getBlue()) {
+                			/* seems legit */
                 		}
                 	}
                 } else {
-                	double media = (rgb[0] + rgb[1] + rgb[2]) * 0.33;
+                	double media = (rgb[0] + rgb[1] + rgb[2]) * FACTOR;
                 	rgb[0] = rgb[1] = rgb[2] = media;
                 }
                 

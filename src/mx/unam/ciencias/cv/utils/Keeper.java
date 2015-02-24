@@ -1,9 +1,4 @@
 package mx.unam.ciencias.cv.utils;
-
-import java.beans.XMLEncoder;
-import java.io.*;
-
-
 /*
  * This file is part of tom
  *
@@ -28,6 +23,8 @@ import java.io.*;
 * to categorize a new speciment
 * (Ougth to be Generic)
 */
+import java.io.*;
+
 
 public class Keeper {
 
