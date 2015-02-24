@@ -28,19 +28,7 @@ import java.io.*;
 
 public class Keeper {
 
-	public static String save(Object o) {
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		XMLEncoder xmlEncoder = null;
-		try {
-			xmlEncoder = new XMLEncoder(new BufferedOutputStream(stream));
-			xmlEncoder.writeObject(o);
-			xmlEncoder.close();
-			return stream.toString("UTF-8");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return null;
-	}
+	
 
 	public static void saving(Object o, String path) {
 		try

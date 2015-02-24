@@ -81,9 +81,9 @@ public class MainS extends javax.swing.JFrame {
         tEuclidian = new javax.swing.JButton();
         newPolygon = new javax.swing.JButton();
         labelTransformation = new javax.swing.JLabel();
-        tProyective = new javax.swing.JButton();
+        tprojective = new javax.swing.JButton();
         tAffine = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        labelKernel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuOpen = new javax.swing.JMenuItem();
@@ -195,13 +195,6 @@ public class MainS extends javax.swing.JFrame {
             }
         });
 
-        tProyective.setText("Proyective");
-        tProyective.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                proyectiveTransform(evt);
-            }
-        });
-
         tAffine.setText("Affine");
         tAffine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,7 +202,12 @@ public class MainS extends javax.swing.JFrame {
             }
         });
 
-
+        tprojective.setText("projective");
+        tprojective.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                projectiveTransform(evt);
+            }
+        });
 
         newPolygon.setText("New Polygon");
         newPolygon.addActionListener(new java.awt.event.ActionListener() {
@@ -221,7 +219,7 @@ public class MainS extends javax.swing.JFrame {
         labelTransformation.setText("Transformations");
 
 
-        jLabel2.setText("Kernel");
+        labelKernel.setText("Kernel");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -233,7 +231,7 @@ public class MainS extends javax.swing.JFrame {
                     .addComponent(tSimilarity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tEuclidian, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tTranslation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tProyective, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tprojective, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tAffine, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,7 +273,7 @@ public class MainS extends javax.swing.JFrame {
                                     .addComponent(k24, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(k04, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(k14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel2))
+                            .addComponent(labelKernel))
                         .addGap(0, 2, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -296,9 +294,9 @@ public class MainS extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tAffine)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tProyective)
+                .addComponent(tprojective)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(labelKernel)
                 .addGap(17, 17, 17)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -532,10 +530,15 @@ public class MainS extends javax.swing.JFrame {
 
     private void affineTransform(java.awt.event.ActionEvent evt) {
         try{
-            int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
-            int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
-            int tetha = 0;
-            Transformation2D t = Transform.euclidean(tetha,x,y);
+
+            double a = Double.parseDouble(JOptionPane.showInputDialog("A: "));
+            double b = Double.parseDouble(JOptionPane.showInputDialog("B: "));
+            double c = Double.parseDouble(JOptionPane.showInputDialog("C: "));
+            double d = Double.parseDouble(JOptionPane.showInputDialog("D: "));
+            double e = Double.parseDouble(JOptionPane.showInputDialog("E: "));
+            double f = Double.parseDouble(JOptionPane.showInputDialog("F: "));
+
+            Transformation2D t = Transform.affine(a,b,c,d,e,f);
             canvas1.applyTransform(t);
             showMatrix(t.getKernel());
 
@@ -547,14 +550,23 @@ public class MainS extends javax.swing.JFrame {
         }
     }
 
-    private void proyectiveTransform(java.awt.event.ActionEvent evt) {
+    private void projectiveTransform(java.awt.event.ActionEvent evt) {
         try{
-            int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
-            int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
-            canvas1.applyTransform(Transform.translate(x,y));
 
-            Transformation2D t = Transform.euclidean(0,x,y);
-            canvas1.applyTransform(t);
+            double a = Double.parseDouble(JOptionPane.showInputDialog("A: "));
+            double b = Double.parseDouble(JOptionPane.showInputDialog("B: "));
+            double c = Double.parseDouble(JOptionPane.showInputDialog("C: "));
+            
+            double d = Double.parseDouble(JOptionPane.showInputDialog("D: "));
+            double e = Double.parseDouble(JOptionPane.showInputDialog("E: "));
+            double f = Double.parseDouble(JOptionPane.showInputDialog("F: "));
+
+            double g = Double.parseDouble(JOptionPane.showInputDialog("G: "));
+            double h = Double.parseDouble(JOptionPane.showInputDialog("H: "));
+            double i = Double.parseDouble(JOptionPane.showInputDialog("I: "));
+
+            Transformation2D t = Transform.projective(a,b,c, d,e,f, g,h,i);
+            canvas1.applyNormTransform(t);
             showMatrix(t.getKernel());
 
         } catch (Exception e) {
@@ -820,10 +832,10 @@ public class MainS extends javax.swing.JFrame {
     private javax.swing.JButton tSimilarity;
     private javax.swing.JButton tEuclidian;
     private javax.swing.JButton newPolygon;
-    private javax.swing.JButton tProyective;
+    private javax.swing.JButton tprojective;
     private javax.swing.JButton tAffine;
     private javax.swing.JLabel labelTransformation;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel labelKernel;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;

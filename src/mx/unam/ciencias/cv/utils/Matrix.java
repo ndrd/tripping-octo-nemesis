@@ -111,7 +111,14 @@ public class Matrix {
 			}
 		}
 
-		return new HCoords(c[0][0], c[1][0], c[2][0]);
+		HCoords coords = null;
+		/* affine transforms */
+		if (c.length == 2)
+			coords = new HCoords(c[0][0], c[1][0], 1);
+		else
+			coords = new HCoords(c[0][0], c[1][0], c[2][0]);
+
+		return coords;
 	}
 
 	public int nRows() {

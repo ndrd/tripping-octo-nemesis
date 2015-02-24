@@ -30,7 +30,7 @@ public class Filters {
 	private BufferedImage lastWork;
 	private double percentage;
 	private boolean ready;
-	private final double FACTOR = 1/3;
+	private final static double FACTOR = 1/3;
 
 	private Filters () {
 		images = new LinkedList<BufferedImage>();

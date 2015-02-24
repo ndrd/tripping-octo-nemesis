@@ -86,4 +86,31 @@ public class Transform {
 		return new Transformation2D(Matrix.scalarMultiply(kernel, s));
 	}
 
+	/**
+	* Affine Transformation, a free 2x3 matrix
+	*/
+	public static Transformation2D affine(double a, double b, double c,
+										  double d, double e, double f) {
+		double [][] matrix = { 
+							{ a, b, c},
+                       	   	{ d, e, f},
+                       	   };
+		return new Transformation2D(new Matrix(matrix));
+	}
+
+	/**
+	* Affine Transformation, a free 2x3 matrix
+	*/
+	public static Transformation2D projective(double a, double b, double c,
+										  	double d, double e, double f,
+										  	double g, double h, double i) {
+		double [][] matrix = { 
+							{ a, b, c},
+                       	   	{ d, e, f},
+                       	   	{ g, h, i}
+                       	   };
+		return new Transformation2D(new Matrix(matrix));
+	}
+
+
 }
