@@ -62,6 +62,10 @@ public class Leinen extends Canvas {
 	}
 
 	public void applyTransform(Transformation2D transformation) throws Exception {
+
+		if (!pointsReady)
+			throw new IllegalArgumentException("Build something to Transform");
+
 		int[][] points = transformation.transformPoints(xPoints, yPoints);
 		/* backup for undo */
 		oldXPoints = xPoints;

@@ -31,4 +31,8 @@ public class Transformation2D {
 		return (HCoords) Matrix.multiplicate(matrix, coords);
 	}
 
+	public Matrix getKernel() {
+		return matrix;
+	}
+
 }
