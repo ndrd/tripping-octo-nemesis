@@ -36,6 +36,26 @@ public class Matrix {
 		}
 	}
 
+	public static Matrix scalarMultiply(Matrix a, double k) {
+		Matrix b = a.clone();
+		for (int i = 0;i < a.rows; i++ ) {
+			for (int j = 0; j < a.columns;j++ ) {
+				b.set(k * a.get(i,j), i, j);
+			}
+		}
+		return b;
+	}
+
+	public Matrix clone() {
+		double [][] mm = new double[rows][columns];
+		for (int i = 0; i < rows ;i++ ) {
+			for (int j = 0; j < columns; j++ ) {
+				mm[i][j] = matrix[i][j];
+			}
+		}
+		return new Matrix(mm);
+	}
+
 	public static Matrix multiplicate(Matrix a, Matrix b) {
 		if (a.columns != b.rows)
 			throw new IllegalArgumentException("Cannot multiply this matrix");
@@ -88,6 +108,20 @@ public class Matrix {
 
 	public int nCols(){
 		return this.columns;
+	}
+
+	public double get(int x,int y) {
+		if (x > matrix.length || y > matrix[0].length)
+			throw new IllegalArgumentException("Out of Dimentions");
+		else
+			return matrix[x][y];
+	}
+
+	public void set(double value, int x,int y) {
+		if (x > matrix.length || y > matrix[0].length)
+			throw new IllegalArgumentException("Out of Dimentions");
+		else
+			matrix[x][y] = value;
 	}
 
 	@Override public String toString() {

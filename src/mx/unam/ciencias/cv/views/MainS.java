@@ -46,7 +46,7 @@ public class MainS extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         canvas1 = new Leinen();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        undo = new javax.swing.JButton();
         label1 = new java.awt.Label();
         label3 = new java.awt.Label();
         label2 = new java.awt.Label();
@@ -131,7 +131,13 @@ public class MainS extends javax.swing.JFrame {
             .addComponent(canvas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jButton1.setText("Undo");
+        undo.setText("Undo");
+        undo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                canvas1.undo();
+            }
+        });
+
 
         tTranslation.setText("Translation");
         tTranslation.addActionListener(new java.awt.event.ActionListener() {
@@ -143,7 +149,7 @@ public class MainS extends javax.swing.JFrame {
         tEuclidian.setText("Euclidian");
         tEuclidian.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eclidianTransform(evt);
+                euclidianTransform(evt);
             }
         });
 
@@ -199,7 +205,7 @@ public class MainS extends javax.swing.JFrame {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(newPolygon)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(undo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(labelTransformation)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(label16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,7 +248,7 @@ public class MainS extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(undo)
                     .addComponent(newPolygon))
                 .addGap(10, 10, 10)
                 .addComponent(labelTransformation)
@@ -422,11 +428,14 @@ public class MainS extends javax.swing.JFrame {
         }
     }
 
-    private void eclidianTransform(java.awt.event.ActionEvent evt) {
+    private void euclidianTransform(java.awt.event.ActionEvent evt) {
         try{
-            int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
-            int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
-            canvas1.applyTransform(Transform.translate(x,y));
+            int tetha = Integer.parseInt(JOptionPane.showInputDialog("Angle: "));
+            int x = Integer.parseInt(JOptionPane.showInputDialog("delta X:"));
+            int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y:"));
+
+            canvas1.applyTransform(Transform.euclidean(tetha,x,y));
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
             
@@ -437,9 +446,14 @@ public class MainS extends javax.swing.JFrame {
 
     private void similarityTransform(java.awt.event.ActionEvent evt) {
         try{
-            int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
-            int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
-            canvas1.applyTransform(Transform.translate(x,y));
+
+            double s = Double.parseDouble(JOptionPane.showInputDialog("Scale: "));
+            int tetha = Integer.parseInt(JOptionPane.showInputDialog("Angle: "));
+            int x = Integer.parseInt(JOptionPane.showInputDialog("delta X:"));
+            int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y:"));
+
+            canvas1.applyTransform(Transform.similarity(s, tetha, x, y));
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
             
@@ -724,7 +738,7 @@ public class MainS extends javax.swing.JFrame {
 
     // Variables declaration - do not modify                     
     private Leinen canvas1;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton undo;
     private javax.swing.JButton tTranslation;
     private javax.swing.JButton tSimilarity;
     private javax.swing.JButton tEuclidian;

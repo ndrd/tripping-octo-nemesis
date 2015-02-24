@@ -37,6 +37,23 @@ public class Transform {
 		return new Transformation2D(new Matrix(matrix));
 	}
 
+	public static Transformation2D euclidean(double tetha, double deltaX, double deltaY) {
+		double [][] matrix = { 
+							{ Math.cos(tetha), Math.sin(tetha), deltaX},
+                       	   	{ -Math.sin(tetha), Math.cos(tetha), deltaY},
+                       	   	{ 0,				 0, 			1}
+                       	   };
+		return new Transformation2D(new Matrix(matrix));
+	}
+
+	public static Transformation2D similarity(double s, double tetha, double deltaX, double deltaY) {
+		Transformation2D euclidean = Transform.euclidean(tetha, deltaX, deltaY);
+		Matrix kernel = euclidean.getKernel();
+		return new Transformation2D(Matrix.scalarMultiply(kernel, s));
+	}
+
+
+
 	public static Transformation2D shear(double deltaX, double deltaY) {
 		double [][] matrix = { 
 							{1, 	deltaX, 	0},

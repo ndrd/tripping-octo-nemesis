@@ -19,6 +19,7 @@ public class Transformation2D {
 
 		for (int i = 0;i < x.length ;i++ ) {
 			HCoords newPoint = transformPoint(x[i], y[i]);
+			System.out.println(newPoint);
 			points[0][i] = (int) newPoint.getX();
 			points[1][i] = (int) newPoint.getY();
 		}

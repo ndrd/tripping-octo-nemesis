@@ -20,12 +20,14 @@ public class Leinen extends Canvas {
 	private int [] oldYPoints;
 
 	private boolean pointsReady;
+	private boolean isBackUp;
 	private Graphics2D g2;
 
 	public Leinen () {
 		setBackground(Color.black);
 		setVisible(true);
 		pointsReady =  false;
+		isBackUp =  false;
 
 	}
 
@@ -44,8 +46,17 @@ public class Leinen extends Canvas {
 		yPoints[3] = y0 + h;
 
 		pointsReady =  true;
+
 		repaint();
 
+	}
+
+	public void undo() {
+		if (isBackUp) {
+			xPoints = oldXPoints;
+			yPoints = oldYPoints;
+			repaint();
+		}
 	}
 
 	public void paint (Graphics g) {
@@ -70,6 +81,7 @@ public class Leinen extends Canvas {
 		/* backup for undo */
 		oldXPoints = xPoints;
 		oldYPoints = yPoints;
+		isBackUp =  true;
 		/* asign new points */
 		xPoints = points[0];
 		yPoints = points[1];
