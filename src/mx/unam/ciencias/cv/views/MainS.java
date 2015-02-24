@@ -47,22 +47,22 @@ public class MainS extends javax.swing.JFrame {
         canvas1 = new Leinen();
         jPanel4 = new javax.swing.JPanel();
         undo = new javax.swing.JButton();
-        label1 = new java.awt.Label();
-        label3 = new java.awt.Label();
-        label2 = new java.awt.Label();
-        label4 = new java.awt.Label();
-        label5 = new java.awt.Label();
-        label6 = new java.awt.Label();
-        label7 = new java.awt.Label();
-        label8 = new java.awt.Label();
-        label9 = new java.awt.Label();
-        label10 = new java.awt.Label();
-        label11 = new java.awt.Label();
-        label12 = new java.awt.Label();
-        label13 = new java.awt.Label();
-        label14 = new java.awt.Label();
-        label15 = new java.awt.Label();
-        label16 = new java.awt.Label();
+        k01 = new java.awt.Label();
+        k02 = new java.awt.Label();
+        k03 = new java.awt.Label();
+        k13 = new java.awt.Label();
+        k12 = new java.awt.Label();
+        k11 = new java.awt.Label();
+        k23 = new java.awt.Label();
+        k22 = new java.awt.Label();
+        k21 = new java.awt.Label();
+        k04 = new java.awt.Label();
+        k14 = new java.awt.Label();
+        k24 = new java.awt.Label();
+        k34 = new java.awt.Label();
+        k33 = new java.awt.Label();
+        k32 = new java.awt.Label();
+        k31 = new java.awt.Label();
         tTranslation = new javax.swing.JButton();
         tSimilarity = new javax.swing.JButton();
         tEuclidian = new javax.swing.JButton();
@@ -89,6 +89,8 @@ public class MainS extends javax.swing.JFrame {
 
         workedImg = new javax.swing.JLabel();
         srcImg = new javax.swing.JLabel();
+
+        kernelLabel = new LinkedList<Label>();
         
         workedImg.setBackground(Color.black);
         srcImg.setBackground(Color.black);
@@ -116,6 +118,26 @@ public class MainS extends javax.swing.JFrame {
             .addComponent(jScrollPane3)
             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
         );
+
+        kernelLabel.add(k01);
+        kernelLabel.add(k02);
+        kernelLabel.add(k03);
+        kernelLabel.add(k04);
+
+        kernelLabel.add(k11);
+        kernelLabel.add(k12);
+        kernelLabel.add(k13);
+        kernelLabel.add(k14);
+
+        kernelLabel.add(k21);
+        kernelLabel.add(k22);
+        kernelLabel.add(k23);
+        kernelLabel.add(k24);
+
+        kernelLabel.add(k31);
+        kernelLabel.add(k32);
+        kernelLabel.add(k33);
+        kernelLabel.add(k34);
 
         tabImages.addTab("Images", jPanel1);
 
@@ -208,38 +230,38 @@ public class MainS extends javax.swing.JFrame {
                                 .addComponent(undo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(labelTransformation)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(label16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(k31, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(label15, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(k32, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(label14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(k33, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(label13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(k34, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(label9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(k21, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(k22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(label7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(k23, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(k01, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(k02, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(k03, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(k11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(label5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(k12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(k13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(label12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(label11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(k24, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(k04, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(k14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel2))
                         .addGap(0, 2, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -268,31 +290,31 @@ public class MainS extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(k01, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(k03, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(k02, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(k11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(k13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(k12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(k21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(k23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(k22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(k04, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(label11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(k14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(label12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(k24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(k31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(k33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(k32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(k34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
 
@@ -400,7 +422,7 @@ public class MainS extends javax.swing.JFrame {
         jScrollPane3.setViewportView(workedImg);
         jScrollPane4.setViewportView(srcImg);
 
-
+        fillMatrix();
         pack();
     }// </editor-fold>                        
 
@@ -413,13 +435,39 @@ public class MainS extends javax.swing.JFrame {
 
     }
 
+    private void fillMatrix() {
+        int i = 0;
+        for (Label l : kernelLabel) 
+            l.setText("0.0");
+        
+    }
+
+    public void showMatrix(Matrix a) {
+        if (a.nRows() > 4 || a.nCols() > 4)
+            return;
+
+        fillMatrix();
+        
+        for (int i = 0, l = 0; i < a.nRows() ;i++, l += 4 ) {
+            for (int j = 0; j < a.nCols(); j++ ) {
+                Label ll = kernelLabel.get(l+j);
+                ll.setText("" + a.get(i,j));
+            }
+        }
+    }
+
     private boolean debug = true;
 
     private void translateTransform(java.awt.event.ActionEvent evt) {
         try{
             int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
             int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
-            canvas1.applyTransform(Transform.translate(x,y));
+            
+            Transformation2D t = Transform.translate(x,y);
+            canvas1.applyTransform(t);
+            showMatrix(t.getKernel());
+            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
             
@@ -434,7 +482,10 @@ public class MainS extends javax.swing.JFrame {
             int x = Integer.parseInt(JOptionPane.showInputDialog("delta X:"));
             int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y:"));
 
-            canvas1.applyTransform(Transform.euclidean(tetha,x,y));
+            Transformation2D t = Transform.euclidean(tetha,x,y);
+            canvas1.applyTransform(t);
+            showMatrix(t.getKernel());
+
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
@@ -452,7 +503,11 @@ public class MainS extends javax.swing.JFrame {
             int x = Integer.parseInt(JOptionPane.showInputDialog("delta X:"));
             int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y:"));
 
-            canvas1.applyTransform(Transform.similarity(s, tetha, x, y));
+            Transformation2D t = Transform.similarity(s, tetha, x, y);
+            canvas1.applyTransform(t);
+            showMatrix(t.getKernel());
+
+
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
@@ -466,7 +521,11 @@ public class MainS extends javax.swing.JFrame {
         try{
             int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
             int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
-            canvas1.applyTransform(Transform.translate(x,y));
+            int tetha = 0;
+            Transformation2D t = Transform.euclidean(tetha,x,y);
+            canvas1.applyTransform(t);
+            showMatrix(t.getKernel());
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
             
@@ -480,7 +539,13 @@ public class MainS extends javax.swing.JFrame {
             int x = Integer.parseInt(JOptionPane.showInputDialog("delta X"));
             int y = Integer.parseInt(JOptionPane.showInputDialog("delta Y "));
             canvas1.applyTransform(Transform.translate(x,y));
+
+            Transformation2D t = Transform.euclidean(0,x,y);
+            canvas1.applyTransform(t);
+            showMatrix(t.getKernel());
+
         } catch (Exception e) {
+
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error on Transform", JOptionPane.ERROR_MESSAGE);
             
             if (debug)
@@ -769,26 +834,28 @@ public class MainS extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tabImages;
     private javax.swing.JMenuItem menuOpen;
     private javax.swing.JMenuItem menuSave;
-    private java.awt.Label label1;
-    private java.awt.Label label10;
-    private java.awt.Label label11;
-    private java.awt.Label label12;
-    private java.awt.Label label13;
-    private java.awt.Label label14;
-    private java.awt.Label label15;
-    private java.awt.Label label16;
-    private java.awt.Label label2;
-    private java.awt.Label label3;
-    private java.awt.Label label4;
-    private java.awt.Label label5;
-    private java.awt.Label label6;
-    private java.awt.Label label7;
-    private java.awt.Label label8;
-    private java.awt.Label label9;
+    private java.awt.Label k01;
+    private java.awt.Label k04;
+    private java.awt.Label k14;
+    private java.awt.Label k24;
+    private java.awt.Label k34;
+    private java.awt.Label k33;
+    private java.awt.Label k32;
+    private java.awt.Label k31;
+    private java.awt.Label k03;
+    private java.awt.Label k02;
+    private java.awt.Label k13;
+    private java.awt.Label k12;
+    private java.awt.Label k11;
+    private java.awt.Label k23;
+    private java.awt.Label k22;
+    private java.awt.Label k21;
 
-        private javax.swing.JLabel workedImg;
+    private javax.swing.JLabel workedImg;
     private javax.swing.JLabel srcImg;
 
     private Filters engine;
+
+    private LinkedList<Label> kernelLabel;    
     // End of variables declaration                   
 }
