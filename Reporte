@@ -1,0 +1,61 @@
+Practica 1
+
+Objetivo:
+	Aprender como funcionan las transformaciones en 2d, 
+	además de aprender a tratar una imagen extrayendo 
+	informacion de sus pixeles.
+
+Introucción:
+	Fue agradable utilizar
+	un poco de las clases de probabilidad para encontrar las medias
+	y la desviacion de un conjunto de imagenes para buscar colores 
+	"similares" para encontrar piel, el proceso me parecía robusto
+	y creí que daria buenos resultados, pero el trabajo final no me
+	dejo convencido, aunque en parte podria afirmar, se debe a algunas
+	de las muestras estan "contaminadas" y se reduce la precision del 
+	mapeo de colores.
+
+	Aun me falta implementar la funcionalidad para cambiar el RGB a HSV
+	y probar este esquema de colores para ver si se puede encontrar
+	un resultado más prometedor, creo que será mas rapido, pues solo se 
+	necesita trabajar sobre el canal de la saturacion y darle el rango
+	se desprecian factors como la luz y solo se centra en el tono, 
+	espero que funcione mejor que con los canales RGB.
+
+	Con respecto a las matrices de transformacion, es muy fácil trabajar
+	con ellas ya que se le tiene "el truco" despues de eso, todo parece muy 
+	sencillo, a exepcion de la matriz proyectiva, ya que cada una de sus
+	entradas debe normalizarse, lo cual si no se tiene cuidado, puede pasar
+	desapercibido.
+
+
+Desarrollo:
+	La parte del filtro de imagenes no represento peligro alguno para
+	la mision, pero creo que le dedique mas tiempo del que debia, ya que
+	agregue un serializador para las muestras generadas, y cada imagen 
+	se encapsulaba en una superclase que permitia extraer sus caracteristicas
+	de color, histogramas de color y valores promedio en un solo paso
+	evitando desperdiciar tiempo en cientos de imagenes.
+
+	Midiendo el desempeño de la aplicacion se muestra muy condecendiente,
+	un tanto mas rápido que c++ (0.325s) y mucho mas que python. LA parte de manipular
+	muchos histogramas de colores distintos y tratarlos como uno solo, 
+	me resulto un poco enredada, pero salio bien.
+
+	Cabe destacar, que el resultado no fue tan bueno como creí que lo seria, 
+	pero estoy dispuesto a verificar con un nuevo sistema de colores para comprobar
+	la hipotesís.
+
+	Las matrices de transformacion son muy interesantes desde el punto de 
+	vista de la velocidad con la que se pueden hacer los cálculos, no representan
+	mucho problema para su manipulacion, ya que se tienen los metodos necesarios
+	para operarlas, el resto es más sencillo.
+
+Conclusiones:
+	Las trasnformaciones requieren un poco mas de tiempo de lo que pensaba,
+	la implementacion del canvas es muy engorrosa desde java.
+
+	Las coordenadas  homogeneas, mantienen la relacion de escalas entre dos 
+	transformaciones distintas, permitiendo estandarizar entre las dos escalas
+	haciendo un proceso de normalizacion.
+	
