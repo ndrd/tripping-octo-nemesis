@@ -99,7 +99,39 @@ public class Bilder {
 		return rgb;
 	}
 
+	public double[] getRGB1(int x, int y) {
+		double [] rgb = new double[3];
+		if ( x < 0 || x > width || y  < 0 || y > height)
+			throw new IllegalArgumentException("Invalid Coordinates");
+		int index = (y * width + x);
+		if (hasAlfa) {
+			rgb[0] = pixels[index + ALFA_RED_SHIFT];
+			rgb[1] = pixels[index + ALFA_GREEN_SHIFT];
+			rgb[2] = pixels[index + ALFA_BLUE_SHIFT];
+		} else {
+			rgb[0] = pixels[index + ALFA_RED_SHIFT-1];
+			rgb[1] = pixels[index + ALFA_GREEN_SHIFT-1];
+			rgb[2] = pixels[index + ALFA_BLUE_SHIFT-1];
+		}
+		return rgb;
+	}
+
 	public void setRGB(int x, int y, int[] rgb) {
+		if (x < 0 || x > width || y  < 0 || y > height)
+			throw new IllegalArgumentException("Invalid Coordinates");
+		int index = (y * width + x);
+		if (hasAlfa) {
+			pixels[index + ALFA_RED_SHIFT] = (byte) rgb[0];
+			pixels[index + ALFA_GREEN_SHIFT] = (byte) rgb[1];
+			pixels[index + ALFA_BLUE_SHIFT] = (byte) rgb[2];
+		} else {
+			pixels[index + ALFA_RED_SHIFT-1] = (byte) rgb[0];
+			pixels[index + ALFA_GREEN_SHIFT-1] = (byte) rgb[1];
+			pixels[index + ALFA_BLUE_SHIFT-1] = (byte) rgb[2];
+		}
+	}
+
+	public void setRGB(int x, int y, double[] rgb) {
 		if (x < 0 || x > width || y  < 0 || y > height)
 			throw new IllegalArgumentException("Invalid Coordinates");
 		int index = (y * width + x);

@@ -155,6 +155,24 @@ public class Filters {
 		return r;
 	}
 
+	public static Bilder grayScale4(Bilder src) {
+		int width = src.getWidth();
+		int height = src.getHeight();
+
+		Bilder r = new Bilder(width, height, false);
+
+	    for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+            	double rgb[] = src.getRGB1(x,y);
+  		        double gray = (rgb[0] * 0.33 + rgb[1] * 0.33 + rgb[2]* 0.33);
+               	rgb[0] = rgb[1] = rgb[2] = gray;
+               	r.setRGB(x,y,rgb); 	
+            }
+        }
+		
+		return r;
+	}
+
 	public static BufferedImage colorSelector(BufferedImage src, Color lowerBound, Color upperBound) {
 		WritableRaster rIn = src.getRaster();
 		int width = rIn.getWidth();
@@ -185,5 +203,17 @@ public class Filters {
         }
 		
 		return r;
+	}
+
+	public static Bilder incrementChanelColor(BufferedImage img, int deltaR, int deltaG, int deltaB) {
+		Bilder bild = new Bilder(img);
+		Bilder newImg =  new Bilder(img.getWidth(), img.getHeight(), false);
+
+		for (int x = 0; x < img.getWidth(); x++) {
+			for (int y = 0; y < img.getHeight(); y++) {
+				int pixels = 0;
+			}
+		}
+		return newImg;
 	}
 }
