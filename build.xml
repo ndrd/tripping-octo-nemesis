@@ -1,106 +1,84 @@
-<project name="Practica0" default="all" basedir=".">
-  <description>
-    Practica 0 del curso de vision por computadora | Febrero 2015
-  </description>
-  
-  <property name="pName" value="Practica0"/>
- 
-  <target name="compile" description="Compila el código fuente.">
-    <mkdir dir="build"/>
-    
-    <javac srcdir="src/mx/unam/ciencias/cv" 
-	   destdir="build"
-	   debug="true"
+<?xml version="1.0" encoding="utf-8"?>
+<project name="practica0" default="practica0.jar" basedir="." >
+
+  <property name="build.dir" value="build" />
+  <property name="src.dir"   value="src" />
+  <property name="lib.dir"   value="lib" />
+  <property name="doc.dir"   value="doc" />
+
+  <target name="practica0.jar" depends="compile.practica0">
+    <jar jarfile="practica0.jar">
+      <zipfileset dir="${build.dir}" prefix="" />
+      <manifest>
+        <attribute name="Main-Class" value="mx.unam.ciencias.cv.views.MainS"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="compile.practica0">
+    <mkdir dir="${build.dir}"/>
+    <javac srcdir="${src.dir}"
+           destdir="${build.dir}"
+           debug="true"
            debuglevel="lines,vars,source"
            includeantruntime="false"
            deprecation="true"
            nowarn="off">
-      <compilerarg value="-Xlint:unchecked"/>
-    </javac>
-
-  </target>
-  
-  <target name="doc"  description="Crea la documentación del código.">
-    <mkdir dir="doc"/>
-    <javadoc destdir="doc" author="true" version="true" charset="UTF-8">
       <classpath>
-        <fileset dir="lib">
-	  <include name="*.jar"/>
+        <fileset dir="${lib.dir}">
+          <include name="*.jar"/>
         </fileset>
       </classpath>
-      <link href="http://docs.oracle.com/javase/6/docs/api/" />
-      <fileset file="src/mx/unam/ciencias/cv/models/*.java"/>
-      <fileset file="src/mx/unam/ciencias/cv/views/*.java"/>
+      <compilerarg value="-Xlint:unchecked"/>
+    </javac>
+  </target>
+
+  <copy todir="${build.dir}">
+    <fileset dir="src"
+             includes="**/*.jpg," />
+  </copy>
+
+  <target name="doc" depends="practica0.jar">
+    <mkdir dir="${doc.dir}"/>
+    <javadoc packagenames="mx.unam.ciencias.cv.*"
+             sourcepath="src"
+             defaultexcludes="yes"
+             destdir="${doc.dir}"
+             charset="UTF-8"
+             author="false"
+             version="false"
+             use="true"
+             windowtitle="Estructuras de Datos">
+      <doctitle><![CDATA[<h1>Estructuras de Datos</h1>]]></doctitle>
+      <link href="http://docs.oracle.com/javase/8/docs/api/" />
+      <classpath>
+        <pathelement location="${lib.dir}/junit.jar" />
+        <pathelement location="${lib.dir}/hamcrest-core.jar" />
+      </classpath>
     </javadoc>
   </target>
-  
-  <target name="clean" description="Elimina los archivos temporales y los directorios build y doc.">
-    <delete>
-      <fileset file="src/mx/unam/ciencias/cv/views/*" defaultexcludes="no">
-	<exclude name="*.java"/>
-	<exclude name="*.xml"/>
-	<exclude name="*.fxml"/>
-	<exclude name="*.txt" />
-	<exclude name="*.db" />
-      </fileset>
-      <fileset file="src/mx/unam/ciencias/cv/*" defaultexcludes="no">
-	<exclude name="*.java"/>
-	<exclude name="*.xml"/>
-	<exclude name="*.fxml"/>
-	<exclude name="*.txt" />
-	<exclude name="*.db" />
-      </fileset>
-    <fileset file="./*" defaultexcludes="no">
-	<exclude name="*.db"/>
-	<exclude name="*.java"/>
-	<exclude name="*.xml"/>
-	<exclude name="*.fxml"/>
-	<exclude name="*.txt" />
-      </fileset>
-    </delete>
-    <delete dir="build" />
-    <delete dir="doc" />
-    <delete dir="dist" />
-    <delete file="${pName}.tar" />
-  </target>
-  
-  <target name="dist" depends="clean" description="Crea un archivo tar para enviar el código.">
-    <tar destfile="${pName}.tar" basedir="./"/>
-  </target>
-  
-  <target name="all" depends="compile" description="Compila y genera la documentación."/>
 
-  <target name="jar" depends="compile" description="Crea el jar.">
-    <mkdir dir="dist/jar"/>
-    <jar destfile="dist/jar/${pName}.jar" basedir="build/">
-	<manifest>
-		<attribute name="Main-Class" value="mx.unam.ciencias.cv.views.MainS"/>
-	</manifest>
-	</jar>
- </target>
-
-  <target name="run" depends="clean,compile,jar" description="Corre el programa.">
-	<java jar="dist/jar/Proyecto0.jar" fork="true" />
+  <target name="clean">
+    <delete file="practica0.jar"/>
+    <delete dir="${build.dir}"/>
+    <delete dir="${doc.dir}"/>
   </target>
 
-  <target name="test" depends="jar">
-    <echo message="##########################################################################################:${line.separator}"/>
-    <echo message="Favor de esperar entre 30 segundos a 1 minuto en que las pruebas terminen:${line.separator}"/>
-    <echo message="##########################################################################################:${line.separator}"/>
-    <echo message=":${line.separator}"/>
+  <target name="test" depends="practica0.jar">
     <junit printsummary="yes" haltonfailure="no">
       <formatter type="plain" usefile="false" />
       <classpath>
-        <pathelement path="build" />
-        <pathelement location="lib/junit.jar" />
-        <pathelement location="lib/hamcrest-core.jar" />
+        <pathelement path="${build.dir}" />
+        <pathelement location="${lib.dir}/junit.jar" />
+        <pathelement location="${lib.dir}/hamcrest-core.jar" />
       </classpath>
       <batchtest fork="yes">
-        <fileset dir="src/">
+        <fileset dir="${src.dir}">
           <include name="**/*Test*.java" />
         </fileset>
       </batchtest>
     </junit>
-    <delete dir="lib/temp" />
   </target>
+
+
 </project>
