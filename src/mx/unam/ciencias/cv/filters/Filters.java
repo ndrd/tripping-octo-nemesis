@@ -22,6 +22,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.LinkedList;
 import java.awt.Color;
+import mx.unam.ciencias.cv.utils.Bilder;
 
 public class Filters {
 
@@ -79,6 +80,75 @@ public class Filters {
                 double media = (rgb[0]  + rgb[1] + rgb[2]) * FACTOR;
                 rgb[0] = rgb[1] = rgb[2] =  media;
                	rOut.setPixel(x, y, rgb);
+            }
+        }
+		
+		return r;
+	}
+
+	public static Bilder grayScale(Bilder src) {
+		int width = src.getWidth();
+		int height = src.getHeight();
+
+		Bilder r = new Bilder(width, height, false);
+
+	    for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+            	int pixel = src.getPixel(x,y);
+
+	            int red = (pixel >> 16) & 0x000000FF;
+	            int green = (pixel >> 8 ) & 0x000000FF;
+	            int blue = (pixel) & 0x000000FF;
+   		        
+   		        int gray = (int)(red * 0.33 + green * 0.33 + blue	* 0.33);
+               	
+               	pixel = (pixel & ~(0x000000FF << 16)) | (gray << 16);
+	            pixel = (pixel & ~(0x000000FF << 8)) | (gray << 8);
+	            pixel = (pixel & ~(0x000000FF )) | (gray);
+
+               	r.setPixel(x, y, pixel);
+            }
+        }
+		
+		return r;
+	}
+
+	public static Bilder grayScale2(Bilder src) {
+		int width = src.getWidth();
+		int height = src.getHeight();
+
+		Bilder r = new Bilder(width, height, false);
+
+	    for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+	            int red = src.getRed(x,y);
+	            int green = src.getGreen(x,y);
+	            int blue = src.getBlue(x,y);
+
+  		        int gray = (int)(red * 0.33 + green * 0.33 + blue	* 0.33);
+               	
+              	r.setRed(x, y, gray);
+              	r.setGreen(x, y, gray);
+              	r.setBlue(x, y, gray);
+            }
+        }
+		
+		return r;
+	}
+
+
+	public static Bilder grayScale3(Bilder src) {
+		int width = src.getWidth();
+		int height = src.getHeight();
+
+		Bilder r = new Bilder(width, height, false);
+
+	    for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+            	int rgb[] = src.getRGB(x,y);
+  		        int gray = (int)(rgb[0] * 0.33 + rgb[1] * 0.33 + rgb[2]* 0.33);
+               	rgb[0] = rgb[1] = rgb[2] = gray;
+               	r.setRGB(x,y,rgb); 	
             }
         }
 		
