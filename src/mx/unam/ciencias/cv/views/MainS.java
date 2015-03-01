@@ -379,7 +379,9 @@ public class MainS extends javax.swing.JFrame {
         jMenuItem1.setText("Filters");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                }
+                BufferedImage imgg = Filters.mixChannels(engine.getLastImage());
+                putImageOnScreen(imgg, workedImg);
+            }
         });
 
         jMenu2.add(jMenuItem1);
@@ -595,10 +597,14 @@ public class MainS extends javax.swing.JFrame {
     }                                          
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) { 
-        ImageTrainer t = ImageTrainer.getInstance();
-        BufferedImage response = Filters.colorSelector(engine.getLastImage(),t.getLowerBound(), t.getUpperBound());
-        engine.setLastWork(response);
-        putImageOnScreen(response, workedImg);
+        try {
+            ImageTrainer t = ImageTrainer.getInstance();
+            BufferedImage response = Filters.colorSelector(engine.getLastImage(),t.getLowerBound(), t.getUpperBound());
+            engine.setLastWork(response);
+            putImageOnScreen(response, workedImg);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ECannot display image", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /***
@@ -700,7 +706,7 @@ public class MainS extends javax.swing.JFrame {
         try {
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File fileToSave = fileChooser.getSelectedFile();
-                ImageIO.write(engine.getLastWork(), "png", fileToSave);
+                ImageIO.write(engine.getLastWork(), "jpeg", fileToSave);
                 System.out.println("Save as file: " + fileToSave.getAbsolutePath());
             }
         } catch (Exception e) {

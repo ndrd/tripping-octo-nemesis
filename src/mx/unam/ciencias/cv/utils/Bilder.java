@@ -1,10 +1,12 @@
 package mx.unam.ciencias.cv.utils;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
+import java.awt.image.*;
+import java.awt.Transparency;
+import java.awt.color.ColorSpace;
 import java.io.IOException;
 import java.io.ByteArrayInputStream;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 
 /**
@@ -12,10 +14,11 @@ import javax.imageio.ImageIO;
 */
 public class Bilder {
 
-	private byte[] pixels;
+	private int[] pixels;
 	private int width;
 	private int height;
 	private boolean hasAlfa;
+	private int type;
 	private final int ALFA_RED_SHIFT = 3;
 	private final int ALFA_GREEN_SHIFT = 2;
 	private final int ALFA_BLUE_SHIFT = 1;
@@ -27,7 +30,12 @@ public class Bilder {
 		width = img.getWidth();
 		height = img.getHeight();
 		hasAlfa = img.getAlphaRaster() != null;
-		pixels = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
+		type = img.getType();
+		
+		byte [] s = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
+		pixels =  new int[s.length]; 
+
+		for (int i = 0; i < s.length; pixels[i] = s[i++]);
 	}
 
 	public Bilder (int width, int height, boolean hasAlfa) {
@@ -35,7 +43,7 @@ public class Bilder {
 		this.height = height;
 		this.hasAlfa = hasAlfa;
 		int pxLength = (hasAlfa) ? WITH_ALFA : NO_ALFA;
-		this.pixels = new byte[width * height * pxLength];
+		this.pixels = new int[width * height * pxLength];
 
 		for (int i = 0; i < pixels.length ; i++ )
 			pixels[i] = 0;
@@ -82,6 +90,10 @@ public class Bilder {
 		return getColor(x, y, ALFA_BLUE_SHIFT - 1);
 	}
 
+	public int getType() {
+		return  type;
+	}
+
 	public int[] getRGB(int x, int y) {
 		int [] rgb = new int[3];
 		if ( x < 0 || x > width || y  < 0 || y > height)
@@ -116,6 +128,10 @@ public class Bilder {
 		return rgb;
 	}
 
+	public int[] getData() {
+		return pixels;
+	}
+
 	public void setRGB(int x, int y, int[] rgb) {
 		if (x < 0 || x > width || y  < 0 || y > height)
 			throw new IllegalArgumentException("Invalid Coordinates");
@@ -146,18 +162,18 @@ public class Bilder {
 		}
 	}
 
-	protected byte getColor(int x, int y, int i) throws IllegalArgumentException {
+	protected int getColor(int x, int y, int i) throws IllegalArgumentException {
 		if (i < 0 || i > 3 || x < 0 || x > width || y  < 0 || y > height)
 			throw new IllegalArgumentException("Invalid Coordinates");
 		int index = (y * width + x);
 		return pixels[index + i];
 	}
 
-	protected byte setColor(int x, int y, int i, int color) throws IllegalArgumentException {
+	protected void setColor(int x, int y, int i, int color) throws IllegalArgumentException {
 		if (i < 0 || i > 3 || x < 0 || x > width || y  < 0 || y > height)
 			throw new IllegalArgumentException("Invalid Coordinates");
 		int index = (y * width + x);
-		return pixels[index + i] = (byte) color;
+		pixels[index + i] = (byte) color;
 	}
 
 	public void setRed(int x, int y, int color) {
@@ -220,8 +236,24 @@ public class Bilder {
 		return hasAlfa;
 	}
 
-	public static BufferedImage toBIF(Bilder b) throws IOException {
-	    ByteArrayInputStream bais = new ByteArrayInputStream(b.pixels);
-	    return ImageIO.read(bais);
+	public static BufferedImage toBIF(Bilder b) {
+	    ByteArrayInputStream bais = null;
+    	return null;
 	}
+
+	public BufferedImage getBufferedImage() {
+		BufferedImage image = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
+		WritableRaster raster = (WritableRaster) image.getRaster();
+		raster.setPixels(0, 0, width, height, pixels);
+		return image;
+	}
+
+	/*
+	public BufferedImage getBuffer() {
+		BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		final int[] a = ( (DataBufferInt) res.getRaster().getDataBuffer() ).getData();
+		System.arraycopy(data, 0, a, 0, data.length);
+	} 
+	*/
+
 }

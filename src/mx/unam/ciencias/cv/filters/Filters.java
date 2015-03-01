@@ -23,6 +23,7 @@ import java.awt.image.WritableRaster;
 import java.util.LinkedList;
 import java.awt.Color;
 import mx.unam.ciencias.cv.utils.Bilder;
+import mx.unam.ciencias.cv.utils.FastImage;
 
 public class Filters {
 
@@ -33,7 +34,7 @@ public class Filters {
 	private boolean ready;
 	private final static double FACTOR = 1/3;
 
-	private Filters () {
+	protected Filters () {
 		images = new LinkedList<BufferedImage>();
 		percentage = 0;
 		ready = false;
@@ -64,128 +65,61 @@ public class Filters {
 		lastWork = img;
 	}
 
-	public static BufferedImage grayScale(BufferedImage src) {
-		WritableRaster rIn = src.getRaster();
-		int width = rIn.getWidth();
-		int height = rIn.getHeight();
-		int type = src.getType();
+	public static BufferedImage mixChannels(BufferedImage img) {
+		FastImage in = new FastImage(img);
+		FastImage out =  new FastImage(img.getWidth(), img.getHeight(), img.getType());
 
-		BufferedImage r = new BufferedImage(width, height, type);
-        WritableRaster rOut = r.getRaster();
-
-        double[] rgb = new double[3];
-	    for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                rIn.getPixel(x, y, rgb);
-                double media = (rgb[0]  + rgb[1] + rgb[2]) * FACTOR;
-                rgb[0] = rgb[1] = rgb[2] =  media;
-               	rOut.setPixel(x, y, rgb);
-            }
-        }
-		
-		return r;
+		for (int x = 0; x < img.getWidth() ; x++ ) {
+			for (int y = 0; y < img.getHeight() ;y++ ) {
+				byte [] rgb = in.getPixel(x,y);
+				byte r = rgb[0];
+				byte g = rgb[2];
+				rgb[0] = rgb[1];
+				rgb[1] = g;
+				rgb[2] = r;
+				out.setPixel(x,y,rgb);
+			}
+		}
+		return out.getImage();
 	}
 
-	public static Bilder grayScale(Bilder src) {
-		int width = src.getWidth();
-		int height = src.getHeight();
+	/**
+	* Gets a grayScale im
+	*/
+	public static BufferedImage grayScale(BufferedImage img) {
+      int width = img.getWidth();
+      int height = img.getHeight();
+      
+      BufferedImage result = new BufferedImage(width, height, img.getType());
 
-		Bilder r = new Bilder(width, height, false);
-
-	    for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-            	int pixel = src.getPixel(x,y);
-
-	            int red = (pixel >> 16) & 0x000000FF;
-	            int green = (pixel >> 8 ) & 0x000000FF;
-	            int blue = (pixel) & 0x000000FF;
-   		        
-   		        int gray = (int)(red * 0.33 + green * 0.33 + blue	* 0.33);
-               	
-               	pixel = (pixel & ~(0x000000FF << 16)) | (gray << 16);
-	            pixel = (pixel & ~(0x000000FF << 8)) | (gray << 8);
-	            pixel = (pixel & ~(0x000000FF )) | (gray);
-
-               	r.setPixel(x, y, pixel);
-            }
-        }
-		
-		return r;
-	}
-
-	public static Bilder grayScale2(Bilder src) {
-		int width = src.getWidth();
-		int height = src.getHeight();
-
-		Bilder r = new Bilder(width, height, false);
-
-	    for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-	            int red = src.getRed(x,y);
-	            int green = src.getGreen(x,y);
-	            int blue = src.getBlue(x,y);
-
-  		        int gray = (int)(red * 0.33 + green * 0.33 + blue	* 0.33);
-               	
-              	r.setRed(x, y, gray);
-              	r.setGreen(x, y, gray);
-              	r.setBlue(x, y, gray);
-            }
-        }
-		
-		return r;
-	}
-
-
-	public static Bilder grayScale3(Bilder src) {
-		int width = src.getWidth();
-		int height = src.getHeight();
-
-		Bilder r = new Bilder(width, height, false);
-
-	    for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-            	int rgb[] = src.getRGB(x,y);
-  		        int gray = (int)(rgb[0] * 0.33 + rgb[1] * 0.33 + rgb[2]* 0.33);
-               	rgb[0] = rgb[1] = rgb[2] = gray;
-               	r.setRGB(x,y,rgb); 	
-            }
-        }
-		
-		return r;
-	}
-
-	public static Bilder grayScale4(Bilder src) {
-		int width = src.getWidth();
-		int height = src.getHeight();
-
-		Bilder r = new Bilder(width, height, false);
-
-	    for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-            	double rgb[] = src.getRGB1(x,y);
-  		        double gray = (rgb[0] * 0.33 + rgb[1] * 0.33 + rgb[2]* 0.33);
-               	rgb[0] = rgb[1] = rgb[2] = gray;
-               	r.setRGB(x,y,rgb); 	
-            }
-        }
-		
-		return r;
-	}
+      for(int y = 0; y < height; y++) {
+          for(int x= 0; x < width;x++) {
+             int pixel = img.getRGB(x, y);
+             int alfa = (pixel >> 24) & 0x000000FF;
+             int red = (pixel >> 16) & 0x000000FF;
+             int green = (pixel >> 8 ) & 0x000000FF;
+             int blue = (pixel) & 0x000000FF;
+             int prom = (red + green + blue)/3;
+                          
+             pixel = (pixel & ~(0x000000FF << 16)) | (prom << 16);
+             pixel = (pixel & ~(0x000000FF << 8)) | (prom << 8);
+             pixel = (pixel & ~(0x000000FF )) | (prom);
+             result.setRGB(x, y, pixel);
+          }
+      }
+      return result;
+    }
 
 	public static BufferedImage colorSelector(BufferedImage src, Color lowerBound, Color upperBound) {
-		WritableRaster rIn = src.getRaster();
-		int width = rIn.getWidth();
-		int height = rIn.getHeight();
-		int type = src.getType();
+		Bilder bild = new Bilder(src);
+		int width = bild.getWidth();
+		int height = bild.getHeight();
+		BufferedImage out = new BufferedImage(width, height, bild.getType());
+		WritableRaster raster = out.getRaster();
 
-		BufferedImage r = new BufferedImage(width, height, type);
-        WritableRaster rOut = r.getRaster();
-
-        double[] rgb = new double[3];
 	    for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                rIn.getPixel(x, y, rgb);
+                double [] rgb = bild.getRGB1(x, y);
                 
                 if (rgb[0] >= lowerBound.getRed() && rgb[0] <= upperBound.getRed()) {
                 	if (rgb[1] >= lowerBound.getGreen() && rgb[1] <= upperBound.getGreen()) {
@@ -194,26 +128,33 @@ public class Filters {
                 		}
                 	}
                 } else {
-                	double media = (rgb[0] + rgb[1] + rgb[2]) * FACTOR;
+                	double media = (rgb[0] + rgb[1] + rgb[2]) / 3;
                 	rgb[0] = rgb[1] = rgb[2] = media;
                 }
-                
-               	rOut.setPixel(x, y, rgb);
+               	raster.setPixel(x, y, rgb);
             }
         }
-		
-		return r;
+		return out;
 	}
 
-	public static Bilder incrementChanelColor(BufferedImage img, int deltaR, int deltaG, int deltaB) {
+	public static BufferedImage incrementChanelColor(BufferedImage img, int deltaR, int deltaG, int deltaB) {
 		Bilder bild = new Bilder(img);
-		Bilder newImg =  new Bilder(img.getWidth(), img.getHeight(), false);
+		Bilder newImg =  new Bilder(img.getWidth(), img.getHeight(), true);
+		BufferedImage response =  new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
+		WritableRaster raster =  response.getRaster();
 
 		for (int x = 0; x < img.getWidth(); x++) {
 			for (int y = 0; y < img.getHeight(); y++) {
-				int pixels = 0;
+				double[] rgb = bild.getRGB1(x,y);
+				rgb[0] = ((rgb[0] + deltaR) > 255) ? 255 : ((rgb[0] + deltaR) < 0) ? 0 : rgb[0] + deltaR;  
+				rgb[1] = ((rgb[1] + deltaG) > 255) ? 255 : ((rgb[1] + deltaG) < 0) ? 0 : rgb[1] + deltaG;  
+				rgb[2] = ((rgb[2] + deltaB) > 255) ? 255 : ((rgb[2] + deltaB) < 0) ? 0 : rgb[2] + deltaB;  
+				raster.setPixel(x, y, rgb);
 			}
 		}
-		return newImg;
+
+		return response;
 	}
+
+
 }
