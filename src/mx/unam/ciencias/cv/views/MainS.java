@@ -380,6 +380,7 @@ public class MainS extends javax.swing.JFrame {
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BufferedImage imgg = Filters.mixChannels(engine.getLastImage());
+                engine.setLastWork(imgg);   
                 putImageOnScreen(imgg, workedImg);
             }
         });
@@ -710,6 +711,7 @@ public class MainS extends javax.swing.JFrame {
                 System.out.println("Save as file: " + fileToSave.getAbsolutePath());
             }
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Cannot be saved :(");
         }
     }

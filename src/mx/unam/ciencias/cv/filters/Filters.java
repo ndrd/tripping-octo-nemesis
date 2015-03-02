@@ -110,6 +110,23 @@ public class Filters {
       return result;
     }
 
+    public static BufferedImage grayScale2(BufferedImage img) {
+      int width = img.getWidth();
+      int height = img.getHeight();
+      
+      FastImage in = new FastImage(img);
+      FastImage out = new FastImage(width, height, img.getType());
+
+      for(int y = 0; y < height; y++) {
+          for(int x= 0; x < width;x++) {
+             byte[] rgb = in.getPixel(x, y);
+             byte prom = (byte) ((rgb[0] + rgb[1] + rgb[2])/3);
+             out.setPixel(x, y, rgb);
+          }
+      }
+      return out.getImage();
+    }
+
 	public static BufferedImage colorSelector(BufferedImage src, Color lowerBound, Color upperBound) {
 		Bilder bild = new Bilder(src);
 		int width = bild.getWidth();

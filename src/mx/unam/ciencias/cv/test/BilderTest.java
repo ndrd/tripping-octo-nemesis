@@ -16,7 +16,7 @@ public class BilderTest {
 	
 	private BufferedImage img;
 	private Bilder bld; 
-	private final int ITERS = 1; 
+	private final int ITERS = 100; 
 
 	public BilderTest() {
 		try {
@@ -48,10 +48,9 @@ public class BilderTest {
 				long startTime = System.nanoTime();
 				Filters.grayScale(img);
 				long endTime = System.nanoTime();
-		        System.out.println(String.format("BitShift: %-2d: %s", (i + 1), SpeedTest.timeFormat(endTime - startTime)));
 				total += (endTime - startTime);
 			}
-		    System.out.println(String.format("Total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format("BitShift Total time %s", SpeedTest.timeFormat(total)));
 			System.out.println();
 			System.out.println();
 
@@ -124,10 +123,9 @@ public class BilderTest {
 				long startTime = System.nanoTime();
 				FiltersBeta.grayScale4(bld);
 				long endTime = System.nanoTime();
-		        System.out.println(String.format("Bilder V4 with BufferedImage: %-2d: %s", (i + 1), SpeedTest.timeFormat(endTime - startTime)));
 				total += (endTime - startTime);
 			}
-		    System.out.println(String.format("Total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format("Bilder Total time %s", SpeedTest.timeFormat(total)));
 			System.out.println();
 			System.out.println();
 		} catch (Exception e) {
@@ -140,15 +138,11 @@ public class BilderTest {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
 				long startTime = System.nanoTime();
-				FastImage f =  new FastImage(img);
-				f.getImage();
-
-				f.mixArray();
+				Filters.grayScale2(img);
 				long endTime = System.nanoTime();
-		        System.out.println(String.format("fi V4: %-2d: %s", (i + 1), SpeedTest.timeFormat(endTime - startTime)));
 				total += (endTime - startTime);
 			}
-		    System.out.println(String.format("Total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format("Fast Image Total time %s", SpeedTest.timeFormat(total)));
 			System.out.println();
 			System.out.println();
 		} catch (Exception e) {

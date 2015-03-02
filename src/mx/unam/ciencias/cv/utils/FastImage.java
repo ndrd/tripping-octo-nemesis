@@ -19,8 +19,6 @@ public class FastImage {
 		width = img.getWidth();
 		height =  img.getHeight();
 		pixels =  ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
-		System.out.println("pixels.lenght " + pixels.length + " w: " + width + " h:" + height);
-
 	}
 
 	public FastImage(int width, int height, int type ) {
