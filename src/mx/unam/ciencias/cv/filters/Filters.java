@@ -22,7 +22,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.LinkedList;
 import java.awt.Color;
-import mx.unam.ciencias.cv.utils.Bilder;
+import mx.unam.ciencias.cv.utils.ImageD;
 import mx.unam.ciencias.cv.utils.FastImage;
 
 public class Filters {
@@ -167,7 +167,11 @@ public class Filters {
         }
 
         return out.getImage();
+	}
 
+	public static BufferedImage histogramEqualization(BufferedImage img) {
+		ImageD imageDetails = new ImageD(img);
+		return imageDetails.getImage();
 	}
 
 }

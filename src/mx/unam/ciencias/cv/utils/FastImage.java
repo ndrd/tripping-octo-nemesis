@@ -30,8 +30,8 @@ public class FastImage {
 
 	private BufferedImage original;
 	private byte [] pixels;
-	private int width;
-	private int height;
+	protected int width;
+	protected int height;
 
 	public FastImage(BufferedImage img) {
 		original =  img;
