@@ -60,5 +60,13 @@ public class Histogram implements java.io.Serializable {
 		return Math.sqrt(getVariance()/members);
 	}
 
+	public double getMinValue() {
+		return minValue;
+	}
+
+	public double getMaxValue() {
+		return maxValue;
+	}
+
 
 }

@@ -54,6 +54,8 @@ public class ImageD extends FastImage implements java.io.Serializable {
 	private Histogram grayScale;
 	private RGB meanColor;
 	private RGB meanGray;
+	private RGB mins;
+	private RGB maxs;
 	private final int RGB_VALUES = 255;
 
 
@@ -65,13 +67,14 @@ public class ImageD extends FastImage implements java.io.Serializable {
 		grayScale = new Histogram(RGB_VALUES);
 
         short[] rgb = new short[3];
-
 	    for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 rgb = getPixel(x, y);
+
                 red.add(rgb[0]);
                 green.add(rgb[1]);
                 blue.add(rgb[2]);
+                
             	int meanValue = (int)(rgb[0] + rgb[1] + rgb[2]) / 3;
             	grayScale.add(meanValue);
             }
