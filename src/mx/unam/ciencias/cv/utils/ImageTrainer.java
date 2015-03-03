@@ -31,7 +31,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Color;
 import javax.imageio.ImageIO;
 
-import mx.unam.ciencias.cv.models.*;
+import mx.unam.ciencias.cv.utils.*;
 
 public class ImageTrainer implements java.io.Serializable {
 

@@ -16,7 +16,7 @@ public class BilderTest {
 	
 	private BufferedImage img;
 	private Bilder bld; 
-	private final int ITERS = 30; 
+	private final int ITERS = 100; 
 
 	public BilderTest() {
 		try {
@@ -41,7 +41,7 @@ public class BilderTest {
 		}
 	}
 
-	@Test public void timeDeltaBufferedImage() {
+	public void timeDeltaBufferedImage() {
 		try {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
@@ -64,7 +64,7 @@ public class BilderTest {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
 				long startTime = System.nanoTime();
-				Bilder.toBIF(FiltersBeta.grayScale(bld));
+				FiltersBeta.grayScale(bld);
 				long endTime = System.nanoTime();
 		        System.out.println(String.format("Bilder V1: %-2d: %s", (i + 1), SpeedTest.timeFormat(endTime - startTime)));
 				total += (endTime - startTime);
@@ -141,6 +141,8 @@ public class BilderTest {
 				Filters.grayScale(img);
 				long endTime = System.nanoTime();
 				total += (endTime - startTime);
+				System.out.println(String.format("delta %s", SpeedTest.timeFormat(endTime - startTime)));
+
 			}
 		    System.out.println(String.format("Fast Image Total time %s", SpeedTest.timeFormat(total)));
 			System.out.println();
