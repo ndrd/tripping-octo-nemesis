@@ -56,7 +56,7 @@ public class ImageD extends FastImage implements java.io.Serializable {
 	private RGB meanGray;
 	private RGB mins;
 	private RGB maxs;
-	private final int RGB_VALUES = 255;
+	private final int RGB_VALUES = 256;
 
 
 	public ImageD (BufferedImage img) {

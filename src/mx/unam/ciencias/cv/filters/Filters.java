@@ -172,9 +172,43 @@ public class Filters {
         return out.getImage();
 	}
 
+	public static void print(Object o) {
+		System.out.println(o);
+	}
+
 	public static BufferedImage histogramEqualization(BufferedImage img) {
+		final double oDelta = 255;
 		ImageD imageDetails = new ImageD(img);
-		double minR = imageDetails.getRedHistogram().getMinValue();
+
+		int minR = imageDetails.getRedHistogram().getMinColor();
+		int minG = imageDetails.getGreenHistogram().getMinColor();
+		int minB = imageDetails.getBlueHistogram().getMinColor();
+
+		int maxR = imageDetails.getRedHistogram().getMaxColor();
+		int maxG = imageDetails.getGreenHistogram().getMaxColor();
+		int maxB = imageDetails.getBlueHistogram().getMaxColor();
+
+		double ratioR = oDelta / (maxR - minR);
+		double ratioG = oDelta / (maxG - minG);
+		double ratioB = oDelta / (maxB - minB);
+
+		Filters.print("min R: " + minR + "G: " + minG + " B: " + minB );
+		Filters.print("max R: " + maxR + "G: " + maxG + " B: " + maxB );
+		Filters.print("ratio R: " + ratioR + "G: " + ratioG + " B: " + ratioB );
+
+
+		short rgb[] =  new short[3];
+
+		for (int x = 0; x < img.getWidth() ; x++ ) {
+			for (int y = 0; y < img.getHeight(); y++ ) {
+				rgb = imageDetails.getPixel(x,y);
+				rgb[0] = (short)Math.floor((rgb[0] - minR) * ratioR);		
+				rgb[1] = (short)Math.floor((rgb[1] - minG) * ratioG);		
+				rgb[2] = (short)Math.floor((rgb[2] - minB) * ratioB);	
+				imageDetails.setPixel(x,y,rgb);	
+			}
+		}
+
 		return imageDetails.getImage();
 	}
 

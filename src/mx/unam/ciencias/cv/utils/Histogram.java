@@ -68,5 +68,17 @@ public class Histogram implements java.io.Serializable {
 		return maxValue;
 	}
 
+	public int getMinColor() {
+		int i = 0;
+		for (; i < table.length && table[i] == 0 ; i++);
+		return i;
+	}
+
+	public int getMaxColor() {
+		int i = table.length - 1;
+		for (; i >= 0 && table[i] == 0 ; i--);
+		return i;
+	}
+
 
 }
