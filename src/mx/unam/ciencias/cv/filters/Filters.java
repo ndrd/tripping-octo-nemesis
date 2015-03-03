@@ -192,19 +192,14 @@ public class Filters {
 		double ratioG = oDelta / (maxG - minG);
 		double ratioB = oDelta / (maxB - minB);
 
-		Filters.print("min R: " + minR + "G: " + minG + " B: " + minB );
-		Filters.print("max R: " + maxR + "G: " + maxG + " B: " + maxB );
-		Filters.print("ratio R: " + ratioR + "G: " + ratioG + " B: " + ratioB );
-
-
 		short rgb[] =  new short[3];
 
 		for (int x = 0; x < img.getWidth() ; x++ ) {
 			for (int y = 0; y < img.getHeight(); y++ ) {
 				rgb = imageDetails.getPixel(x,y);
-				rgb[0] = (short)Math.floor((rgb[0] - minR) * ratioR);		
-				rgb[1] = (short)Math.floor((rgb[1] - minG) * ratioG);		
-				rgb[2] = (short)Math.floor((rgb[2] - minB) * ratioB);	
+				rgb[0] = (short)((rgb[0] - minR) * ratioR);		
+				rgb[1] = (short)((rgb[1] - minG) * ratioG);		
+				rgb[2] = (short)((rgb[2] - minB) * ratioB);	
 				imageDetails.setPixel(x,y,rgb);	
 			}
 		}
