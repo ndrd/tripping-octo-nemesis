@@ -51,7 +51,7 @@ public class Histogram implements java.io.Serializable {
 	public double getVariance() {
 		double mu = getMeanValue();
 		double sigma  = 0;
-		for (int i = 0;i < table.length; i++) 
+		for (int i = 0; i < table.length; i++) 
 			sigma += Math.pow(table[i] - mu, 2);
 		return sigma/members;
 	}

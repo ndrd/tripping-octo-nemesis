@@ -116,27 +116,32 @@ public class Filters {
       
       FastImage in = new FastImage(img);
       FastImage out = new FastImage(width, height, img.getType());
-
+      byte[] rgb = new byte[3];
+      final byte SHIFT = 127;
       for(int y = 0; y < height; y++) {
-          for(int x= 0; x < width;x++) {
-             byte[] rgb = in.getPixel(x, y);
-             byte prom = (byte) ((rgb[0] + rgb[1] + rgb[2])/3);
-             out.setPixel(x, y, rgb);
+          for(int x= 0; x < width; x++) {
+          	rgb = in.getPixel(x,y);
+
+          	if(y == 0 && x < 300)
+          		System.out.println("R:" + rgb[0] + "G:" + rgb[1] +"B:" + rgb[2]);
+          	rgb = in.getPixel(x,y);
+             byte prom = (byte)((rgb[0] + SHIFT + rgb[1] + SHIFT + rgb[2] + SHIFT) * 0.333333);
+             rgb[0] = rgb[1] = rgb[2] = (byte)(prom-SHIFT);
+             out.setPixel(x, y,rgb);
           }
       }
       return out.getImage();
     }
 
 	public static BufferedImage colorSelector(BufferedImage src, Color lowerBound, Color upperBound) {
-		Bilder bild = new Bilder(src);
-		int width = bild.getWidth();
-		int height = bild.getHeight();
-		BufferedImage out = new BufferedImage(width, height, bild.getType());
-		WritableRaster raster = out.getRaster();
-
+		FastImage in = new FastImage(src);
+		int width = src.getWidth();
+		int height = src.getHeight();
+		FastImage out = new FastImage(width, height, src.getType());
+		byte [] rgb =  new byte[3];
 	    for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                double [] rgb = bild.getRGB1(x, y);
+                rgb = in.getPixel(x, y);
                 
                 if (rgb[0] >= lowerBound.getRed() && rgb[0] <= upperBound.getRed()) {
                 	if (rgb[1] >= lowerBound.getGreen() && rgb[1] <= upperBound.getGreen()) {
@@ -145,33 +150,56 @@ public class Filters {
                 		}
                 	}
                 } else {
-                	double media = (rgb[0] + rgb[1] + rgb[2]) / 3;
+                	byte media = (byte)((rgb[0] + rgb[1] + rgb[2])/3);
                 	rgb[0] = rgb[1] = rgb[2] = media;
                 }
-               	raster.setPixel(x, y, rgb);
+               	out.setPixel(x, y, rgb);
             }
         }
-		return out;
+		return out.getImage();
 	}
 
 	public static BufferedImage incrementChanelColor(BufferedImage img, int deltaR, int deltaG, int deltaB) {
-		Bilder bild = new Bilder(img);
-		Bilder newImg =  new Bilder(img.getWidth(), img.getHeight(), true);
-		BufferedImage response =  new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
-		WritableRaster raster =  response.getRaster();
-
-		for (int x = 0; x < img.getWidth(); x++) {
-			for (int y = 0; y < img.getHeight(); y++) {
-				double[] rgb = bild.getRGB1(x,y);
-				rgb[0] = ((rgb[0] + deltaR) > 255) ? 255 : ((rgb[0] + deltaR) < 0) ? 0 : rgb[0] + deltaR;  
-				rgb[1] = ((rgb[1] + deltaG) > 255) ? 255 : ((rgb[1] + deltaG) < 0) ? 0 : rgb[1] + deltaG;  
-				rgb[2] = ((rgb[2] + deltaB) > 255) ? 255 : ((rgb[2] + deltaB) < 0) ? 0 : rgb[2] + deltaB;  
-				raster.setPixel(x, y, rgb);
+		int width = img.getWidth();
+		int height =  img.getWidth();
+		FastImage in =  new FastImage(img);
+		FastImage out = new FastImage(width, height, img.getType());
+		
+		for (int x = 0; x < width ; x++ ) {
+			for (int y = 0; y < height ; y++ ) {
+				byte rgb[] = in.getPixel(x,y);
+				rgb[0] = (byte)(((rgb[0] + deltaR) > 255) ? 255 : ((rgb[0] + deltaR) < 0) ? 0 : rgb[0] + deltaR); 
+				rgb[1] = (byte)(((rgb[1] + deltaR) > 255) ? 255 : ((rgb[1] + deltaR) < 0) ? 0 : rgb[1] + deltaR); 
+				rgb[2] = (byte)(((rgb[2] + deltaR) > 255) ? 255 : ((rgb[2] + deltaR) < 0) ? 0 : rgb[2] + deltaR); 
 			}
 		}
 
-		return response;
+		return out.getImage();
 	}
 
+	public static BufferedImage blending(BufferedImage imgA, BufferedImage imgB, int percentage) {
+		/* Intersect images */
+		int width = (imgA.getWidth() < imgB.getWidth()) ? imgA.getWidth() : imgB.getWidth();
+        int height = (imgA.getHeight() < imgB.getHeight()) ? imgA.getHeight() : imgB.getHeight();
+        double alfa = (percentage < 0 || percentage > 100) ? 50 : percentage / 100;
+        double beta = 1 - alfa;
+        FastImage a = new FastImage(imgA);
+        FastImage b = new FastImage(imgB);
+        FastImage out = new FastImage(width, height, imgA.getType());
+
+        for (int x = 0; x < width ; x++ ) {
+        	for (int y = 0; y < height ; y++ ) {
+        		byte[] rgbA = a.getPixel(x,y);
+        		byte[] rgbB = b.getPixel(x,y);
+        		rgbA[0] = (byte)(rgbA[0] * alfa + rgbB[0]  * beta);
+        		rgbA[1] = (byte)(rgbA[0] * alfa + rgbB[0]  * beta);
+        		rgbA[2] = (byte)(rgbA[0] * alfa + rgbB[0]  * beta);
+        		out.setPixel(x,y,rgbA);
+        	}
+        }
+
+        return out.getImage();
+
+	}
 
 }

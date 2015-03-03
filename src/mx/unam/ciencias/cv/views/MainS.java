@@ -379,7 +379,7 @@ public class MainS extends javax.swing.JFrame {
         jMenuItem1.setText("Filters");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BufferedImage imgg = Filters.mixChannels(engine.getLastImage());
+                BufferedImage imgg = Filters.grayScale2(engine.getLastImage());
                 engine.setLastWork(imgg);   
                 putImageOnScreen(imgg, workedImg);
             }
