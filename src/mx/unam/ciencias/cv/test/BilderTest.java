@@ -16,7 +16,7 @@ public class BilderTest {
 	
 	private BufferedImage img;
 	private Bilder bld; 
-	private final int ITERS = 100; 
+	private final int ITERS = 30; 
 
 	public BilderTest() {
 		try {
@@ -116,7 +116,7 @@ public class BilderTest {
 		}
 	}
 
-	@Test public void timeDeltaBufferedImageV4() {
+	public void timeDeltaBufferedImageV4() {
 		try {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
@@ -138,7 +138,7 @@ public class BilderTest {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
 				long startTime = System.nanoTime();
-				Filters.grayScale2(img);
+				Filters.grayScale(img);
 				long endTime = System.nanoTime();
 				total += (endTime - startTime);
 			}
@@ -149,19 +149,4 @@ public class BilderTest {
 			Assert.fail();
 		}
 	}
-
-	@Test public void fastImage() {
-		FastImage f =  new FastImage(img);
-		f.mixArray();
-		try {
-			f.getImage();
-			ImageIO.write(f.getImage(), "jpeg", new File("MyFile.jpg"));
-		} catch (Exception e) {
-			Assert.fail();
-		}
-	}
-
-
-
-
 }

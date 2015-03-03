@@ -1,12 +1,31 @@
 package mx.unam.ciencias.cv.utils;
-
+/*
+ * This file is part of tom
+ *
+ * Copyright Jonathan Andrade 2015 <ndrd@ciencias.unam.mx>
+ *
+ * tom is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * tom is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with tom. If not, see <http://www.gnu.org/licenses/>.
+ */
 import java.awt.image.*;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.io.IOException;
 import java.io.ByteArrayInputStream;
-import javax.imageio.ImageIO;
 
+/**
+* This class works with the byte array representation of a image of the
+* @link {BufferedImage}, and makes faster manipulation of the pixels
+* avoiding multiple heap stages, also working with Short type to improve 
+* performance against Integer. 
+*/
 public class FastImage {
 
 	private BufferedImage original;
@@ -28,65 +47,34 @@ public class FastImage {
 		pixels = ((DataBufferByte) original.getRaster().getDataBuffer()).getData();
 	}
 
-	public byte[] getPixel(int x, int y) {
+	public short[] getPixel(int x, int y) {
 		if ( x < 0 || x > width || y  < 0 || y > height)
 			throw new IllegalArgumentException("Invalid Coordinates");
 
-		byte [] rgb = new byte[3];
-		int index = (y * width + x);
+		short [] rgb = new short[3];
+		int index = 3*(y * width + x);
+		rgb[0] = pixels[index + 2];
+		rgb[1] = pixels[index + 1];
+		rgb[2] = pixels[index + 0];
+		/* Masked for get the first 8 bit value */
+		rgb[0] &= 0xff;
+		rgb[1] &= 0xff;
+		rgb[2] &= 0xff;
 
-		rgb[0] = pixels[3*index + 2];
-		rgb[1] = pixels[3*index + 1];
-		rgb[2] = pixels[3*index + 0];
-		
 		return rgb;
 	}
 
-	public void setPixel(int x, int y, byte [] rgb) {
+	public void setPixel(int x, int y, short [] rgb) {
 		if ( x < 0 || x > width || y  < 0 || y > height)
 			throw new IllegalArgumentException("Invalid Coordinates");
-
-		int index = (y * width  + x);
-		pixels[3*index + 2] = rgb[0];
-		pixels[3*index + 1] = rgb[1];
-		pixels[3*index + 0] = rgb[2];
-	}
-
-
-	public void mixArray() {
-		for (int x = 0 ;x < width; x++ ) {
-			for (int y = 0; y < height; y++ ) {
-				byte [] rgb = getPixel(x,y);
-				byte r = rgb[0];
-				byte g = rgb[2];
-				rgb[0] = rgb[1];
-				rgb[1] = g;
-				rgb[2] = r;
-				setPixel(x,y,rgb);
-			}
-		}
+		int index = 3 * (y * width  + x);
+		pixels[index + 2] = (byte)rgb[0];
+		pixels[index + 1] = (byte)rgb[1];
+		pixels[index + 0] = (byte)rgb[2];
 	}
 
 	public BufferedImage getImage() {
 		return original;
 	}
 
-	private void buildXYarray() {
-		int [][]  result =  new int[height][width];
-		 final int pixelLength = 3;
-         for (int pixel = 0, x = 0, y = 0; pixel < pixels.length; pixel += pixelLength) {
-            int argb = 0;
-            argb += -16777216; // 255 alpha
-            argb += ((int) pixels[pixel] & 0xff); // blue
-            argb += (((int) pixels[pixel + 1] & 0xff) << 8); // green
-            argb += (((int) pixels[pixel + 2] & 0xff) << 16); // red
-            result[x][y] = argb;
-            y++;
-            if (y == width) {
-               y = 0;
-               x++;
-            }
-        }
-
-	}
 }

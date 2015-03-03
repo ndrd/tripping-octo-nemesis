@@ -71,9 +71,9 @@ public class Filters {
 
 		for (int x = 0; x < img.getWidth() ; x++ ) {
 			for (int y = 0; y < img.getHeight() ;y++ ) {
-				byte [] rgb = in.getPixel(x,y);
-				byte r = rgb[0];
-				byte g = rgb[2];
+				short [] rgb = in.getPixel(x,y);
+				short r = rgb[0];
+				short g = rgb[2];
 				rgb[0] = rgb[1];
 				rgb[1] = g;
 				rgb[2] = r;
@@ -83,50 +83,18 @@ public class Filters {
 		return out.getImage();
 	}
 
-	/**
-	* Gets a grayScale im
-	*/
-	public static BufferedImage grayScale(BufferedImage img) {
-      int width = img.getWidth();
-      int height = img.getHeight();
-      
-      BufferedImage result = new BufferedImage(width, height, img.getType());
-
-      for(int y = 0; y < height; y++) {
-          for(int x= 0; x < width;x++) {
-             int pixel = img.getRGB(x, y);
-             int alfa = (pixel >> 24) & 0x000000FF;
-             int red = (pixel >> 16) & 0x000000FF;
-             int green = (pixel >> 8 ) & 0x000000FF;
-             int blue = (pixel) & 0x000000FF;
-             int prom = (red + green + blue)/3;
-                          
-             pixel = (pixel & ~(0x000000FF << 16)) | (prom << 16);
-             pixel = (pixel & ~(0x000000FF << 8)) | (prom << 8);
-             pixel = (pixel & ~(0x000000FF )) | (prom);
-             result.setRGB(x, y, pixel);
-          }
-      }
-      return result;
-    }
-
-    public static BufferedImage grayScale2(BufferedImage img) {
+    public static BufferedImage grayScale(BufferedImage img) {
       int width = img.getWidth();
       int height = img.getHeight();
       
       FastImage in = new FastImage(img);
       FastImage out = new FastImage(width, height, img.getType());
-      byte[] rgb = new byte[3];
-      final byte SHIFT = 127;
+      short[] rgb = new short[3];
       for(int y = 0; y < height; y++) {
           for(int x= 0; x < width; x++) {
           	rgb = in.getPixel(x,y);
-
-          	if(y == 0 && x < 300)
-          		System.out.println("R:" + rgb[0] + "G:" + rgb[1] +"B:" + rgb[2]);
-          	rgb = in.getPixel(x,y);
-             byte prom = (byte)((rgb[0] + SHIFT + rgb[1] + SHIFT + rgb[2] + SHIFT) * 0.333333);
-             rgb[0] = rgb[1] = rgb[2] = (byte)(prom-SHIFT);
+             short prom = (short)((rgb[0] + rgb[1] +  rgb[2]) * 0.333333);
+             rgb[0] = rgb[1] = rgb[2] = prom;
              out.setPixel(x, y,rgb);
           }
       }
@@ -138,7 +106,7 @@ public class Filters {
 		int width = src.getWidth();
 		int height = src.getHeight();
 		FastImage out = new FastImage(width, height, src.getType());
-		byte [] rgb =  new byte[3];
+		short [] rgb =  new short[3];
 	    for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 rgb = in.getPixel(x, y);
@@ -150,7 +118,7 @@ public class Filters {
                 		}
                 	}
                 } else {
-                	byte media = (byte)((rgb[0] + rgb[1] + rgb[2])/3);
+                	short media = (short)((rgb[0] + rgb[1] + rgb[2])/3);
                 	rgb[0] = rgb[1] = rgb[2] = media;
                 }
                	out.setPixel(x, y, rgb);
@@ -167,10 +135,10 @@ public class Filters {
 		
 		for (int x = 0; x < width ; x++ ) {
 			for (int y = 0; y < height ; y++ ) {
-				byte rgb[] = in.getPixel(x,y);
-				rgb[0] = (byte)(((rgb[0] + deltaR) > 255) ? 255 : ((rgb[0] + deltaR) < 0) ? 0 : rgb[0] + deltaR); 
-				rgb[1] = (byte)(((rgb[1] + deltaR) > 255) ? 255 : ((rgb[1] + deltaR) < 0) ? 0 : rgb[1] + deltaR); 
-				rgb[2] = (byte)(((rgb[2] + deltaR) > 255) ? 255 : ((rgb[2] + deltaR) < 0) ? 0 : rgb[2] + deltaR); 
+				short rgb[] = in.getPixel(x,y);
+				rgb[0] = (short)(((rgb[0] + deltaR) > 255) ? 255 : ((rgb[0] + deltaR) < 0) ? 0 : rgb[0] + deltaR); 
+				rgb[1] = (short)(((rgb[1] + deltaR) > 255) ? 255 : ((rgb[1] + deltaR) < 0) ? 0 : rgb[1] + deltaR); 
+				rgb[2] = (short)(((rgb[2] + deltaR) > 255) ? 255 : ((rgb[2] + deltaR) < 0) ? 0 : rgb[2] + deltaR); 
 			}
 		}
 
@@ -189,11 +157,11 @@ public class Filters {
 
         for (int x = 0; x < width ; x++ ) {
         	for (int y = 0; y < height ; y++ ) {
-        		byte[] rgbA = a.getPixel(x,y);
-        		byte[] rgbB = b.getPixel(x,y);
-        		rgbA[0] = (byte)(rgbA[0] * alfa + rgbB[0]  * beta);
-        		rgbA[1] = (byte)(rgbA[0] * alfa + rgbB[0]  * beta);
-        		rgbA[2] = (byte)(rgbA[0] * alfa + rgbB[0]  * beta);
+        		short[] rgbA = a.getPixel(x,y);
+        		short[] rgbB = b.getPixel(x,y);
+        		rgbA[0] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
+        		rgbA[1] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
+        		rgbA[2] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
         		out.setPixel(x,y,rgbA);
         	}
         }

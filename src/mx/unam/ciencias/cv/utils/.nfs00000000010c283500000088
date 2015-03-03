@@ -1,0 +1,63 @@
+package mx.unam.ciencias.cv.utils;
+
+import java.awt.image.*;
+import java.awt.Transparency;
+import java.awt.color.ColorSpace;
+import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import javax.imageio.ImageIO;
+
+public class FastImage {
+
+	private BufferedImage original;
+	private byte [] pixels;
+	private int width;
+	private int height;
+
+	public FastImage(BufferedImage img) {
+		original =  img;
+		width = img.getWidth();
+		height =  img.getHeight();
+		pixels =  ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
+	}
+
+	public FastImage(int width, int height, int type ) {
+		this.width = width;
+		this.height =  height;
+		original = new BufferedImage(width, height, type);
+		pixels = ((DataBufferByte) original.getRaster().getDataBuffer()).getData();
+	}
+
+	public short[] getPixel(int x, int y) {
+		if ( x < 0 || x > width || y  < 0 || y > height)
+			throw new IllegalArgumentException("Invalid Coordinates");
+
+		short [] rgb = new short[3];
+		int index = 3*(y * width + x);
+
+		rgb[0] = pixels[index + 2];
+		rgb[1] = pixels[index + 1];
+		rgb[2] = pixels[index + 0];
+		/* Masked for get the first 8 bit value */
+		rgb[0] &= 0xff;
+		rgb[1] &= 0xff;
+		rgb[2] &= 0xff;
+
+		return rgb;
+	}
+
+	public void setPixel(int x, int y, short [] rgb) {
+		if ( x < 0 || x > width || y  < 0 || y > height)
+			throw new IllegalArgumentException("Invalid Coordinates");
+
+		int index = 3*(y * width  + x);
+		pixels[index + 2] = (byte)rgb[0];
+		pixels[index + 1] = (byte)rgb[1];
+		pixels[index + 0] = (byte)rgb[2];
+	}
+
+	public BufferedImage getImage() {
+		return original;
+	}
+
+}
