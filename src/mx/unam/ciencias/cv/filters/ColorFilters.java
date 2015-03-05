@@ -23,7 +23,7 @@ import java.awt.Color;
 import mx.unam.ciencias.cv.utils.ImageD;
 import mx.unam.ciencias.cv.utils.FastImage;
 
-public class ColorFilter extends ImageFilter {
+public class ColorFilters extends ImageFilter {
 
 	/* Select pixels that are in the range of lowerBound and upperBound */
 	public static BufferedImage colorSelector(BufferedImage src, Color lowerBound, Color upperBound) {
@@ -39,12 +39,13 @@ public class ColorFilter extends ImageFilter {
 			for (int y = 0; y < ySize; y++) {
 				rgb = in.getPixel(x, y);
 				
-				if (rgb[0] >= lowerBound.getRed() && rgb[0] <= upperBound.getRed()) 
-					if (rgb[1] >= lowerBound.getGreen() && rgb[1] <= upperBound.getGreen()) 
-						if (rgb[2] >= lowerBound.getBlue() && rgb[2] <= upperBound.getBlue()) 
+				if (rgb[0] >= lowerBound.getRed() && rgb[0] <= upperBound.getRed()) {
+					if (rgb[1] >= lowerBound.getGreen() && rgb[1] <= upperBound.getGreen()) {
+						if (rgb[2] >= lowerBound.getBlue() && rgb[2] <= upperBound.getBlue()) {
 							/* color in range, keep it */
-					
-				else {
+						}
+					}
+				} else {
 					short media = (short)((rgb[0] + rgb[1] + rgb[2])/3);
 					rgb[0] = rgb[1] = rgb[2] = media;
 				}

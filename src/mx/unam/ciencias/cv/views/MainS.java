@@ -601,7 +601,7 @@ public class MainS extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) { 
         try {
             ImageTrainer t = ImageTrainer.getInstance();
-            BufferedImage response = ColorFilter.colorSelector(engine.getLastImage(),t.getLowerBound(), t.getUpperBound());
+            BufferedImage response = ColorFilters.colorSelector(engine.getLastImage(),t.getLowerBound(), t.getUpperBound());
             engine.setLastWork(response);
             putImageOnScreen(response, workedImg);
         } catch (Exception e) {

@@ -21,7 +21,7 @@ package mx.unam.ciencias.cv.filters;
 import java.awt.image.BufferedImage;
 import mx.unam.ciencias.cv.utils.FastImage;
 
-public class MixingFilter extends ImageFilter {
+public class MixingFilters extends ImageFilter {
 
 	public static BufferedImage blending(BufferedImage imgA, BufferedImage imgB, int percentage) {
 		int width = Math.max(imgA.getWidth(), imgB.getWidth());

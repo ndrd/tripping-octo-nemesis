@@ -34,7 +34,6 @@ public class Filters {
 
 	protected Filters () {
 		images = new LinkedList<BufferedImage>();
-		percentage = 0;
 		ready = false;
 	}
 

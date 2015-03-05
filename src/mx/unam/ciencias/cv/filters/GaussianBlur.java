@@ -23,12 +23,12 @@ import java.awt.image.BufferedImage;
 public class GaussianBlur extends ImageFilter {
 
 	/** Calculates a 1D for the gaussian blur */
-	private static float[] kernel(int sigma) {
+	private static double[] kernel(int sigma) {
 
-		float[] kernel = new float[2 * sigma + 1];
-		float ssigma = 2 * sigma * sigma;
-		float K = (1 / Math.sqrt(ssigma * Math.PI));
-		float weightSum = 0;
+		double[] kernel = new double[2 * sigma + 1];
+		double ssigma = 2 * sigma * sigma;
+		double K = (1 / Math.sqrt(ssigma * Math.PI));
+		double weightSum = 0;
 
 		for (int x = -sigma, i = 0; x < ((2 * sigma + 1) - sigma) ; x++, i++) {
 			kernel[i] = K * Math.pow(Math.E, -(x * x / ssigma));
@@ -52,7 +52,7 @@ public class GaussianBlur extends ImageFilter {
         BufferedImage wimg = new BufferedImage(width,height, img.getType());
         BufferedImage wimg2 = new BufferedImage(width,height, img.getType());
 
-        float [] kernel = kernel(sigma);
+        double [] kernel = kernel(sigma);
 
         horizontalBlur(0, 0, width, height, sigma, kernel, img, wimg);
 
@@ -68,7 +68,7 @@ public class GaussianBlur extends ImageFilter {
         BufferedImage wimg = new BufferedImage(width,height, img.getType());
         BufferedImage wimg2 = new BufferedImage(width,height, img.getType());
 
-        float [] kernel = kernel(sigma);
+        double [] kernel = kernel(sigma);
 
         /* thread horizontal stage */
         Thread horizontal = new Thread(){
@@ -99,10 +99,21 @@ public class GaussianBlur extends ImageFilter {
         return wimg2;
     }
 
-    private static void verticalBlur(int x0, int y0, int w, int h, int sigma, float[] kernel,
+    private static void verticalBlur(int x0, int y0, int w, int h, int sigma, double[] kernel,
     									BufferedImage in, BufferedImage out) {
+        double red = 0;
+        double green = 0;
+        double blue = 0;
+
+        int width =  in.getWidth();
+        int height =  in.getHeight();
+
+
     	for (int y = y0; y < h; y++) {
     		for (int x = x0; x < w; x++) { 
+                
+                int pixel = in.getRGB(x,y);
+
     			for (int s = -sigma, i = 0; s < (2 * sigma + 1) - sigma; s++, i++ ) {
     				int px = 0;
 
@@ -113,9 +124,9 @@ public class GaussianBlur extends ImageFilter {
                     else if(y+s > height )
                         px = in.getRGB(Math.abs(x-i),y-i);
 
-                    red += ((px >> 16) & 0x000000FF) * kernel[n];
-                    green += ((px >> 8) & 0x000000FF) * kernel[n];
-                    blue += ((px) & 0x000000FF) * kernel[n];
+                    red += ((px >> 16) & 0x000000FF) * kernel[i];
+                    green += ((px >> 8) & 0x000000FF) * kernel[i];
+                    blue += ((px) & 0x000000FF) * kernel[i];
     			}
 
     			pixel = (pixel & ~(0x000000FF << 16)) | ((int) (red) << 16);
@@ -127,10 +138,20 @@ public class GaussianBlur extends ImageFilter {
     	}
 	}
 
-	private static void horizontalBlur(int x0, int y0, int w, int h, int sigma, float[] kernel,
+	private static void horizontalBlur(int x0, int y0, int w, int h, int sigma, double[] kernel,
     									BufferedImage in, BufferedImage out) {
+        double red = 0;
+        double green = 0;
+        double blue = 0;
+
+        int width =  in.getWidth();
+        int height =  in.getHeight();
+
     	for (int y = y0; y < h; y++) {
-    		for (int x = x0; x < w; x++) { 
+    		for (int x = x0; x < w; x++) {
+
+                int pixel = in.getRGB(x,y);
+
     			for (int s = -sigma, i = 0; s < (2 * sigma + 1) - sigma; s++, i++ ) {
     				int px = 0;
 
@@ -141,9 +162,9 @@ public class GaussianBlur extends ImageFilter {
                     else if(y+s > height )
                         px = in.getRGB(x-i, Math.abs(y-i));
 
-                    red += ((px >> 16) & 0x000000FF) * kernel[n];
-                    green += ((px >> 8) & 0x000000FF) * kernel[n];
-                    blue += ((px) & 0x000000FF) * kernel[n];
+                    red += ((px >> 16) & 0x000000FF) * kernel[i];
+                    green += ((px >> 8) & 0x000000FF) * kernel[i];
+                    blue += ((px) & 0x000000FF) * kernel[i];
     			}
 
     			pixel = (pixel & ~(0x000000FF << 16)) | ((int) (red) << 16);

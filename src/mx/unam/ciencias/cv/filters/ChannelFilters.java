@@ -21,7 +21,7 @@ package mx.unam.ciencias.cv.filters;
 import java.awt.image.BufferedImage;
 import mx.unam.ciencias.cv.utils.FastImage;
 
-public class ChannelFilter extends ImageFilter {
+public class ChannelFilters extends ImageFilter {
 
 	/* Mix channels making people purple */
 	public static BufferedImage purplePeople(BufferedImage img) {
