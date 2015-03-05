@@ -24,26 +24,27 @@ import mx.unam.ciencias.cv.utils.FastImage;
 public class PolarFilter extends ImageFilter {
 
 	/* Calculates sin with a arbitraty interval */
-	public static float [] sinTabula(int size) {
-		double step = 2 * Math.PI / size;
-		float [] data =  new float[size];
+	public static double [] sinTabula(int size) {
+		double step = (Math.PI / 4) /  size;
 
-		for (int i = 0; i < data.length ; data[i++] = (float) Math.sin(Math.PI * i * step)); 
+		System.out.printf("%s%1.2f ", "Step " , step);
+
+		double [] data =  new double[size];
+		for (int i = 0; i < data.length ; data[i++] = (double) Math.sin(i * step)); 
 		return data;
 	}
 
 	/* Calculates sin with a arbitraty interval */
-	public static float [] cosTabula(int size) {
-		double step = 2 * Math.PI / size;
-		float [] data =  new float[size];
-
-		for (int i = 0; i < data.length ; data[i++] = (float) Math.cos(Math.PI * i * step)); 
+	public static double [] cosTabula(int size) {
+		double step = (Math.PI / 4) / size;
+		double [] data =  new double[size];
+		for (int i = 0; i < data.length ; data[i++] = (double) Math.cos(i * step)); 
 		return data;
 	}
 
-	public static void printA(float[] a, int w) {
+	public static void printA(double[] a, int w) {
 		for (int i = 0; i < a.length ;i++ ) {
-			System.out.println(a[i] + " ");
+			System.out.printf("%s%1.2f ",(a[i] > 0) ? " " : "", a[i]);
 			if(i % w == 0)
 				System.out.println();
 		}
@@ -52,36 +53,39 @@ public class PolarFilter extends ImageFilter {
 	public static BufferedImage rectangle2Polar(BufferedImage img) {
 		/* We suppose that is a square*/
 		int width = img.getWidth();
-		int diameter = (int)(Math.PI * width-1); 
+		int diameter = (int)(Math.PI * width); 
 		int radius = width / 2;
 
 		FastImage src = new FastImage(img);
 		FastImage polar = new FastImage(width, width, img.getType());
 
-		float[] cosTab = cosTabula(diameter);
-		float[] sinTab = sinTabula(diameter);
+		double[] cosTab = cosTabula(4*diameter);
+		double[] sinTab = sinTabula(4*diameter);
 
 		int x = 0;
 		int y = 0;
 
 		short [] srgb = new short[3];
 
-		for (int tetha = 0; tetha < diameter; tetha++) {
+		for (int tetha = 0, c = 1; tetha < diameter || c <= 4; ++tetha) {
 			for (int r = 0; r < radius; r++) {
 
-				if (cosTab[tetha] > 0 && sinTab[tetha] > 0) {
-					x = (int)(r * cosTab[tetha]);
-					y = (int)(r * sinTab[tetha]);
-					srgb = src.getPixel(x,y);
+				double factor = 1 / 8.0;// / 16.0;
+				
+				x = (int)(2 * r * cosTab[(int)(tetha)]);
+				y = (int)(2 * r * sinTab[(int)(tetha)]);
+				srgb = src.getPixel(x,y);
 
-					int s = (int)(radius - (r * cosTab[tetha]));
-					int t = (int)(radius - (r * sinTab[tetha]));
-					polar.setPixel(s,t, srgb);
+				int rr = (int)(radius + r * Math.cos(tetha * factor));
+				int tt = (int)(radius + r * Math.sin(tetha * factor));
 
-				}
-
+				polar.setPixel(rr,tt, srgb);	
 			}
-		}
+			if(tetha % (diameter) == 0) {
+				tetha = 0;
+				c++;
+			}
+	}
 
 		return polar.getImage();
 	}

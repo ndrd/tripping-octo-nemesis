@@ -113,7 +113,7 @@ public class SpeedTest {
       return minutes + "min " + seconds + "s " + millisecs + "ms";
    }
 
-   @Test public void test() {
+   public void test() {
       try{
          //SpeedTest.run();
       } catch (Exception e) {
@@ -122,7 +122,7 @@ public class SpeedTest {
       }
    }
 
-   @Test public void bitshiftBI() throws Exception {
+   public void bitshiftBI() throws Exception {
       BufferedImage hugeImage = ImageIO.read(SpeedTest.class.getResource("images/12000X12000.jpg"));
       long startTime = System.nanoTime();
       FiltersBeta.grayScalei(hugeImage);
@@ -130,7 +130,7 @@ public class SpeedTest {
       System.out.println(String.format("BS %-2d: %s", 1, timeFormat(endTime - startTime)));
    }
 
-   @Test public void writableRaster() throws Exception {
+   public void writableRaster() throws Exception {
       BufferedImage hugeImage = ImageIO.read(SpeedTest.class.getResource("images/12000X12000.jpg"));
       long startTime = System.nanoTime();
       FiltersBeta.grayScale(hugeImage);

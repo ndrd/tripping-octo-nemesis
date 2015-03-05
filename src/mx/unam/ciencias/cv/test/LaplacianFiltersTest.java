@@ -17,7 +17,7 @@ public class LaplacianFiltersTest extends FiltersTest {
 		super();
 	}
 
-	@Test public void aproximationLaplacian() {
+	public void aproximationLaplacian() {
 		
 		try {
 			long total = 0;

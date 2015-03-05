@@ -26,7 +26,7 @@ public class MixingFiltersTest extends FiltersTest {
 	}
 
 
-	@Test public void blending() {
+	public void blending() {
 		
 		try {
 			long total = 0;
@@ -49,7 +49,7 @@ public class MixingFiltersTest extends FiltersTest {
 		}
 	}
 
-	@Test public void hibridImage() {
+	public void hibridImage() {
 		try {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
