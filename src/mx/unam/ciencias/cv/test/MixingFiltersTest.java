@@ -49,8 +49,4 @@ public class MixingFiltersTest extends FiltersTest {
 			Assert.fail();
 		}
 	}
-
-
-
-	
 }

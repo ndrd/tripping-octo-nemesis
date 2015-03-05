@@ -47,19 +47,7 @@ public class GaussianBlur extends ImageFilter {
     }
 
     public static BufferedImage gaussianBlur(BufferedImage img, int sigma) {
-        int height = img.getHeight();
-        int width = img.getWidth();
-
-        BufferedImage wimg = new BufferedImage(width,height, img.getType());
-        BufferedImage wimg2 = new BufferedImage(width,height, img.getType());
-
-        double [] kernel = kernel(sigma);
-
-        horizontalBlur(0, 0, width, height, sigma, kernel, img, wimg);
-
-        verticalBlur(0, 0, width, height, sigma, kernel, wimg, wimg2);
-
-        return wimg2;
+        return gaussianBlur3(img, sigma);
     }
 
     public static BufferedImage threatedGaussianBlur(BufferedImage img, int sigma) {
