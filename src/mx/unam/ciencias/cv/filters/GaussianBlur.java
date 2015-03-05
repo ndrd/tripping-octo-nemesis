@@ -101,6 +101,9 @@ public class GaussianBlur extends ImageFilter {
     }
 
     public static BufferedImage gaussianBlur3(BufferedImage img, int sigma) {
+
+        setName("GaussianBlur with BitShift");
+
         int height = img.getHeight();
         int width = img.getWidth();
 
@@ -170,6 +173,9 @@ public class GaussianBlur extends ImageFilter {
 
 
     public static BufferedImage gaussianBlur4(BufferedImage img, int sigma) {
+
+        setName("GaussianBlur with Raster");
+
         int height = img.getHeight();
         int width = img.getWidth();
 

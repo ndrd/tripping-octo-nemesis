@@ -38,7 +38,7 @@ public class MixingFiltersTest extends FiltersTest {
 				total += (endTime - startTime);
 
 				if (writeFiles) 
-					saveImage(tmp, "blending" + i);
+					saveImage(tmp, MixingFilters.getName() + i);
 
 			}
 		    System.out.println(String.format( ITERS  + " iters for blending, total time %s", SpeedTest.timeFormat(total)));

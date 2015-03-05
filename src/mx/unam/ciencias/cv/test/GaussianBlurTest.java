@@ -28,7 +28,7 @@ public class GaussianBlurTest extends FiltersTest {
 				total += (endTime - startTime);
 
 				if (writeFiles) 
-					saveImage(tmp, "writableRasterBlur" + i);
+					saveImage(tmp, GaussianBlur.getName() + i);
 
 			}
 		    System.out.println(String.format( ITERS  + " iters for writableRasterBlur, total time %s", SpeedTest.timeFormat(total)));
@@ -74,7 +74,7 @@ public class GaussianBlurTest extends FiltersTest {
 				total += (endTime - startTime);
 
 				if (writeFiles) 
-					saveImage(tmp, "BsBLur3" + i);
+					saveImage(tmp, GaussianBlur.getName() + i);
 
 			}
 		    System.out.println(String.format( ITERS  + " iters for BsBLur3, total time %s", SpeedTest.timeFormat(total)));
@@ -97,7 +97,7 @@ public class GaussianBlurTest extends FiltersTest {
 				total += (endTime - startTime);
 
 				if (writeFiles) 
-					saveImage(tmp, "BsBLur4" + i);
+					saveImage(tmp, GaussianBlur.getName() + i);
 
 			}
 		    System.out.println(String.format( ITERS  + " iters for BsBLur4, total time %s", SpeedTest.timeFormat(total)));

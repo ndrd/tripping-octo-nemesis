@@ -25,6 +25,8 @@ public class MixingFilters extends ImageFilter {
 
 	public static BufferedImage blending(BufferedImage imgA, BufferedImage imgB, int percentage) {
 		
+		setName("blending");
+
 		int width = Math.min(imgA.getWidth(), imgB.getWidth());
 		int height = Math.min(imgA.getHeight(),imgB.getHeight());
 
@@ -58,6 +60,9 @@ public class MixingFilters extends ImageFilter {
 	}
 
 	public static BufferedImage hibridImages (BufferedImage imgA, BufferedImage imgB, int percentage) {
+
+		setName("Hibrid Images");
+
 		int width = Math.max(imgA.getWidth(), imgB.getWidth());
 		int height = Math.max(imgA.getHeight(),imgB.getHeight());
 		double alfa = (percentage < 0 || percentage > 100) ? 50 : percentage / 100;

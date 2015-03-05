@@ -27,6 +27,9 @@ public class ColorFilters extends ImageFilter {
 
 	/* Select pixels that are in the range of lowerBound and upperBound */
 	public static BufferedImage colorSelector(BufferedImage src, Color lowerBound, Color upperBound) {
+
+		setName("colorSelector");
+
 		xSize = src.getWidth();
 		ySize = src.getHeight();
 

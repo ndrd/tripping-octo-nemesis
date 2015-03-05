@@ -23,6 +23,7 @@ public abstract class ImageFilter {
 	protected boolean standAlone;
 	protected static int xSize;
 	protected static int ySize;
+	private static String name;
 
 
 	/* Maybe a filter who needs, onlye one image */
@@ -36,5 +37,13 @@ public abstract class ImageFilter {
 
 	public static void debug(Object o) {
 		System.out.println(o);
+	}
+
+	public static void setName(String a) {
+		name = a;
+	}
+
+	public static String getName() {
+		return name;
 	}
 }
