@@ -18,7 +18,7 @@ public class FiltersTest {
 
 	public FiltersTest() {
 		try {
-			img = ImageIO.read(BilderTest.class.getResource("test.jpg"));
+			img = ImageIO.read(BilderTest.class.getResource("russianbear.jpg"));
 		} catch (Exception e) {
 			Assert.fail();
 		}
@@ -28,10 +28,10 @@ public class FiltersTest {
 		Assert.assertTrue(img != null);
 	}
 
-	private void saveImage(BufferedImage img, String name){
+	protected void saveImage(BufferedImage ee, String name){
 		try {
 			File file = new File(name + ".jpg");
-			ImageIO.write(img, "jpeg", file);
+			ImageIO.write(ee, "jpeg", file);
 		} catch (Exception e) {
 			System.out.println("Cannot save" + name);
 		}

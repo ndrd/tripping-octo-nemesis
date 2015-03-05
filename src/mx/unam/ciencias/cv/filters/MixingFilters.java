@@ -25,31 +25,61 @@ public class MixingFilters extends ImageFilter {
 
 	public static BufferedImage blending(BufferedImage imgA, BufferedImage imgB, int percentage) {
 		int width = Math.max(imgA.getWidth(), imgB.getWidth());
-        int height = Math.max(imgA.getHeight(),imgB.getHeight());
-        double alfa = (percentage < 0 || percentage > 100) ? 50 : percentage / 100;
-        double beta = 1 - alfa;
-        
-        FastImage a = new FastImage(imgA);
-        FastImage b = new FastImage(imgB);
-        FastImage out = new FastImage(width, height, imgA.getType());
-        
-        short[] rgbA = new short[3];
-        short[] rgbB = new short[3];
-        
-        for (int x = 0; x < width ; x++ ) {
-        	for (int y = 0; y < height ; y++ ) {
+		int height = Math.max(imgA.getHeight(),imgB.getHeight());
+		double alfa = (percentage < 0 || percentage > 100) ? 50 : percentage / 100;
+		double beta = 1 - alfa;
+		
+		FastImage a = new FastImage(imgA);
+		FastImage b = new FastImage(imgB);
+		FastImage out = new FastImage(width, height, imgA.getType());
+		
+		short[] rgbA = new short[3];
+		short[] rgbB = new short[3];
+		
+		for (int x = 0; x < width ; x++ ) {
+			for (int y = 0; y < height ; y++ ) {
 
-        		rgbA = a.getPixel(x,y);
-        		rgbB = b.getPixel(x,y);
+				rgbA = a.getPixel(x,y);
+				rgbB = b.getPixel(x,y);
 
-        		rgbA[0] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
-        		rgbA[1] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
-        		rgbA[2] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
+				rgbA[0] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
+				rgbA[1] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
+				rgbA[2] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
 
-        		out.setPixel(x,y,rgbA);
-        	}
-        }
+				out.setPixel(x,y,rgbA);
+			}
+		}
 
-        return out.getImage();
+		return out.getImage();
+	}
+
+	public static BufferedImage hibridImages (BufferedImage imgA, BufferedImage imgB, int percentage) {
+		int width = Math.max(imgA.getWidth(), imgB.getWidth());
+		int height = Math.max(imgA.getHeight(),imgB.getHeight());
+		double alfa = (percentage < 0 || percentage > 100) ? 50 : percentage / 100;
+		double beta = 1 - alfa;
+		
+		FastImage a = new FastImage(imgA);
+		FastImage b = new FastImage(imgB);
+		FastImage out = new FastImage(width, height, imgA.getType());
+		
+		short[] rgbA = new short[3];
+		short[] rgbB = new short[3];
+		
+		for (int x = 0; x < width ; x++ ) {
+			for (int y = 0; y < height ; y++ ) {
+
+				rgbA = a.getPixel(x,y);
+				rgbB = b.getPixel(x,y);
+
+				rgbA[0] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
+				rgbA[1] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
+				rgbA[2] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
+
+				out.setPixel(x,y,rgbA);
+			}
+		}
+
+		return out.getImage();
 	}
 }

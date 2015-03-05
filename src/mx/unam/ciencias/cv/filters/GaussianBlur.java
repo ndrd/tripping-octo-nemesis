@@ -100,6 +100,147 @@ public class GaussianBlur extends ImageFilter {
         return wimg2;
     }
 
+    public static BufferedImage gaussianBlur3(BufferedImage img, int sigma) {
+        int height = img.getHeight();
+        int width = img.getWidth();
+
+        BufferedImage wimg = new BufferedImage(width,height, img.getType());
+        BufferedImage wimg2 = new BufferedImage(width,height, img.getType());
+
+        int ssigma = 2 * sigma;
+        double [] kernel = kernel(sigma);
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                int pixel = img.getRGB(x,y);
+                double red = 0, green = 0, blue = 0;
+
+                for(int i = -sigma, n = 0; i < ((ssigma + 1) - sigma); i++, n++) {
+                    int px = 0;
+
+                    if(pxInRange(width, height, x+i, y))
+                        px = img.getRGB(x+i,y);
+                    else if(x+i < 0 )
+                        px = img.getRGB(Math.abs(x+i), Math.abs(y+i));
+                    else if(x+i > width )
+                        px = img.getRGB((x-i), Math.abs(y-i));
+
+                    red += ((px >> 16) & 0x000000FF) * kernel[n];
+                    green += ((px >> 8) & 0x000000FF) * kernel[n];
+                    blue += ((px) & 0x000000FF) * kernel[n];
+               }
+
+                pixel = (pixel & ~(0x000000FF << 16)) | ((int) (red) << 16);
+                pixel = (pixel & ~(0x000000FF << 8)) | ((int) (green) << 8);
+                pixel = (pixel & ~(0x000000FF )) | ((int)(blue));
+
+                wimg.setRGB(x,y,pixel);
+            }
+        }
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                int pixel = wimg.getRGB(x,y);
+                double red = 0, green = 0, blue = 0;
+
+                for(int i = -sigma, n = 0; i < ((ssigma + 1) - sigma); i++, n++) {
+                    int px = 0;
+
+                    if(pxInRange(width, height, x, y+i))
+                        px = wimg.getRGB(x,y+i);
+                    else if(y+i < 0 )
+                        px = wimg.getRGB(Math.abs(x),Math.abs(y+i));
+                    else if(y+i > height )
+                        px = wimg.getRGB(Math.abs(x-i),y-i);
+
+                    red += ((px >> 16) & 0x000000FF) * kernel[n];
+                    green += ((px >> 8) & 0x000000FF) * kernel[n];
+                    blue += ((px) & 0x000000FF) * kernel[n];
+               }
+
+                pixel = (pixel & ~(0x000000FF << 16)) | ((int) (red) << 16);
+                pixel = (pixel & ~(0x000000FF << 8)) | ((int) (green) << 8);
+                pixel = (pixel & ~(0x000000FF )) | ((int)(blue));
+
+                wimg2.setRGB(x,y,pixel);
+            }
+        }
+        return wimg2;
+    }
+
+
+    public static BufferedImage gaussianBlur4(BufferedImage img, int sigma) {
+        int height = img.getHeight();
+        int width = img.getWidth();
+
+        BufferedImage wimg = new BufferedImage(width,height, img.getType());
+        BufferedImage wimg2 = new BufferedImage(width,height, img.getType());
+
+        WritableRaster src = img.getRaster();
+        WritableRaster in = wimg.getRaster();
+        WritableRaster out = wimg2.getRaster();
+        double rgb[] = new double[3];
+        double srgb[] = new double[3];
+
+
+        int ssigma = 2 * sigma;
+        double [] kernel = kernel(sigma);
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                rgb = src.getPixel(x,y, rgb);
+                double red = 0, green = 0, blue = 0;
+
+                for(int i = -sigma, n = 0; i < ((ssigma + 1) - sigma); i++, n++) {
+                    if(pxInRange(width, height, x+i, y))
+                        srgb = src.getPixel(x+i,y,srgb);
+                    else if(x+i < 0 )
+                        srgb = src.getPixel(Math.abs(x+i), Math.abs(y+i),srgb);
+                    else if(x+i > width )
+                        srgb = src.getPixel((x-i), Math.abs(y-i),srgb);
+
+                    red += srgb[0] * kernel[n];
+                    green += srgb[1] * kernel[n];
+                    blue += srgb[2] * kernel[n];
+               }
+
+                rgb[0] = red;
+                rgb[1] = green;
+                rgb[2] = blue;
+
+                in.setPixel(x,y,rgb);
+            }
+        }
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                rgb  = in.getPixel(x,y,rgb);
+                double red = 0, green = 0, blue = 0;
+
+                for(int i = -sigma, n = 0; i < ((ssigma + 1) - sigma); i++, n++) {
+
+                    if(pxInRange(width, height, x, y+i))
+                        srgb = in.getPixel(x,y+i,srgb);
+                    else if(y+i < 0 )
+                        srgb = in.getPixel(Math.abs(x),Math.abs(y+i),srgb);
+                    else if(y+i > height )
+                        srgb = in.getPixel(Math.abs(x-i),y-i,srgb);
+
+                    red += srgb[0] * kernel[n];
+                    green += srgb[1] * kernel[n];
+                    blue += srgb[2] * kernel[n];
+               }
+
+                rgb[0] = red;
+                rgb[1] = green;
+                rgb[2] = blue;
+
+                out.setPixel(x,y,rgb);
+            }
+        }
+        return wimg2;
+    }
+
     private static void verticalBlur(int x0, int y0, int w, int h, int sigma, double[] kernel,
     									BufferedImage in, BufferedImage out) {
         double red = 0;
@@ -126,7 +267,7 @@ public class GaussianBlur extends ImageFilter {
                     else if(y+s < 0 )
                         srgb = rI.getPixel(Math.abs(x),Math.abs(y+s), srgb);
                     else if(y+s > height )
-                        srgb = rI.getPixel(Math.abs(x-i),y-i, srgb);
+                        srgb = rI.getPixel(Math.abs(x-i),y-s, srgb);
 
                     red += srgb[0] * kernel[i];
                     green += srgb[1] * kernel[i];
@@ -163,11 +304,11 @@ public class GaussianBlur extends ImageFilter {
     			for (int s = -sigma, i = 0; s < (2 * sigma + 1) - sigma; s++, i++ ) {
 
                     if(pxInRange(width, height, x+s, y))
-                        srgb = rI.getPixel(x,y+s, srgb);
-                    else if(y+s < 0 )
-                        srgb = rI.getPixel(x,y+s, srgb);
-                    else if(y+s > height )
-                        srgb = rI.getPixel(x,y+s, srgb);
+                        srgb = rI.getPixel(x+s,y, srgb);
+                    else if(x+s < 0 )
+                        srgb = rI.getPixel(Math.abs(x+s),y, srgb);
+                    else if(x+s > height )
+                        srgb = rI.getPixel(x-s,y, srgb);
 
                     red += srgb[0] * kernel[i];
                     green += srgb[1] * kernel[i];
