@@ -86,15 +86,15 @@ public class FiltersBeta extends Filters {
 		return r;
 	}
 
-	public static Bilder grayScale(Bilder src) {
+	public static BufferedImage grayScalei(BufferedImage src) {
 		int width = src.getWidth();
 		int height = src.getHeight();
 
-		Bilder r = new Bilder(width, height, true);
+		BufferedImage r = new BufferedImage(width, height, src.getType());
 
 	    for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-            	int pixel = src.getPixel(x,y);
+            	int pixel = src.getRGB(x,y);
 
 	            int red = (pixel >> 16) & 0x000000FF;
 	            int green = (pixel >> 8 ) & 0x000000FF;
@@ -106,7 +106,7 @@ public class FiltersBeta extends Filters {
 	            pixel = (pixel & ~(0x000000FF << 8)) | (gray << 8);
 	            pixel = (pixel & ~(0x000000FF )) | (gray);
 
-               	r.setPixel(x, y, pixel);
+               	r.setRGB(x, y, pixel);
             }
         }
 		

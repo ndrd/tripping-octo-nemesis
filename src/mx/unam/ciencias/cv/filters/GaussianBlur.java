@@ -19,6 +19,7 @@ package mx.unam.ciencias.cv.filters;
  */
 
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 
 public class GaussianBlur extends ImageFilter {
 
@@ -108,32 +109,34 @@ public class GaussianBlur extends ImageFilter {
         int width =  in.getWidth();
         int height =  in.getHeight();
 
+        WritableRaster rI = in.getRaster();
+        WritableRaster rO = out.getRaster();
+        double rgb[] = new double[3];
+        double srgb[] = new double[3];
 
     	for (int y = y0; y < h; y++) {
     		for (int x = x0; x < w; x++) { 
                 
-                int pixel = in.getRGB(x,y);
+                rgb = rI.getPixel(x,y, srgb);
 
     			for (int s = -sigma, i = 0; s < (2 * sigma + 1) - sigma; s++, i++ ) {
-    				int px = 0;
 
                     if(pxInRange(width, height, x, y+s))
-                        px = in.getRGB(x,y+s);
+                        srgb = rI.getPixel(x,y+s, srgb);
                     else if(y+s < 0 )
-                        px = in.getRGB(Math.abs(x),Math.abs(y+s));
+                        srgb = rI.getPixel(Math.abs(x),Math.abs(y+s), srgb);
                     else if(y+s > height )
-                        px = in.getRGB(Math.abs(x-i),y-i);
+                        srgb = rI.getPixel(Math.abs(x-i),y-i, srgb);
 
-                    red += ((px >> 16) & 0x000000FF) * kernel[i];
-                    green += ((px >> 8) & 0x000000FF) * kernel[i];
-                    blue += ((px) & 0x000000FF) * kernel[i];
+                    red += srgb[0] * kernel[i];
+                    green += srgb[1] * kernel[i];
+                    blue += srgb[2] * kernel[i];
     			}
 
-    			pixel = (pixel & ~(0x000000FF << 16)) | ((int) (red) << 16);
-                pixel = (pixel & ~(0x000000FF << 8)) | ((int) (green) << 8);
-                pixel = (pixel & ~(0x000000FF )) | ((int)(blue));
-
-                out.setRGB(x,y,pixel);
+                rgb[0] = red;
+                rgb[1] = green;
+                rgb[2] = blue;
+                rO.setPixel(x,y,rgb);
     		}
     	}
 	}
@@ -147,31 +150,34 @@ public class GaussianBlur extends ImageFilter {
         int width =  in.getWidth();
         int height =  in.getHeight();
 
+        WritableRaster rI = in.getRaster();
+        WritableRaster rO = out.getRaster();
+        double rgb[] = new double[3];
+        double srgb[] = new double[3];
+
     	for (int y = y0; y < h; y++) {
     		for (int x = x0; x < w; x++) {
 
-                int pixel = in.getRGB(x,y);
+                rgb = rI.getPixel(x,y, srgb);
 
     			for (int s = -sigma, i = 0; s < (2 * sigma + 1) - sigma; s++, i++ ) {
-    				int px = 0;
 
                     if(pxInRange(width, height, x+s, y))
-                        px = in.getRGB(x+s,y);
+                        srgb = rI.getPixel(x,y+s, srgb);
                     else if(y+s < 0 )
-                        px = in.getRGB(Math.abs(x+s),Math.abs(y));
+                        srgb = rI.getPixel(x,y+s, srgb);
                     else if(y+s > height )
-                        px = in.getRGB(x-i, Math.abs(y-i));
+                        srgb = rI.getPixel(x,y+s, srgb);
 
-                    red += ((px >> 16) & 0x000000FF) * kernel[i];
-                    green += ((px >> 8) & 0x000000FF) * kernel[i];
-                    blue += ((px) & 0x000000FF) * kernel[i];
+                    red += srgb[0] * kernel[i];
+                    green += srgb[1] * kernel[i];
+                    blue += srgb[2] * kernel[i];
     			}
+                rgb[0] = red;
+                rgb[1] = green;
+                rgb[2] = blue;
+                rO.setPixel(x,y,rgb);
 
-    			pixel = (pixel & ~(0x000000FF << 16)) | ((int) (red) << 16);
-                pixel = (pixel & ~(0x000000FF << 8)) | ((int) (green) << 8);
-                pixel = (pixel & ~(0x000000FF )) | ((int)(blue));
-
-                out.setRGB(x,y,pixel);
     		}
     	}
 	}

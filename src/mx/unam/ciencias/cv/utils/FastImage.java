@@ -85,18 +85,18 @@ public class FastImage {
 		if ( x < 0 || x > width || y  < 0 || y > height)
 			throw new IllegalArgumentException("Invalid Coordinates");
 		int index = 3 * (y * width  + x);
-		pixels[index + 2] = (byte)rgb[0];
-		pixels[index + 1] = (byte)rgb[1];
-		pixels[index + 0] = (byte)rgb[2];
+		pixels[index + 2] = (byte) (((int) rgb[0]) & 0xFF);
+		pixels[index + 1] = (byte) (((int) rgb[1]) & 0xFF);
+		pixels[index + 0] = (byte) (((int) rgb[2]) & 0xFF);
 	}
 
 	public void setPixel(int x, int y, int [] rgb) {
 		if ( x < 0 || x > width || y  < 0 || y > height)
 			throw new IllegalArgumentException("Invalid Coordinates");
 		int index = 3 * (y * width  + x);
-		pixels[index + 2] = (byte)(short)rgb[0];
-		pixels[index + 1] = (byte)(short)rgb[1];
-		pixels[index + 0] = (byte)(short)rgb[2];
+		pixels[index + 2] = (byte) (((int) rgb[0]) & 0xFF);
+		pixels[index + 1] = (byte) (((int) rgb[1]) & 0xFF);
+		pixels[index + 0] = (byte) (((int) rgb[2]) & 0xFF);
 	}
 
 	public BufferedImage getImage() {
