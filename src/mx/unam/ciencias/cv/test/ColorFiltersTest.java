@@ -63,7 +63,7 @@ public class ColorFiltersTest extends FiltersTest {
 	@Test public void contrastAdjust() {
 		try {
 
-			img = ImageIO.read(FiltersTest.class.getResource(path + "unequialized.jpg"));
+			img = ImageIO.read(FiltersTest.class.getResource(path + "uss.jpg"));
 
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {

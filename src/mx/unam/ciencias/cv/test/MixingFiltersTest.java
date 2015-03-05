@@ -18,13 +18,12 @@ public class MixingFiltersTest extends FiltersTest {
 
 	public MixingFiltersTest() {
 		try {
-			firstImage = ImageIO.read(BilderTest.class.getResource(path + "russianbear.jpg"));
-			secongImage = ImageIO.read(BilderTest.class.getResource(path + "chew.jpg"));
+			firstImage = ImageIO.read(FiltersTest.class.getResource(path + "russianbear.jpg"));
+			secongImage = ImageIO.read(FiltersTest.class.getResource(path + "chew.jpg"));
 		} catch (Exception e) {
 			Assert.fail();
 		}
 	}
-
 
 
 	@Test public void blending() {
@@ -60,7 +59,7 @@ public class MixingFiltersTest extends FiltersTest {
 				total += (endTime - startTime);
 
 				if (writeFiles) 
-					saveImage(tmp, MixingFilters.getName() + i);
+					saveImage(tmp, MixingFilters.getName() + "H" + i);
 
 			}
 		    System.out.println(String.format( ITERS  + " iters for hibridImage, total time %s", SpeedTest.timeFormat(total)));

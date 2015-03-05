@@ -22,7 +22,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.LinkedList;
 import java.awt.Color;
-import mx.unam.ciencias.cv.utils.Bilder;
 
 public class FiltersBeta extends Filters {
 
@@ -111,94 +110,7 @@ public class FiltersBeta extends Filters {
         }
 		
 		return r;
-	}
-
-	public static Bilder grayScale2(Bilder src) {
-		int width = src.getWidth();
-		int height = src.getHeight();
-
-		Bilder r = new Bilder(width, height, true);
-
-	    for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-	            int red = src.getRed(x,y);
-	            int green = src.getGreen(x,y);
-	            int blue = src.getBlue(x,y);
-
-  		        int gray = (int)(red * 0.33 + green * 0.33 + blue	* 0.33);
-               	
-              	r.setRed(x, y, gray);
-              	r.setGreen(x, y, gray);
-              	r.setBlue(x, y, gray);
-            }
-        }
-		
-		return r;
-	}
-
-
-	public static Bilder grayScale3(Bilder src) {
-		int width = src.getWidth();
-		int height = src.getHeight();
-
-		Bilder r = new Bilder(width, height, true);
-
-	    for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-            	int rgb[] = src.getRGB(x,y);
-  		        int gray = (int)(rgb[0] * 0.33 + rgb[1] * 0.33 + rgb[2]* 0.33);
-               	rgb[0] = rgb[1] = rgb[2] = gray;
-               	r.setRGB(x,y,rgb); 	
-            }
-        }
-		
-		return r;
-	}
-
-	public static BufferedImage grayScale4(Bilder src) {
-		int width = src.getWidth();
-		int height = src.getHeight();
-		BufferedImage r = new BufferedImage(width, height, src.getType());
-		WritableRaster raster  = r.getRaster();
-
-	    for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-            	int rgb[] = src.getRGB(x,y);
-  		        int gray =(int) (rgb[0] * 0.33 + rgb[1] * 0.33 + rgb[2]* 0.33);
-               	rgb[0] = rgb[1] = rgb[2] = gray;
-               	raster.setPixel(x,y,rgb); 	
-            }
-        }
-		
-		return r;
-	}
-
-	public static BufferedImage colorSelector(BufferedImage src, Color lowerBound, Color upperBound) {
-		Bilder bild = new Bilder(src);
-		int width = bild.getWidth();
-		int height = bild.getHeight();
-
-		Bilder r = new Bilder(width, height, true);
-
-	    for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                double [] rgb = bild.getRGB1(x, y);
-                
-                if (rgb[0] >= lowerBound.getRed() && rgb[0] <= upperBound.getRed()) {
-                	if (rgb[1] >= lowerBound.getGreen() && rgb[1] <= upperBound.getGreen()) {
-                		if (rgb[2] >= lowerBound.getBlue() && rgb[2] <= upperBound.getBlue()) {
-                			/* seems legit */
-                		}
-                	}
-                } else {
-                	double media = (rgb[0] + rgb[1] + rgb[2]) * FACTOR;
-                	rgb[0] = rgb[1] = rgb[2] = media;
-                }
-               	r.setRGB(x, y, rgb);
-            }
-        }
-		return r.getBufferedImage();
-	}
+}
 
 
 
