@@ -46,4 +46,6 @@ public abstract class ImageFilter {
 	public static String getName() {
 		return name;
 	}
+
+	
 }

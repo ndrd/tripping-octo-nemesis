@@ -25,7 +25,7 @@ public class PolarFilter extends ImageFilter {
 
 	/* Calculates sin with a arbitraty interval */
 	public static double [] sinTabula(int size) {
-		double step = (Math.PI / 4) /  size;
+		double step = (Math.PI / 2) /  size;
 
 		System.out.printf("%s%1.2f ", "Step " , step);
 
@@ -36,7 +36,7 @@ public class PolarFilter extends ImageFilter {
 
 	/* Calculates sin with a arbitraty interval */
 	public static double [] cosTabula(int size) {
-		double step = (Math.PI / 4) / size;
+		double step = (Math.PI / 2) / size;
 		double [] data =  new double[size];
 		for (int i = 0; i < data.length ; data[i++] = (double) Math.cos(i * step)); 
 		return data;
@@ -50,6 +50,11 @@ public class PolarFilter extends ImageFilter {
 		}
 	}
 
+	private static boolean pxInRange(int width, int height, int x, int y) { 
+         return (x < width && y < height && x >= 0 && y >= 0);
+    }
+
+
 	public static BufferedImage rectangle2Polar(BufferedImage img) {
 		/* We suppose that is a square*/
 		int width = img.getWidth();
@@ -59,32 +64,32 @@ public class PolarFilter extends ImageFilter {
 		FastImage src = new FastImage(img);
 		FastImage polar = new FastImage(width, width, img.getType());
 
-		double[] cosTab = cosTabula(4*diameter);
-		double[] sinTab = sinTabula(4*diameter);
+		double[] cosTab = cosTabula(diameter);
+		double[] sinTab = sinTabula(diameter);
 
 		int x = 0;
 		int y = 0;
 
 		short [] srgb = new short[3];
 
-		for (int tetha = 0, c = 1; tetha < diameter || c <= 4; ++tetha) {
-			for (int r = 0; r < radius; r++) {
+		for (int tetha = 0; tetha < diameter; ++tetha) {
+			for (int r = 0, c = 0; r < radius  ; r++) {
 
-				double factor = 1 / 8.0;// / 16.0;
-				
+				double factor = 1/((width-2) / 2.0);
 				x = (int)(2 * r * cosTab[(int)(tetha)]);
-				y = (int)(2 * r * sinTab[(int)(tetha)]);
-				srgb = src.getPixel(x,y);
+				y = (int)(2 *r * sinTab[(int)(tetha)]);
+				
+				if (pxInRange(width, width, x, y))
+					srgb = src.getPixel(x,y);
 
 				int rr = (int)(radius + r * Math.cos(tetha * factor));
 				int tt = (int)(radius + r * Math.sin(tetha * factor));
 
-				polar.setPixel(rr,tt, srgb);	
+				if (pxInRange(width, width, rr, tt))
+					polar.setPixel(rr,tt, srgb);
+
 			}
-			if(tetha % (diameter) == 0) {
-				tetha = 0;
-				c++;
-			}
+
 	}
 
 		return polar.getImage();
