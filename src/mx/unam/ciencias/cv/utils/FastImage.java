@@ -37,7 +37,7 @@ public class FastImage {
 		original =  img;
 		width = img.getWidth();
 		height =  img.getHeight();
-		pixels =  ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
+		pixels =  ((DataBufferByte) original.getRaster().getDataBuffer()).getData();
 	}
 
 	public FastImage(int width, int height, int type ) {

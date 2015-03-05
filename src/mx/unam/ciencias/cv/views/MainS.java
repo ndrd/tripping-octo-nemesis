@@ -380,27 +380,7 @@ public class MainS extends javax.swing.JFrame {
         jMenuItem1.setText("Filters");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Thread th = new Thread() {
-                    public void run() {
-                        long startTime = System.nanoTime();
-                    
-                        BufferedImage imgg = Filters.gaussianBlur3(engine.getLastImage(), 10);
-                        
-                        long endTime = System.nanoTime();
-                        System.out.println(String.format("\n\nLast filter time %s", SpeedTest.timeFormat(endTime - startTime)));
-                        
-                        engine.setLastWork(imgg);   
-                        putImageOnScreen(imgg, workedImg);
-                    }
-
-                };
-                th.start();
-                System.out.println("Working....");
-                try {
-                    th.join();
-                    System.out.println("Done....");
-                } catch (Exception e) {};
-
+           
 
             }
 
@@ -621,7 +601,7 @@ public class MainS extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) { 
         try {
             ImageTrainer t = ImageTrainer.getInstance();
-            BufferedImage response = Filters.colorSelector(engine.getLastImage(),t.getLowerBound(), t.getUpperBound());
+            BufferedImage response = ColorFilter.colorSelector(engine.getLastImage(),t.getLowerBound(), t.getUpperBound());
             engine.setLastWork(response);
             putImageOnScreen(response, workedImg);
         } catch (Exception e) {

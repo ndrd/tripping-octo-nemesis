@@ -138,13 +138,13 @@ public class BilderTest {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
 				long startTime = System.nanoTime();
-				Filters.grayScale(img);
+				Filters.histogramEqualization(img);
 				long endTime = System.nanoTime();
 				total += (endTime - startTime);
 				System.out.println(String.format("delta %s", SpeedTest.timeFormat(endTime - startTime)));
 
 			}
-		    System.out.println(String.format("Fast Image Total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format( ITERS  + " iters for Fast Image Total time %s", SpeedTest.timeFormat(total)));
 			System.out.println();
 			System.out.println();
 		} catch (Exception e) {
