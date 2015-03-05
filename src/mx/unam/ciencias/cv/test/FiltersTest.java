@@ -13,7 +13,8 @@ import org.junit.Test;
 public class FiltersTest {
 	
 	protected BufferedImage img;
-	protected final int ITERS = 2; 
+	protected boolean writeFiles = false;
+	protected final int ITERS = 1; 
 
 	public FiltersTest() {
 		try {
@@ -26,5 +27,20 @@ public class FiltersTest {
 	@Test public void imageLoaded() {
 		Assert.assertTrue(img != null);
 	}
+
+	private void saveImage(BufferedImage img, String name){
+		try {
+			File file = new File(name + ".jpg");
+			ImageIO.write(img, "jpeg", file);
+		} catch (Exception e) {
+			System.out.println("Cannot save" + name);
+		}
+	}
+
+	protected void writeFile(String name) {
+		saveImage(img, name);
+	}
+
+
 
 }

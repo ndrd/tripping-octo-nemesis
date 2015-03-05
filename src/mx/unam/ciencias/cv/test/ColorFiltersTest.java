@@ -25,6 +25,10 @@ public class ColorFiltersTest extends FiltersTest {
 				ColorFilters.histogramEqualization(img);
 				long endTime = System.nanoTime();
 				total += (endTime - startTime);
+
+				if (writeFiles) 
+					writeFile("histogramEqualization" + i);
+
 			}
 		    System.out.println(String.format( ITERS  + " iters for histogramEqualizationTest, total time %s", SpeedTest.timeFormat(total)));
 			System.out.println();
@@ -42,8 +46,13 @@ public class ColorFiltersTest extends FiltersTest {
 				ColorFilters.grayScale(img);
 				long endTime = System.nanoTime();
 				total += (endTime - startTime);
+
+				if (writeFiles) 
+					writeFile("grayScale" + i);
+				
+
 			}
-		    System.out.println(String.format( ITERS  + " iters for histogramEqualizationTest, total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format( ITERS  + " iters for grayScale, total time %s", SpeedTest.timeFormat(total)));
 			System.out.println();
 			System.out.println();
 		} catch (Exception e) {
