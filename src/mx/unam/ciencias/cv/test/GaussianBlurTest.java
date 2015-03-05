@@ -32,8 +32,8 @@ public class GaussianBlurTest extends FiltersTest {
 
 			}
 		    System.out.println(String.format( ITERS  + " iters for writableRasterBlur, total time %s", SpeedTest.timeFormat(total)));
-			System.out.println();
-			System.out.println();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
@@ -55,8 +55,8 @@ public class GaussianBlurTest extends FiltersTest {
 
 			}
 		    System.out.println(String.format( ITERS  + " iters for writableRasterBlurThreated, total time %s", SpeedTest.timeFormat(total)));
-			System.out.println();
-			System.out.println();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
@@ -78,8 +78,8 @@ public class GaussianBlurTest extends FiltersTest {
 
 			}
 		    System.out.println(String.format( ITERS  + " iters for BsBLur3, total time %s", SpeedTest.timeFormat(total)));
-			System.out.println();
-			System.out.println();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
@@ -101,8 +101,8 @@ public class GaussianBlurTest extends FiltersTest {
 
 			}
 		    System.out.println(String.format( ITERS  + " iters for BsBLur4, total time %s", SpeedTest.timeFormat(total)));
-			System.out.println();
-			System.out.println();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();

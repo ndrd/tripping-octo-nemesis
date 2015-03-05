@@ -24,10 +24,14 @@ import mx.unam.ciencias.cv.utils.FastImage;
 public class MixingFilters extends ImageFilter {
 
 	public static BufferedImage blending(BufferedImage imgA, BufferedImage imgB, int percentage) {
-		int width = Math.max(imgA.getWidth(), imgB.getWidth());
-		int height = Math.max(imgA.getHeight(),imgB.getHeight());
-		double alfa = (percentage < 0 || percentage > 100) ? 50 : percentage / 100;
+		
+		int width = Math.min(imgA.getWidth(), imgB.getWidth());
+		int height = Math.min(imgA.getHeight(),imgB.getHeight());
+
+		double alfa = (percentage < 0 || percentage > 100) ? 50 : percentage / 100.0;
 		double beta = 1 - alfa;
+
+		ImageFilter.debug("Alfa : " + alfa + "beta: "+ beta);
 		
 		FastImage a = new FastImage(imgA);
 		FastImage b = new FastImage(imgB);
@@ -43,8 +47,8 @@ public class MixingFilters extends ImageFilter {
 				rgbB = b.getPixel(x,y);
 
 				rgbA[0] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
-				rgbA[1] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
-				rgbA[2] = (short)(rgbA[0] * alfa + rgbB[0]  * beta);
+				rgbA[1] = (short)(rgbA[1] * alfa + rgbB[1]  * beta);
+				rgbA[2] = (short)(rgbA[2] * alfa + rgbB[2]  * beta);
 
 				out.setPixel(x,y,rgbA);
 			}

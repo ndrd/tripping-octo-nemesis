@@ -31,8 +31,8 @@ public class ColorFiltersTest extends FiltersTest {
 
 			}
 		    System.out.println(String.format( ITERS  + " iters for histogramEqualizationTest, total time %s", SpeedTest.timeFormat(total)));
-			System.out.println();
-			System.out.println();
+			
+			
 		} catch (Exception e) {
 			Assert.fail();
 		}
@@ -53,8 +53,8 @@ public class ColorFiltersTest extends FiltersTest {
 
 			}
 		    System.out.println(String.format( ITERS  + " iters for grayScale, total time %s", SpeedTest.timeFormat(total)));
-			System.out.println();
-			System.out.println();
+			
+			
 		} catch (Exception e) {
 			Assert.fail();
 		}

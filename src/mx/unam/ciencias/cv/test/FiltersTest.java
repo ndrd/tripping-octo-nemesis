@@ -30,7 +30,7 @@ public class FiltersTest {
 
 	protected void saveImage(BufferedImage ee, String name){
 		try {
-			File file = new File(name + ".jpg");
+			File file = new File("testImages/" + name + ".jpg");
 			ImageIO.write(ee, "jpeg", file);
 		} catch (Exception e) {
 			System.out.println("Cannot save" + name);
