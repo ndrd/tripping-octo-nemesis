@@ -33,8 +33,6 @@ public class MixingFilters extends ImageFilter {
 		double alfa = (percentage < 0 || percentage > 100) ? 50 : percentage / 100.0;
 		double beta = 1 - alfa;
 
-		ImageFilter.debug("Alfa : " + alfa + "beta: "+ beta);
-		
 		FastImage a = new FastImage(imgA);
 		FastImage b = new FastImage(imgB);
 		FastImage out = new FastImage(width, height, imgA.getType());
@@ -59,29 +57,17 @@ public class MixingFilters extends ImageFilter {
 		return out.getImage();
 	}
 
-	public static BufferedImage hibridImages (BufferedImage imgA, BufferedImage imgB, int percentage) {
+	public static BufferedImage hibridImages (BufferedImage imgA, BufferedImage imgB, 
+												int sigmaA, int sigmaB) {
 
 		setName("Hibrid Images");
 
 		int width = Math.max(imgA.getWidth(), imgB.getWidth());
 		int height = Math.max(imgA.getHeight(),imgB.getHeight());
 		
-		FastImage a = new FastImage(imgA);
-		FastImage b = new FastImage(imgB);
-		FastImage out = new FastImage(width, height, imgA.getType());
-		
-		short[] rgbA = new short[3];
-		short[] rgbB = new short[3];
-		
-		for (int x = 0; x < width ; x++ ) {
-			for (int y = 0; y < height ; y++ ) {
+		BufferedImage blured = GaussianBlur.gaussianBlur(imgA, sigmaA);
+		BufferedImage highed = (sigmaA == sigmaB) ? LaplacianFilter.aproxLaplacian(imgB, blured, sigmaB) : LaplacianFilter.aproxLaplacian(imgB, sigmaB);
 
-				rgbA = a.getPixel(x,y);
-				rgbB = b.getPixel(x,y);
-				out.setPixel(x,y,rgbA);
-			}
-		}
-
-		return out.getImage();
+		return blending(blured, highed, 50);
 	}
 }

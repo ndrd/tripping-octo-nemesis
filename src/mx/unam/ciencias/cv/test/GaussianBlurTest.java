@@ -18,7 +18,7 @@ public class GaussianBlurTest extends FiltersTest {
 	}
 
 	public void writableRasterBlur() {
-		writeFiles =  true;
+		
 		try {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
@@ -41,7 +41,7 @@ public class GaussianBlurTest extends FiltersTest {
 	}
 
 	public void writableRasterBlurThreated() {
-		writeFiles =  true;
+		
 		try {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
@@ -64,7 +64,7 @@ public class GaussianBlurTest extends FiltersTest {
 	}
 
 	@Test public void BsBLur3() {
-		writeFiles =  true;
+		
 		try {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
@@ -87,7 +87,7 @@ public class GaussianBlurTest extends FiltersTest {
 	}
 
 	@Test public void BsBLur4() {
-		writeFiles =  true;
+		
 		try {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {

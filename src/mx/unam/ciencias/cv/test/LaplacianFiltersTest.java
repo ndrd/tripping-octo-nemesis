@@ -18,7 +18,7 @@ public class LaplacianFiltersTest extends FiltersTest {
 	}
 
 	@Test public void aproximationLaplacian() {
-		writeFiles =  true;
+		
 		try {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {

@@ -20,8 +20,12 @@ package mx.unam.ciencias.cv.filters;
 
 import java.awt.image.BufferedImage;
 import java.awt.Color;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Iterator;
 import mx.unam.ciencias.cv.utils.ImageD;
 import mx.unam.ciencias.cv.utils.FastImage;
+import mx.unam.ciencias.cv.utils.Histogram;
 
 public class ColorFilters extends ImageFilter {
 
@@ -115,5 +119,69 @@ public class ColorFilters extends ImageFilter {
 		}
 
 		return imageDetails.getImage();
+	}
+
+	public static BufferedImage contrastEqualization(BufferedImage img) {
+		final double oDelta = 255;
+		ImageD imageDetails = new ImageD(img);
+
+		int width = img.getWidth();
+		int height = img.getHeight();
+
+		int[] newColorsR = remapingColor(imageDetails.getRedHistogram(), width, height);
+		int[] newColorsG = remapingColor(imageDetails.getGreenHistogram(), width, height);
+		int[] newColorsB = remapingColor(imageDetails.getBlueHistogram(), width, height);
+
+		short rgb[] =  new short[3];
+
+		for (int x = 0; x < img.getWidth() ; x++ ) {
+			for (int y = 0; y < img.getHeight(); y++ ) {
+
+				rgb = imageDetails.getPixel(x,y);
+
+				rgb[0] = (short)(newColorsR[rgb[0]]);		
+				rgb[1] = (short)(newColorsG[rgb[1]]);		
+				rgb[2] = (short)(newColorsB[rgb[2]]);		
+
+				imageDetails.setPixel(x,y,rgb);	
+
+			}
+		}
+
+		return imageDetails.getImage();
+	}
+
+	private static int getMinCDF(TreeMap<Integer, Integer> cdf) {
+		Iterator it = cdf.entrySet().iterator();
+
+		if (it.hasNext()) {
+			Map.Entry pair = (Map.Entry)it.next();
+        	return ((Integer)(pair.getValue())).intValue();
+		} else 
+			return -1;
+	}
+
+	private static int[] remapingColor(Histogram h, int width, int height) {
+		
+		int[] newColors = new int[255];
+
+		TreeMap<Integer, Integer> cdf = h.getCDF();
+
+		int minCDF = getMinCDF(cdf);
+		int q = width * height - minCDF;
+		Iterator it = cdf.entrySet().iterator();
+
+
+		while(it.hasNext()){
+			Map.Entry pair = (Map.Entry)it.next();
+
+        	int colorOriginal = ((Integer)(pair.getKey())).intValue();
+			int hCDF = ((Integer)(pair.getValue())).intValue();
+			double newColor = (hCDF - minCDF) / (q * 1.0) * 255;
+			
+			newColors[colorOriginal] = (int) newColor;
+		}
+
+		return newColors;
 	}
 }

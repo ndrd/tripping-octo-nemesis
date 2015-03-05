@@ -123,7 +123,7 @@ public class SpeedTest {
    }
 
    @Test public void bitshiftBI() throws Exception {
-      BufferedImage hugeImage = ImageIO.read(SpeedTest.class.getResource("12000X12000.jpg"));
+      BufferedImage hugeImage = ImageIO.read(SpeedTest.class.getResource("images/12000X12000.jpg"));
       long startTime = System.nanoTime();
       FiltersBeta.grayScalei(hugeImage);
       long endTime = System.nanoTime();
@@ -131,7 +131,7 @@ public class SpeedTest {
    }
 
    @Test public void writableRaster() throws Exception {
-      BufferedImage hugeImage = ImageIO.read(SpeedTest.class.getResource("12000X12000.jpg"));
+      BufferedImage hugeImage = ImageIO.read(SpeedTest.class.getResource("images/12000X12000.jpg"));
       long startTime = System.nanoTime();
       FiltersBeta.grayScale(hugeImage);
       long endTime = System.nanoTime();

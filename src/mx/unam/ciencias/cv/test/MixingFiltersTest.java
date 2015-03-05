@@ -18,8 +18,8 @@ public class MixingFiltersTest extends FiltersTest {
 
 	public MixingFiltersTest() {
 		try {
-			firstImage = ImageIO.read(BilderTest.class.getResource("russianbear.jpg"));
-			secongImage = ImageIO.read(BilderTest.class.getResource("chew.jpg"));
+			firstImage = ImageIO.read(BilderTest.class.getResource(path + "russianbear.jpg"));
+			secongImage = ImageIO.read(BilderTest.class.getResource(path + "chew.jpg"));
 		} catch (Exception e) {
 			Assert.fail();
 		}
@@ -28,7 +28,29 @@ public class MixingFiltersTest extends FiltersTest {
 
 
 	@Test public void blending() {
-		writeFiles =  true;
+		
+		try {
+			long total = 0;
+			for (int i = 0; i < ITERS ; i++) {
+				long startTime = System.nanoTime();
+				BufferedImage tmp = MixingFilters.hibridImages(firstImage,secongImage, 15, 10);
+				long endTime = System.nanoTime();
+				total += (endTime - startTime);
+
+				if (writeFiles) 
+					saveImage(tmp, MixingFilters.getName() + i);
+
+			}
+		    System.out.println(String.format( ITERS  + " iters for blending, total time %s", SpeedTest.timeFormat(total)));
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test public void hibridImage() {
 		try {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
@@ -41,7 +63,7 @@ public class MixingFiltersTest extends FiltersTest {
 					saveImage(tmp, MixingFilters.getName() + i);
 
 			}
-		    System.out.println(String.format( ITERS  + " iters for blending, total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format( ITERS  + " iters for hibridImage, total time %s", SpeedTest.timeFormat(total)));
 			
 			
 		} catch (Exception e) {

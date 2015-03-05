@@ -59,4 +59,30 @@ public class ColorFiltersTest extends FiltersTest {
 			Assert.fail();
 		}
 	}
+
+	@Test public void contrastAdjust() {
+		try {
+
+			img = ImageIO.read(FiltersTest.class.getResource(path + "unequialized.jpg"));
+
+			long total = 0;
+			for (int i = 0; i < ITERS ; i++) {
+				long startTime = System.nanoTime();
+				ColorFilters.contrastEqualization(img);
+				long endTime = System.nanoTime();
+				total += (endTime - startTime);
+
+				if (writeFiles) 
+					writeFile("contrastAdjust" + i);
+				
+
+			}
+		    System.out.println(String.format( ITERS  + " iters for contrastAdjust, total time %s", SpeedTest.timeFormat(total)));
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 }

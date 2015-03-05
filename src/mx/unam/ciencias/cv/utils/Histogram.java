@@ -19,30 +19,62 @@ package mx.unam.ciencias.cv.utils;
  * along with tom. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.util.LinkedList;
+import java.util.TreeMap;
+
 public class Histogram implements java.io.Serializable {
+	
+	class Tuple<X, Y> { 
+	  public final X x; 
+	  public final Y y; 
+	  public Tuple(X x, Y y) { 
+	    this.x = x; 
+	    this.y = y; 
+	  } 
+	}
+
 	double [] table;
+
 	double maxValue;
 	double minValue;
 	double sumValues;
+
 	int members;
+
+	int minRow;
+	int maxRow;
+	int nRows;
+
 
 	public Histogram (int rows) {
 		table =  new double[rows];
 		maxValue = minValue = sumValues =  members = 0;
+		/* Fill with extreme negative numbers*/
+		for (int i = 0; i < table.length; table[i++] = Double.MIN_VALUE);
+	}
+
+	public void add(int row, double value) {
+		if (row < 0 || row >= table.length)
+			return;
+		
+		boolean wasEmpty = (table[row] == Double.MIN_VALUE);
+
+		table[row] += value;
+		members++;
+		sumValues += row * value;
+		/* Update the max and min values */ 
+		maxValue = (maxValue < table[row]) ? table[row] : maxValue;
+		minValue = (minValue > table[row] && table[row] != Double.MIN_VALUE) ? table[row] : minValue;
+		/* Update the rows */ 
+		maxRow = (maxRow < row) ? row :  maxRow;
+		minRow = (minRow > row) ? row :  minRow;
+		nRows = (wasEmpty) ? nRows + 1 : nRows;
 	}
 
 	public void add(int row) {
-		if (row < 0 || row >= table.length)
-			return;
-		table[row]++;
-		members++;
-		sumValues += row;
-		/* Update the max and min values */ 
-		if (maxValue < table[row])
-			maxValue = table[row];
-		else if (minValue > table[row])
-			minValue = table[row];
+		add(row, 1);
 	}
+
 
 	public double getMeanValue() {
 		return sumValues / members;
@@ -80,5 +112,23 @@ public class Histogram implements java.io.Serializable {
 		return i;
 	}
 
+	/* Return a tuple with a List of values */
+	public TreeMap<Integer, Integer> getCDF() {
+		/* how many rows are not empty */
+		TreeMap<Integer, Integer> cdf = new TreeMap<Integer, Integer>();
+		int total = 0;
+		for (int i = 0 ,j = 0; i < table.length; i++)
+		 	if (table[i] > Double.MIN_VALUE) {
+		 		total+=table[i];
+		 		cdf.put(i, total);
+		 	} 
+		 	
+		
+		return cdf; 
+	}
+
 
 }
+
+
+

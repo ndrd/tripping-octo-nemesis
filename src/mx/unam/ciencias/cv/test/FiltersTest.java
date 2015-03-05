@@ -13,12 +13,13 @@ import org.junit.Test;
 public class FiltersTest {
 	
 	protected BufferedImage img;
-	protected boolean writeFiles = false;
+	protected boolean writeFiles = true;
 	protected final int ITERS = 1; 
+	protected String path = "images/";
 
 	public FiltersTest() {
 		try {
-			img = ImageIO.read(BilderTest.class.getResource("russianbear.jpg"));
+			img = ImageIO.read(FiltersTest.class.getResource(path + "russianbear.jpg"));
 		} catch (Exception e) {
 			Assert.fail();
 		}
