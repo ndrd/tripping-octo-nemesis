@@ -64,6 +64,23 @@ public class FastImage {
 		return rgb;
 	}
 
+	public int[] getPixeli(int x, int y) {
+		if ( x < 0 || x > width || y  < 0 || y > height)
+			throw new IllegalArgumentException("Invalid Coordinates");
+
+		int [] rgb = new int[3];
+		int index = 3*(y * width + x);
+		rgb[0] = pixels[index + 2];
+		rgb[1] = pixels[index + 1];
+		rgb[2] = pixels[index + 0];
+		/* Masked for get the first 8 bit value */
+		rgb[0] &= 0x000000FF;
+		rgb[1] &= 0x000000FF;
+		rgb[2] &= 0x000000FF;
+
+		return rgb;
+	}
+
 	public void setPixel(int x, int y, short [] rgb) {
 		if ( x < 0 || x > width || y  < 0 || y > height)
 			throw new IllegalArgumentException("Invalid Coordinates");
@@ -71,6 +88,15 @@ public class FastImage {
 		pixels[index + 2] = (byte)rgb[0];
 		pixels[index + 1] = (byte)rgb[1];
 		pixels[index + 0] = (byte)rgb[2];
+	}
+
+	public void setPixel(int x, int y, int [] rgb) {
+		if ( x < 0 || x > width || y  < 0 || y > height)
+			throw new IllegalArgumentException("Invalid Coordinates");
+		int index = 3 * (y * width  + x);
+		pixels[index + 2] = (byte)(short)rgb[0];
+		pixels[index + 1] = (byte)(short)rgb[1];
+		pixels[index + 0] = (byte)(short)rgb[2];
 	}
 
 	public BufferedImage getImage() {

@@ -1,4 +1,4 @@
-çpackage mx.unam.ciencias.cv.views;
+package mx.unam.ciencias.cv.views;
 /*
  * This file is part of tom
  *
@@ -49,11 +49,11 @@ public class HistogramView extends Canvas {
 
     public void addHistogram(Histogram h) {
         histograms.add(h);
-        repaint();-
+        repaint();
     }
 
     private void plotHistogram(Histogram h, Color c, int width, int height, Graphics g) {
-//            g.drawPolygon(xPoints, yPoints, xPoints.length);
+        //awPolygon(xPoints, yPoints, xPoints.length);
 
     }
 
@@ -62,42 +62,8 @@ public class HistogramView extends Canvas {
         Dimension dim = getSize();
         int w = (int) dim.getWidth();
         int h = (int) dim.getHeight();
-        Color [] colors = {Color.red, Color.green, Color.blue};
-
-        for (Histogram h : histograms ) 
     }
 
-    public void applyTransform(Transformation2D transformation) throws Exception {
-        if (!pointsReady)
-            throw new IllegalArgumentException("Build something to Transform");
-
-        int[][] points = transformation.transformPoints(xPoints, yPoints);
-        /* backup for undo */
-        oldXPoints = xPoints;
-        oldYPoints = yPoints;
-        isBackUp =  true;
-        /* asign new points */
-        xPoints = points[0];
-        yPoints = points[1];
-
-        repaint();
-    }
-
-    public void applyNormTransform(Transformation2D transformation) throws Exception {
-        if (!pointsReady)
-            throw new IllegalArgumentException("Build something to Transform");
-
-        int[][] points = transformation.transformPointsN(xPoints, yPoints);
-        /* backup for undo */
-        oldXPoints = xPoints;
-        oldYPoints = yPoints;
-        isBackUp =  true;
-        /* asign new points */
-        xPoints = points[0];
-        yPoints = points[1];
-
-        repaint();
-    }
 
 
 

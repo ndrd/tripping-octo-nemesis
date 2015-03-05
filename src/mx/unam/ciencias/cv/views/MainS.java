@@ -34,6 +34,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import mx.unam.ciencias.cv.filters.*;
 import mx.unam.ciencias.cv.utils.*;
+import mx.unam.ciencias.cv.test.SpeedTest;
 
 /**
 * Main GUI class, created with NetBeans
@@ -379,10 +380,30 @@ public class MainS extends javax.swing.JFrame {
         jMenuItem1.setText("Filters");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BufferedImage imgg = Filters.histogramEqualization(engine.getLastImage());
-                engine.setLastWork(imgg);   
-                putImageOnScreen(imgg, workedImg);
+                Thread th = new Thread() {
+                    public void run() {
+                        long startTime = System.nanoTime();
+                    
+                        BufferedImage imgg = Filters.gaussianBlur3(engine.getLastImage(), 10);
+                        
+                        long endTime = System.nanoTime();
+                        System.out.println(String.format("\n\nLast filter time %s", SpeedTest.timeFormat(endTime - startTime)));
+                        
+                        engine.setLastWork(imgg);   
+                        putImageOnScreen(imgg, workedImg);
+                    }
+
+                };
+                th.start();
+                System.out.println("Working....");
+                try {
+                    th.join();
+                    System.out.println("Done....");
+                } catch (Exception e) {};
+
+
             }
+
         });
 
         jMenu2.add(jMenuItem1);

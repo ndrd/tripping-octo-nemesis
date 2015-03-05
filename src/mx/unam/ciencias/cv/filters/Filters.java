@@ -207,4 +207,195 @@ public class Filters {
 		return imageDetails.getImage();
 	}
 
+	public static BufferedImage gaussianBlur(BufferedImage img, int sigma) {
+		FastImage in =  new FastImage(img);
+		FastImage out =  new FastImage(img.getWidth(), img.getHeight(), img.getType());
+		int width = img.getWidth();
+		int height = img.getHeight();
+
+		double[] kernel =  kernel(sigma);
+		int ssigma = 2 * sigma;
+
+		short[] rgb =  new short[3];
+		short[] rgbAux =  new short[3];
+
+		float red = 0;
+		float green = 0;
+		float blue = 0;
+
+		for (int y = 0; y < height; y++ ) {
+			for (int x = 0; x < width; x++ ) {
+				rgb = in.getPixel(x,y);	
+
+				for (int i = -sigma, n = 0; i < ((ssigma + 1) -  sigma); i++, n++) {
+					for (int j = -sigma, m = 0; j < ((ssigma + 1) - sigma); j++, m++ ) {
+
+						if (x+i < width && y+j < height && x+i >= 0 && y+j >= 0)
+							rgbAux =  in.getPixel(x+i, y+j);
+						else if((x+i < 0 || y+j < 0 )&& ( x+i < width && y+j < height))
+                            rgbAux = in.getPixel(Math.abs(x+i),Math.abs(y+j));
+
+                        red += (rgbAux[0] * kernel[n] * kernel[m]);
+                        green += (rgbAux[1] * kernel[n] * kernel[m]);
+                        blue += (rgbAux[2] * kernel[n] * kernel[m]);
+					}
+				}
+
+				rgb[0] = (short)Math.round(red);
+				rgb[1] = (short)Math.round(green);
+				rgb[2] = (short)Math.round(blue);
+
+				out.setPixel(x,y, rgb);
+			}
+		}
+
+		return out.getImage();
+	}
+
+	private static boolean pxInRange(int width, int height, int x, int y)
+     { 
+         return (x < width && y < height && x >= 0 && y >= 0);
+     }
+
+	public static BufferedImage gaussianBlur2(BufferedImage img, int sigma) {
+        int height = img.getHeight();
+        int width = img.getWidth();
+
+        BufferedImage wimg = new BufferedImage(width,height, img.getType());
+
+        int ssigma = 2 * sigma;
+        double [] kernel = kernel(sigma);
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                int pixel = img.getRGB(x,y);
+                double red = 0, green = 0, blue = 0;
+
+                for(int i = -sigma, n = 0; i < ((ssigma + 1) - sigma); i++, n++) {
+                    for(int j = -sigma, m = 0; j < ((ssigma + 1) - sigma); j++, m++) {
+                        int px = 0;
+
+                        if(pxInRange(width, height, x+i, y+j))
+                            px = img.getRGB(x+i,y+j);
+                        else if((x+i < 0 || y+j < 0 )&& ( x+i < width && y+j < height))
+                            px = img.getRGB(Math.abs(x+i),Math.abs(y+j));
+
+                        red += ((px >> 16) & 0x000000FF) * kernel[n] * kernel[m];
+                        green += ((px >> 8) & 0x000000FF) * kernel[n] * kernel[m];
+                        blue += ((px) & 0x000000FF) * kernel[n] * kernel[m];
+
+                    }
+                }
+
+                pixel = (pixel & ~(0x000000FF << 16)) | ((int) (red) << 16);
+                pixel = (pixel & ~(0x000000FF << 8)) | ((int) (green) << 8);
+                pixel = (pixel & ~(0x000000FF )) | ((int)(blue));
+
+                wimg.setRGB(x,y,pixel);
+            }
+        }
+        return wimg;
+    }
+
+    public static BufferedImage gaussianBlur3(BufferedImage img, int sigma) {
+        int height = img.getHeight();
+        int width = img.getWidth();
+
+        BufferedImage wimg = new BufferedImage(width,height, img.getType());
+        BufferedImage wimg2 = new BufferedImage(width,height, img.getType());
+
+        int ssigma = 2 * sigma;
+        double [] kernel = kernel(sigma);
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                int pixel = img.getRGB(x,y);
+                double red = 0, green = 0, blue = 0;
+
+                for(int i = -sigma, n = 0; i < ((ssigma + 1) - sigma); i++, n++) {
+                    int px = 0;
+
+                    if(pxInRange(width, height, x+i, y))
+                        px = img.getRGB(x+i,y);
+                    else if(x+i < 0 )
+                        px = img.getRGB(Math.abs(x+i), Math.abs(y+i));
+                    else if(x+i > width )
+                        px = img.getRGB((x-i), Math.abs(y-i));
+
+                    red += ((px >> 16) & 0x000000FF) * kernel[n];
+                    green += ((px >> 8) & 0x000000FF) * kernel[n];
+                    blue += ((px) & 0x000000FF) * kernel[n];
+               }
+
+                pixel = (pixel & ~(0x000000FF << 16)) | ((int) (red) << 16);
+                pixel = (pixel & ~(0x000000FF << 8)) | ((int) (green) << 8);
+                pixel = (pixel & ~(0x000000FF )) | ((int)(blue));
+
+                wimg.setRGB(x,y,pixel);
+            }
+        }
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                int pixel = wimg.getRGB(x,y);
+                double red = 0, green = 0, blue = 0;
+
+                for(int i = -sigma, n = 0; i < ((ssigma + 1) - sigma); i++, n++) {
+                    int px = 0;
+
+                    if(pxInRange(width, height, x, y+i))
+                        px = wimg.getRGB(x,y+i);
+                    else if(y+i < 0 )
+                        px = wimg.getRGB(Math.abs(x),Math.abs(y+i));
+                    else if(y+i > height )
+                        px = wimg.getRGB(Math.abs(x-i),y-i);
+
+                    red += ((px >> 16) & 0x000000FF) * kernel[n];
+                    green += ((px >> 8) & 0x000000FF) * kernel[n];
+                    blue += ((px) & 0x000000FF) * kernel[n];
+               }
+
+                pixel = (pixel & ~(0x000000FF << 16)) | ((int) (red) << 16);
+                pixel = (pixel & ~(0x000000FF << 8)) | ((int) (green) << 8);
+                pixel = (pixel & ~(0x000000FF )) | ((int)(blue));
+
+                wimg2.setRGB(x,y,pixel);
+            }
+        }
+        return wimg2;
+    }
+
+	/** Calculates a linear dimention kernel for the gaussian blur */
+	public static double[] kernel(int sigma) {
+
+		double[] kernel = new double[2 * sigma + 1];
+		double ssigma = 2 * sigma * sigma;
+		double K = (1 / Math.sqrt(ssigma * Math.PI));
+		double weightSum = 0;
+
+		for (int x = -sigma, i = 0; x < ((2 * sigma + 1) - sigma) ; x++, i++) {
+			kernel[i] = K * Math.pow(Math.E, -(x * x / ssigma));
+			weightSum += kernel[i];
+		}
+
+		for (int i = 0; i < kernel.length; i++ ) 
+			kernel[i] = kernel[i] / weightSum;
+
+		return kernel;
+	}
+
+	private static void printArray(double[] a) {
+		for (int i = 0;i < a.length ; i++) {
+			System.out.print(" " + a[i]);
+		}
+	}
+	private static void printArray(float[] a) {
+		for (int i = 0;i < a.length ; i++) {
+			System.out.print(" " + a[i]);
+		}
+	}
+
+
+
+
 }
