@@ -99,6 +99,15 @@ public class FastImage {
 		pixels[index + 0] = (byte) (((int) rgb[2]) & 0xFF);
 	}
 
+	public void setPixel(int x, int y, double [] rgb) {
+		if ( x < 0 || x > width || y  < 0 || y > height)
+			throw new IllegalArgumentException("Invalid Coordinates");
+		int index = 3 * (y * width  + x);
+		pixels[index + 2] = (byte) (((int) rgb[0]) & 0xFF);
+		pixels[index + 1] = (byte) (((int) rgb[1]) & 0xFF);
+		pixels[index + 0] = (byte) (((int) rgb[2]) & 0xFF);
+	}
+
 	public BufferedImage getImage() {
 		return original;
 	}
