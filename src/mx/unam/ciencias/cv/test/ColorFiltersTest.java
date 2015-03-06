@@ -17,7 +17,7 @@ public class ColorFiltersTest extends FiltersTest {
 		super();
 	}
 
-	public void histogramEqualizationTest() {
+	@Test public void histogramEqualizationTest() {
 		try {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
@@ -38,7 +38,7 @@ public class ColorFiltersTest extends FiltersTest {
 		}
 	}
 
-	public void grayScaleTest() {
+	@Test public void grayScaleTest() {
 		try {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
@@ -60,7 +60,7 @@ public class ColorFiltersTest extends FiltersTest {
 		}
 	}
 
-	public void contrastAdjust() {
+	@Test public void contrastAdjust() {
 		try {
 
 			img = ImageIO.read(FiltersTest.class.getResource(path + "uss.jpg"));

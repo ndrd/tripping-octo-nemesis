@@ -63,7 +63,7 @@ public class GaussianBlurTest extends FiltersTest {
 		}
 	}
 
-	public void BsBLur3() {
+	@Test public void BsBLur3() {
 		
 		try {
 			long total = 0;
@@ -86,7 +86,7 @@ public class GaussianBlurTest extends FiltersTest {
 		}
 	}
 
-	public void BsBLur4() {
+	@Test  public void BsBLur4() {
 		
 		try {
 			long total = 0;
