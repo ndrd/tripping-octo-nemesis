@@ -15,6 +15,13 @@ public class ColorFiltersTest extends FiltersTest {
 
 	public ColorFiltersTest() {
 		super();
+		/*
+		try {
+			img = ImageIO.read(FiltersTest.class.getResource(path + "unequialized.jpg"));
+		} catch (Exception e) {
+			Assert.fail();
+		}
+		*/
 	}
 
 	@Test public void histogramEqualizationTest() {
@@ -63,7 +70,7 @@ public class ColorFiltersTest extends FiltersTest {
 	@Test public void contrastAdjust() {
 		try {
 
-			img = ImageIO.read(FiltersTest.class.getResource(path + "uss.jpg"));
+			img = ImageIO.read(FiltersTest.class.getResource(path + "unequialized.jpg"));
 
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
