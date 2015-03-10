@@ -149,20 +149,19 @@ public class ScaleImage {
 					d = src.getPixel(nx-1, ny-1,d);
 
 				dest[0] = (
-					a[0] * (1 - deltaX) * (1 - deltaY) + b[0] * (1 - deltaX) * (1 - deltaY) +
-					c[0] * (1 - deltaX) * (1 - deltaY) + d[0] * (1 - deltaX) * (1 - deltaY)
+					a[0] * (deltaX) * (deltaY) + b[0] * (1 - deltaX) * (deltaY) +
+					c[0] * (deltaX) * (1 - deltaY) + d[0] * (1 - deltaX) * (1 - deltaY)
 				);
 
 				dest[1] = (
-					a[1] * (1 - deltaX) * (1 - deltaY) + b[1] * (1 - deltaX) * (1 - deltaY) +
-					c[1] * (1 - deltaX) * (1 - deltaY) + d[1] * (1 - deltaX) * (1 - deltaY)
+					a[1] * (deltaX) * (deltaY) + b[1] * (1 - deltaX) * (deltaY) +
+					c[1] * (deltaX) * (1 - deltaY) + d[1] * (1 - deltaX) * (1 - deltaY)
 				);
 
 				dest[2] = (
-					a[2] * (1 - deltaX) * (1 - deltaY) + b[2] * (1 - deltaX) * (1 - deltaY) +
-					c[2] * (1 - deltaX) * (1 - deltaY) + d[2] * (1 - deltaX) * (1 - deltaY)
+					a[2] * (deltaX) * (deltaY) + b[2] * (1 - deltaX) * (deltaY) +
+					c[2] * (deltaX) * (1 - deltaY) + d[2] * (1 - deltaX) * (1 - deltaY)
 				);
-
 				outr.setPixel(x,y,dest);
 
 			}
