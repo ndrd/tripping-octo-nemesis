@@ -50,7 +50,7 @@ public class PolarFilterTest extends FiltersTest {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
 				long startTime = System.nanoTime();
-				BufferedImage polar = PolarFilter.rectangle2PolarA(img,0);
+				BufferedImage polar = PolarFilter.rectangle2PolarA(img);
 				long endTime = System.nanoTime();
 				total += (endTime - startTime);
 

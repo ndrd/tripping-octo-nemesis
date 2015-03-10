@@ -69,17 +69,17 @@ public class ScaleImage {
 				if (pxInRange(width, height, nx+1, ny+1))
 					d = src.getPixel(nx+1, ny+1);
 
-				dest[0] = (short)(
+				dest[0] = (short) Math.rint(
 					a[0] * (1 - deltaX) * (1 - deltaY) + b[0] * (1 - deltaX) * (1 - deltaY) +
 					c[0] * (1 - deltaX) * (1 - deltaY) + d[0] * (1 - deltaX) * (1 - deltaY)
 				);
 
-				dest[1] = (short)(
+				dest[1] = (short) Math.rint(
 					a[1] * (1 - deltaX) * (1 - deltaY) + b[1] * (1 - deltaX) * (1 - deltaY) +
 					c[1] * (1 - deltaX) * (1 - deltaY) + d[1] * (1 - deltaX) * (1 - deltaY)
 				);
 
-				dest[2] = (short)(
+				dest[2] = (short) Math.rint(
 					a[2] * (1 - deltaX) * (1 - deltaY) + b[2] * (1 - deltaX) * (1 - deltaY) +
 					c[2] * (1 - deltaX) * (1 - deltaY) + d[2] * (1 - deltaX) * (1 - deltaY)
 				);

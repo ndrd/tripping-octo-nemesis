@@ -111,7 +111,7 @@ public class PolarFilter extends ImageFilter {
 		for (int x = 0; x < width ; x++) {
 			for ( int y = 0; y < height ; y++) {
 				
-				int r = (int) (Math.sqrt((cx-x)*(cx-x) + (cy-y)*(cy-y))  * 2.0);
+				int r = (int) (Math.sqrt((cx-x)*(cx-x) + (cy-y)*(cy-y))  * 1.2);
 				int tetha = (int) ((Math.atan2(cy-y, cx-x) * factor) + cy);
 
 				if (r > height)
