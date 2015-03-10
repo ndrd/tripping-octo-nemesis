@@ -95,4 +95,36 @@ public class PolarFilter extends ImageFilter {
 		return polar.getImage();
 	}
 
+	public static BufferedImage rectangle2PolarA(BufferedImage img, int startPoint) {
+		
+		int width = img.getWidth();
+		int height = img.getHeight();
+
+		FastImage src = new FastImage(img);
+		FastImage polar = new FastImage(width, width, img.getType());
+		short[] rgb =  new short[3];
+
+		int cx = (int) (width / 2.0);
+		int cy = (int) (height / 2.0);
+		double factor = (width /(Math.PI * 2.0) );
+
+		for (int x = 0; x < width ; x++) {
+			for ( int y = 0; y < height ; y++) {
+				
+				int r = (int) (Math.sqrt((cx-x)*(cx-x) + (cy-y)*(cy-y))  * 2.0);
+				int tetha = (int) ((Math.atan2(cy-y,cx-x) * factor) + (width/2.0));
+
+				System.out.println("r: " + r + "t: "  + tetha + " x:" + x  + ", y:" + y);
+
+				if (pxInRange(width, height,r, r))
+					rgb = src.getPixel(r, r);
+
+				polar.setPixel(x,y,rgb);
+			}
+		}
+
+		return polar.getImage();
+
+	}
+
 }

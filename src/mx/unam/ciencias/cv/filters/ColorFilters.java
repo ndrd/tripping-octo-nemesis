@@ -163,7 +163,7 @@ public class ColorFilters extends ImageFilter {
 
 	private static int[] remapingColor(Histogram h, int width, int height) {
 		
-		int[] newColors = new int[255];
+		int[] newColors = new int[256];
 
 		TreeMap<Integer, Integer> cdf = h.getCDF();
 

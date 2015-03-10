@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="practica0" default="practica0.jar" basedir="." >
+<project name="visual-cosmic-rainbown" default="visual-cosmic-rainbown.jar" basedir="." >
 
   <property name="build.dir" value="build" />
   <property name="src.dir"   value="src" />
   <property name="lib.dir"   value="lib" />
   <property name="doc.dir"   value="doc" />
 
-  <target name="practica0.jar" depends="compile.practica0">
-    <jar jarfile="practica0.jar">
+  <target name="visual-cosmic-rainbown.jar" depends="compile.visual-cosmic-rainbown">
+    <jar jarfile="visual-cosmic-rainbown.jar">
       <zipfileset dir="${build.dir}" prefix="" />
       <manifest>
         <attribute name="Main-Class" value="mx.unam.ciencias.cv.views.MainS"/>
@@ -15,7 +15,7 @@
     </jar>
   </target>
 
-  <target name="compile.practica0">
+  <target name="compile.visual-cosmic-rainbown">
     <mkdir dir="${build.dir}"/>
     <javac srcdir="${src.dir}"
            destdir="${build.dir}"
@@ -38,7 +38,7 @@
              includes="**/*.jpg," />
   </copy>
 
-  <target name="doc" depends="practica0.jar">
+  <target name="doc" depends="visual-cosmic-rainbown.jar">
     <mkdir dir="${doc.dir}"/>
     <javadoc packagenames="mx.unam.ciencias.cv.*"
              sourcepath="src"
@@ -59,12 +59,12 @@
   </target>
 
   <target name="clean">
-    <delete file="practica0.jar"/>
+    <delete file="visual-cosmic-rainbown.jar"/>
     <delete dir="${build.dir}"/>
     <delete dir="${doc.dir}"/>
   </target>
 
-  <target name="test" depends="practica0.jar">
+  <target name="test" depends="visual-cosmic-rainbown.jar">
     <junit printsummary="yes" haltonfailure="no">
       <formatter type="plain" usefile="false" />
       <classpath>
