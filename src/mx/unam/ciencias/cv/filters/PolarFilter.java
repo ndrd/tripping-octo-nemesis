@@ -1,21 +1,21 @@
 package mx.unam.ciencias.cv.filters;
 /*
- * This file is part of tom
+ * This file is part of visual-cosmic-rainbown
  *
  * Copyright Jonathan Andrade 2015
  *
- * tom is free software: you can redistribute it and/or modify it
+ * visual-cosmic-rainbown is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * tom is distributed in the hope that it will be useful, but
+ * visual-cosmic-rainbown is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with tom. If not, see <http://www.gnu.org/licenses/>.
+ * along with visual-cosmic-rainbown. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import java.awt.image.BufferedImage;
@@ -112,12 +112,12 @@ public class PolarFilter extends ImageFilter {
 			for ( int y = 0; y < height ; y++) {
 				
 				int r = (int) (Math.sqrt((cx-x)*(cx-x) + (cy-y)*(cy-y))  * 2.0);
-				int tetha = (int) ((Math.atan2(cy-y,cx-x) * factor) + cy);
+				int tetha = (int) ((Math.atan2(cy-y, cx-x) * factor) + cy);
 
 				if (r > height)
 					r = (int)((r/2.0) * (height/r));
 
-				if (pxInRange(width, height,width - tetha, height - r))
+				if (pxInRange(width, height, width - tetha, height - r))
 					rgb = src.getPixel(width - tetha, height -  r);
 
 				polar.setPixel(x,y,rgb);
