@@ -10,7 +10,7 @@
     <jar jarfile="visual-cosmic-rainbown.jar">
       <zipfileset dir="${build.dir}" prefix="" />
       <manifest>
-        <attribute name="Main-Class" value="mx.unam.ciencias.cv.views.MainS"/>
+        <attribute name="Main-Class" value="mx.unam.ciencias.cv.views.App"/>
       </manifest>
     </jar>
   </target>

@@ -95,7 +95,7 @@ public class PolarFilter extends ImageFilter {
 		return polar.getImage();
 	}
 
-	public static BufferedImage rectangle2PolarA(BufferedImage img, int startPoint) {
+	public static BufferedImage rectangle2PolarA(BufferedImage img) {
 		
 		int width = img.getWidth();
 		int height = img.getHeight();

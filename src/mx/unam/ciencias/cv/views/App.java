@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package javaapplication1;
+package mx.unam.ciencias.cv.views;
 
-/**
- *
- * @author socrates
- */
+import mx.unam.ciencias.cv.filters.*;
+import java.awt.image.BufferedImage;
+
+
+
 public class App extends javax.swing.JFrame {
 
     /**
@@ -26,16 +22,15 @@ public class App extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
-
         AppTab = new javax.swing.JTabbedPane();
         ImagesPanel = new javax.swing.JPanel();
         resultScroll = new javax.swing.JScrollPane();
         originalScroll = new javax.swing.JScrollPane();
         TransformationsPanel = new javax.swing.JPanel();
         canvasPanel = new javax.swing.JPanel();
-        canvas1 = new java.awt.Canvas();
+        canvas1 = new Leinen();
         ControlsPane = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        undoRectagle = new javax.swing.JButton();
         k00 = new java.awt.TextField();
         k01 = new java.awt.TextField();
         k02 = new java.awt.TextField();
@@ -55,7 +50,7 @@ public class App extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        addRectangle = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -84,12 +79,23 @@ public class App extends javax.swing.JFrame {
         smallPMenu = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        openTrainingSet = new javax.swing.JMenuItem();
+        saveTrainingSet = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        loadTrainingSet = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        about = new javax.swing.JMenu();
+        views = new javax.swing.JMenu();
+        iinfoMenu = new javax.swing.JMenuItem();
+        viewHistograms = new javax.swing.JMenuItem();
+
+        workedImg = new javax.swing.JLabel();
+        srcImg = new javax.swing.JLabel();
+
+        resultScroll.setViewportView(workedImg);
+        originalScroll.setViewportView(srcImg);
+
+        controller = new Controller(this, canvas1, workedImg, srcImg);
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(1, 1, 1));
@@ -116,8 +122,6 @@ public class App extends javax.swing.JFrame {
 
         canvasPanel.setBackground(new java.awt.Color(1, 1, 1));
 
-        canvas1.setBackground(new java.awt.Color(255, 82, 82));
-
         javax.swing.GroupLayout canvasPanelLayout = new javax.swing.GroupLayout(canvasPanel);
         canvasPanel.setLayout(canvasPanelLayout);
         canvasPanelLayout.setHorizontalGroup(
@@ -131,7 +135,12 @@ public class App extends javax.swing.JFrame {
 
         ControlsPane.setBackground(new java.awt.Color(1, 1, 1));
 
-        jButton1.setText("Undo");
+        undoRectagle.setText("Undo");
+        undoRectagle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                controller.canvasUndo();
+            }
+        });
 
         k00.setText("0");
         k00.addActionListener(new java.awt.event.ActionListener() {
@@ -252,11 +261,17 @@ public class App extends javax.swing.JFrame {
             }
         });
 
+        addRectangle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                controller.newRectangle(evt);
+            }
+        });
+
         jButton4.setText("Euclidean");
 
         jButton5.setText("Similarity");
 
-        jButton6.setText("Add Rectangle");
+        addRectangle.setText("Add Rectangle");
 
         jLabel1.setText("Transformations");
 
@@ -285,9 +300,9 @@ public class App extends javax.swing.JFrame {
                     .addGroup(ControlsPaneLayout.createSequentialGroup()
                         .addGroup(ControlsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ControlsPaneLayout.createSequentialGroup()
-                                .addComponent(jButton6)
+                                .addComponent(addRectangle)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(undoRectagle, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel1)
                             .addGroup(ControlsPaneLayout.createSequentialGroup()
                                 .addComponent(k30, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -330,8 +345,8 @@ public class App extends javax.swing.JFrame {
             ControlsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlsPaneLayout.createSequentialGroup()
                 .addGroup(ControlsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton6))
+                    .addComponent(undoRectagle)
+                    .addComponent(addRectangle))
                 .addGap(10, 10, 10)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -400,15 +415,25 @@ public class App extends javax.swing.JFrame {
 
         getContentPane().add(AppTab);
 
-        MenuBar.setBackground(new java.awt.Color(1, 1, 1));
-
         FileMenu.setBackground(new java.awt.Color(1, 1, 1));
         FileMenu.setText("File");
 
+        openFile.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, 0));
         openFile.setText("Open...");
+        openFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openFileActionPerformed(evt);
+            }
+        });
         FileMenu.add(openFile);
 
+        SaveFile.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, 0));
         SaveFile.setText("Save");
+        SaveFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveFileActionPerformed(evt);
+            }
+        });
         FileMenu.add(SaveFile);
         FileMenu.add(jSeparator1);
 
@@ -526,56 +551,73 @@ public class App extends javax.swing.JFrame {
 
         jMenu4.setText("ImageColorTraining");
 
-        jMenuItem3.setText("Open Training Set");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        openTrainingSet.setText("Open Training Set");
+        openTrainingSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                openTrainingSetActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem3);
+        jMenu4.add(openTrainingSet);
 
-        jMenuItem4.setText("Save Current Set");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        saveTrainingSet.setText("Save Current Set");
+        saveTrainingSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                saveTrainingSetActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem4);
+        jMenu4.add(saveTrainingSet);
         jMenu4.add(jSeparator2);
 
-        jMenuItem5.setText("Load Training File");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        loadTrainingSet.setText("Load Training File");
+        loadTrainingSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                loadTrainingSetActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem5);
+        jMenu4.add(loadTrainingSet);
         jMenu4.add(jSeparator3);
 
         jMenu3.add(jMenu4);
 
         MenuBar.add(jMenu3);
 
-        about.setBackground(new java.awt.Color(1, 1, 1));
-        about.setText("About");
-        MenuBar.add(about);
+        views.setBackground(new java.awt.Color(1, 1, 1));
+        views.setText("View");
+
+        iinfoMenu.setText("Info");
+        iinfoMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                controller.showInfo();
+            }
+        });
+
+        viewHistograms.setText("Show histograms");
+        viewHistograms.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                controller.showHistograms(null);
+            }
+        });
+        views.add(viewHistograms);
+        views.add(iinfoMenu);
+
+        MenuBar.add(views);
 
         setJMenuBar(MenuBar);
 
         pack();
     }// </editor-fold>                        
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void openTrainingSetActionPerformed(java.awt.event.ActionEvent evt) {                                                
         // TODO add your handling code here:
-    }                                          
+    }                                               
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void saveTrainingSetActionPerformed(java.awt.event.ActionEvent evt) {                                                
         // TODO add your handling code here:
-    }                                          
+    }                                               
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void loadTrainingSetActionPerformed(java.awt.event.ActionEvent evt) {                                                
         // TODO add your handling code here:
-    }                                          
+    }                                               
 
     private void k00ActionPerformed(java.awt.event.ActionEvent evt) {                                    
         // TODO add your handling code here:
@@ -642,35 +684,43 @@ public class App extends javax.swing.JFrame {
     }                                   
 
     private void colorSearchActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
+       //controller.showFilter(ColorFilters.)
     }                                           
 
     private void toPolarActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
+        controller.showFilter(PolarFilter.rectangle2PolarA(controller.getOriginalImage()));
     }                                       
 
     private void gBlurMenuActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        // TODO add your handling code here:
+        int sigma = controller.getIntegerValue("Value for sigma: ");                                           
+        controller.showFilter(GaussianBlur.gaussianBlur4(controller.getOriginalImage(), sigma));
     }                                         
 
     private void blendingMenuActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        // TODO add your handling code here:
+        BufferedImage second =  controller.getImage();
+        int percentaje = controller.getIntegerValue("Percentaje ");
+        controller.showFilter(MixingFilters.blending(controller.getOriginalImage(), second, percentaje));
     }                                            
 
-    private void laplacianMenuActionPerformed(java.awt.event.ActionEvent evt) {                                              
-        // TODO add your handling code here:
+    private void laplacianMenuActionPerformed(java.awt.event.ActionEvent evt) {   
+        int sigma = controller.getIntegerValue("Value for sigma: ");                                           
+        controller.showFilter(LaplacianFilter.aproxLaplacian(controller.getOriginalImage(), sigma));
     }                                             
 
     private void bAdjustActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
+        controller.showFilter(ColorFilters.histogramEqualization(controller.getOriginalImage()));
     }                                       
 
     private void cAdjustActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
+        controller.showFilter(ColorFilters.contrastEqualization(controller.getOriginalImage()));
     }                                       
 
     private void hibridMenuActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
+        BufferedImage second =  controller.getImage();
+        int sigma1 = controller.getIntegerValue("Value for sigma1: ");
+        int sigma2 = controller.getIntegerValue("Value for sigma2: ");
+        controller.showFilter(MixingFilters.hibridImages(controller.getOriginalImage(), second, sigma1, sigma2));
+
     }                                          
 
     private void detailsActionPerformed(java.awt.event.ActionEvent evt) {                                        
@@ -682,8 +732,21 @@ public class App extends javax.swing.JFrame {
     }                                        
 
     private void smallPMenuActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
+        controller.showFilter(SmallPlanet.cosmogenesis(controller.getOriginalImage()));
     }                                          
+
+    private void openFileActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        controller.openImage(evt);
+    }                                        
+
+    private void SaveFileActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        controller.saveImage(evt);
+
+    }                                        
+
+    private void iinfoMenuActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+    }                                         
 
     /**
      * @param args the command line arguments
@@ -709,32 +772,31 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JMenu OtherMenu1;
     private javax.swing.JMenuItem SaveFile;
     private javax.swing.JPanel TransformationsPanel;
-    private javax.swing.JMenu about;
+    private javax.swing.JMenu views;
     private javax.swing.JMenuItem bAdjust;
     private javax.swing.JMenuItem blendingMenu;
     private javax.swing.JMenu blurMenu;
     private javax.swing.JMenuItem cAdjust;
-    private java.awt.Canvas canvas1;
+    private Leinen canvas1;
     private javax.swing.JPanel canvasPanel;
     private javax.swing.JMenu colorMenu;
     private javax.swing.JMenuItem colorSearch;
     private javax.swing.JMenuItem details;
     private javax.swing.JMenuItem gBlurMenu;
     private javax.swing.JMenuItem hibridMenu;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JMenuItem iinfoMenu;
+    private javax.swing.JMenuItem viewHistograms;
+    private javax.swing.JButton undoRectagle;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton addRectangle;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
@@ -755,11 +817,18 @@ public class App extends javax.swing.JFrame {
     private java.awt.TextField k32;
     private java.awt.TextField k33;
     private javax.swing.JMenuItem laplacianMenu;
+    private javax.swing.JMenuItem loadTrainingSet;
     private javax.swing.JMenuItem openFile;
+    private javax.swing.JMenuItem openTrainingSet;
     private javax.swing.JScrollPane originalScroll;
     private javax.swing.JScrollPane resultScroll;
+    private javax.swing.JMenuItem saveTrainingSet;
     private javax.swing.JMenuItem smallPMenu;
     private javax.swing.JMenuItem toPolar;
     private javax.swing.JMenu transformationMenu;
+
+    private javax.swing.JLabel workedImg;
+    private javax.swing.JLabel srcImg;
+    private Controller controller;
     // End of variables declaration                   
 }

@@ -91,7 +91,7 @@ public class ColorFilters extends ImageFilter {
 	* and its bigest value to absolute white, remaping the color palete.
 	*/
 	public static BufferedImage histogramEqualization(BufferedImage img) {
-		final double oDelta = 255;
+		final double oDelta = 256;
 		ImageD imageDetails = new ImageD(img);
 
 		int minR = imageDetails.getRedHistogram().getMinColor();

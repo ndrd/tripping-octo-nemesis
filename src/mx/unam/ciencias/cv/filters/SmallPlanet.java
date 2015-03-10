@@ -26,7 +26,7 @@ public class SmallPlanet extends ImageFilter {
 
 	public static BufferedImage cosmogenesis(BufferedImage img) {
 		img = ScaleImage.scaleInterpolate(img, img.getWidth(), img.getWidth());
-		return PolarFilter.rectangle2PolarA(img,0);
+		return PolarFilter.rectangle2PolarA(img);
 	}
 
 }

@@ -47,12 +47,15 @@ public class Controller {
     private java.awt.Component component;
     private javax.swing.JLabel workedImg;
     private javax.swing.JLabel srcImg;
+    private boolean colorSearchReady;
 
 	public Controller(Component cc, Leinen c, JLabel w, JLabel s) {
 		canvas1 = c;
 		component = cc;
 		workedImg = w;
 		srcImg = s;
+        colorSearchReady =  false;
+
 	}
 
 	private boolean openFail = false;
@@ -64,14 +67,18 @@ public class Controller {
     }
 
     public void openImage(AWTEvent evt) {
-        openImage();
-        if(!openFail) {
+
+        source = getImage();
+        newImage = source;
+        if(source != null) {
             putImageOnScreen(source, srcImg);
             putImageOnScreen(source, workedImg);
         }
     }
 
-    private void saveImg(AWTEvent evt) {
+    public void saveImage(AWTEvent evt) {
+        if (newImage == null)
+            return;
         save();
         
     }
@@ -106,6 +113,29 @@ public class Controller {
             }
         }
         return null;
+    }
+
+    public void canvasUndo() {
+        canvas1.undo();
+    }
+
+    public void showFilter(BufferedImage img) {
+        newImage = img;
+        putImageOnScreen(img, workedImg);
+        putImageOnScreen(source, srcImg);
+
+    }
+
+    public BufferedImage getOriginalImage() {
+        if (source == null)
+            source =  getImage();
+        return source;
+    }
+
+    public BufferedImage getNewImage() {
+        if (newImage == null)
+            newImage =  getImage();
+        return newImage;
     }
 
 
@@ -159,22 +189,15 @@ public class Controller {
         String path = openDirectory();
         if(path != null) {
             ImageTrainer trainer =  ImageTrainer.getInstance();
-
-            Thread t = new Thread()
-            {
-                public void run() {
-                    trainer.trainingFromDir(path);
-                }
-            };
-            t.start();
-
-
+            trainer.trainingFromDir(path);
+            colorSearchReady = true;
         }
     }
 
  
 
-    private void openImage() {
+    public BufferedImage getImage() {
+        BufferedImage result = null;
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File("."));
         openFail = false;
@@ -184,12 +207,11 @@ public class Controller {
         String[] ext = fExt.getExtensions();
         chooser.setFileFilter(fExt);
 
-        int result = chooser.showOpenDialog(component);
-        if (result == JFileChooser.CANCEL_OPTION) {
+        int r = chooser.showOpenDialog(component);
+        if (r == JFileChooser.CANCEL_OPTION) {
             openFail = true;
-            return;
-        }
-        else if (result == JFileChooser.APPROVE_OPTION) {
+            return result;
+        } else if (r == JFileChooser.APPROVE_OPTION) {
             String dir = chooser.getSelectedFile().getPath();
             if (dir == null || dir.equals("")) {
                 openFail = true;
@@ -197,21 +219,13 @@ public class Controller {
                 System.exit((0));
             }
             try {
-                source = ImageIO.read(new File(dir));               
-                System.out.print("Abierto y guardado");
-
+                result = ImageIO.read(new File(dir));               
             } 
-            catch(OutOfMemoryError t) {
-                openFail = true;
-            }
-            catch(IOException e) {
-                openFail = true;
-            }
             catch(Exception e) {
                 openFail = true;
             }
         }
-        return;
+        return result;
     }
 
     private String openDirectory() {
@@ -240,12 +254,30 @@ public class Controller {
      }
 
 
-    private void newRectangle(java.awt.event.ActionEvent evt) {
+    public void newRectangle(java.awt.event.ActionEvent evt) {
         int x = Integer.parseInt(JOptionPane.showInputDialog("(x0) coordinate"));
         int y = Integer.parseInt(JOptionPane.showInputDialog("(y0) coordinate"));
         int w = Integer.parseInt(JOptionPane.showInputDialog("width"));
         int h = Integer.parseInt(JOptionPane.showInputDialog("heigth"));
         canvas1.drawRectangle(x, y, w, h);  
+
+    }
+
+    public void showHistograms(BufferedImage img) {
+        new HistogramsWindow();
+    }
+
+    public void showInfo() {
+        JOptionPane.showMessageDialog(null, "visual-cosmic-rainbown\n" + 
+                                                            "Jonathan Andrade, 2015\n" + 
+                                                            "ndrd@ciencias.unam.mx\n" + 
+                                                            "'Love u Magda'", "About",
+                                     JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    public int getIntegerValue(String msg) {
+         return Integer.parseInt(JOptionPane.showInputDialog(msg));
 
     }
 
