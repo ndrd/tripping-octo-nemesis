@@ -18,7 +18,7 @@ public class PolarFilterTest extends FiltersTest {
 	}
 
 
-	@Test public void rect2Polar() {
+	public void rect2Polar() {
 		try {
 
 			img = ImageIO.read(FiltersTest.class.getResource(path + "2polar.jpg"));

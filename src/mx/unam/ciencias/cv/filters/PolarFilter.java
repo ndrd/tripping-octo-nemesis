@@ -101,7 +101,7 @@ public class PolarFilter extends ImageFilter {
 		int height = img.getHeight();
 
 		FastImage src = new FastImage(img);
-		FastImage polar = new FastImage(width, width, img.getType());
+		FastImage polar = new FastImage(width, height, img.getType());
 		short[] rgb =  new short[3];
 
 		int cx = (int) (width / 2.0);
@@ -112,12 +112,13 @@ public class PolarFilter extends ImageFilter {
 			for ( int y = 0; y < height ; y++) {
 				
 				int r = (int) (Math.sqrt((cx-x)*(cx-x) + (cy-y)*(cy-y))  * 2.0);
-				int tetha = (int) ((Math.atan2(cy-y,cx-x) * factor) + (width/2.0));
+				int tetha = (int) ((Math.atan2(cy-y,cx-x) * factor) + cy);
 
-				System.out.println("r: " + r + "t: "  + tetha + " x:" + x  + ", y:" + y);
+				if (r > height)
+					r = (int)((r/2.0) * (height/r));
 
-				if (pxInRange(width, height,r, r))
-					rgb = src.getPixel(r, r);
+				if (pxInRange(width, height,width - tetha, height - r))
+					rgb = src.getPixel(width - tetha, height -  r);
 
 				polar.setPixel(x,y,rgb);
 			}
