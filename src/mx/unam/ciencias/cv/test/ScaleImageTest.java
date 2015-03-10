@@ -23,14 +23,14 @@ public class ScaleImageTest extends FiltersTest {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
 				long startTime = System.nanoTime();
-				BufferedImage mini = ScaleImage.scaleInterpolate(img, 200,200);
+				BufferedImage mini = ScaleImage.scaleInterpolateB(img, 200,200);
 				long endTime = System.nanoTime();
 				total += (endTime - startTime);
 
 				if (writeFiles) 
 					saveImage(mini,"scaleDown200x200" + i);
 			}
-		    System.out.println(String.format( ITERS  + " iters for scaleDown200x200, total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format( ITERS  + " iters for scaleDown200x200b, total time %s", SpeedTest.timeFormat(total)));
 			
 			
 		} catch (Exception e) {
@@ -45,14 +45,14 @@ public class ScaleImageTest extends FiltersTest {
 			long total = 0;
 			for (int i = 0; i < ITERS ; i++) {
 				long startTime = System.nanoTime();
-				BufferedImage mini = ScaleImage.scaleInterpolate(img, img.getWidth(), img.getWidth());
+				BufferedImage mini = ScaleImage.scaleInterpolateB(img, img.getWidth(), img.getWidth());
 				long endTime = System.nanoTime();
 				total += (endTime - startTime);
 
 				if (writeFiles) 
 					saveImage(mini,"scaleDown2000x2000" + i);
 			}
-		    System.out.println(String.format( ITERS  + " iters for scaleDown2000x2000, total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format( ITERS  + " iters for scaleDown2000x2000b, total time %s", SpeedTest.timeFormat(total)));
 			
 			
 		} catch (Exception e) {

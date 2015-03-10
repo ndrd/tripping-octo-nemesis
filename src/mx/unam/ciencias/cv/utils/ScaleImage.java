@@ -20,6 +20,7 @@ package mx.unam.ciencias.cv.utils;
  */
 
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import mx.unam.ciencias.cv.utils.FastImage;
 
 public class ScaleImage {
@@ -90,6 +91,84 @@ public class ScaleImage {
 		}
 
 		return out.getImage();
+	}
+
+	public static BufferedImage scaleInterpolateB(BufferedImage img, int  nWidth, int nHeight) {
+
+		if (nWidth < 0 || nHeight < 0)
+			throw new IllegalArgumentException("Not suported yet");
+
+		int width = img.getWidth();
+		int height = img.getHeight();
+		int nx = 0;
+		int ny = 0;
+
+		double rx = (double) (width / nWidth /1.0);
+		double ry = (double) (height / nHeight/1.0);
+		double deltaX = 0;
+		double deltaY = 0;
+
+		double[] a = new double[3];
+		double[] b = new double[3];
+		double[] c = new double[3];
+		double[] d = new double[3];
+
+		double[] dest = new double[3];
+
+		BufferedImage out = new BufferedImage(nWidth, nHeight, img.getType());
+		WritableRaster src = img.getRaster();
+		WritableRaster outr = out.getRaster();
+
+		for (int y = 0; y < nHeight ; y++ ) {
+			for (int x = 0; x < nWidth ; x++ ) {
+				
+				nx = (int)(x * rx);
+				ny = (int)(y * ry);
+				deltaX = (x * rx) - nx;
+				deltaY = (y * ry) - ny;
+
+				if (pxInRange(width, height, nx, ny))
+					a = src.getPixel(nx, ny, a);
+
+				if (pxInRange(width, height, nx+1, ny))
+					b = src.getPixel(nx+1, ny,b);
+				else
+					b = src.getPixel(nx-1, ny,b);
+
+
+				if (pxInRange(width, height, nx, ny+1))
+					c = src.getPixel(nx, ny+1,c);
+				else
+					c = src.getPixel(nx, ny-1,c);
+
+				if (pxInRange(width, height, nx+1, ny+1))
+					d = src.getPixel(nx+1, ny+1,d);
+				else if (pxInRange(width, height, nx-1, ny+1))
+					d = src.getPixel(nx-1, ny+1,d);
+				else if (pxInRange(width, height, nx-1, ny-1))
+					d = src.getPixel(nx-1, ny-1,d);
+
+				dest[0] = (
+					a[0] * (1 - deltaX) * (1 - deltaY) + b[0] * (1 - deltaX) * (1 - deltaY) +
+					c[0] * (1 - deltaX) * (1 - deltaY) + d[0] * (1 - deltaX) * (1 - deltaY)
+				);
+
+				dest[1] = (
+					a[1] * (1 - deltaX) * (1 - deltaY) + b[1] * (1 - deltaX) * (1 - deltaY) +
+					c[1] * (1 - deltaX) * (1 - deltaY) + d[1] * (1 - deltaX) * (1 - deltaY)
+				);
+
+				dest[2] = (
+					a[2] * (1 - deltaX) * (1 - deltaY) + b[2] * (1 - deltaX) * (1 - deltaY) +
+					c[2] * (1 - deltaX) * (1 - deltaY) + d[2] * (1 - deltaX) * (1 - deltaY)
+				);
+
+				outr.setPixel(x,y,dest);
+
+			}
+		}
+
+		return out;
 	}
 
 	private static boolean pxInRange(int width, int height, int x, int y) { 
