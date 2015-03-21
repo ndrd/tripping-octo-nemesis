@@ -691,7 +691,8 @@ public class App extends javax.swing.JFrame {
         controller.showFilter(PolarFilter.rectangle2PolarA(controller.getOriginalImage()));
     }                                       
 
-    private void gBlurMenuActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void gBlurMenuActionPerformed(java.awt.event.ActionEvent evt) {  
+        new SliderGUI(this);                                 
         int sigma = controller.getIntegerValue("Value for sigma: ");                                           
         controller.showFilter(GaussianBlur.gaussianBlur4(controller.getOriginalImage(), sigma));
     }                                         

@@ -1,0 +1,136 @@
+\documentclass[12pt]{article}
+%\documentclass[12pt]{scrartcl}
+%\setkomafont{disposition}{\normalfont\bfseries}
+% pre\'ambulo
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} %Codificacion utf-8
+
+\usepackage{mathtools}
+\usepackage{graphicx}
+\graphicspath{ {/home/socrates/projects/computer_vision/visual-cosmic-rainbown/testImages} }
+
+\title{Visi\'on por Computadora  \\Pr\'actica 1 (reporte)}
+%\subtitle{Pr\'actica}
+\author{Jonathan de Jes\'us Andrade L\'opez}
+\date{10 de marzo de 2015 \\Facultad de Ciencias UNAM}
+
+\begin{document}
+% cuerpo del documento
+\maketitle
+Detalles de la implementaci\'on, problemas y momentos de diversion\\
+en la pr\'actica 1.
+
+\begin{description}
+  \item[Objetivo:] 
+  Mejorar la intensidad de color y luminiscencia, adem\'as de aplicar fltrado
+  en im\'agenes mediante correlaci\'on y convoluci\'on
+  
+  \item[Introducci\'on:]
+  Un punto clave de este curso es la extracci\'on de informaci\'on de una im\'agen,
+  para ello, es preciso tratarla antes de sacarle el mayor provecho a nuestros pixeles.
+  Parte de ese proceso de tratamiento incluye mejorar su color, cambiar sus dimensiones, usar otro sistema de coordenadas,
+  suavizarla, para mejorar las car\'acteristicas que realmente nos pueden servir a procesar
+  correctamente la im\'agen. Estos filtros o procedimientos son b\'asicos, forman parte 
+  de algoritmos m\'as complejos que posteriormente revisaremos.
+  
+  Los filtros de \textbf{Desenfoque gaussiano} y \textbf{Laplaciano del gaussiano}, se calculan
+  usando matrices de convoluci\'on, i.e iterando sobre los pixeles de la imagen, tomaremos
+  una matriz con un tama$ñ$o en relaci\'on al valor de la intensidad con la que queremos aplicar el filtro.
+  Esta matriz, contiene los \textit{pesos} relativos a la vecindad del pixel, y asi ponderar su importancia
+  relativa al pixel angular del filtro en ese indice de la iteraci\'on.
+  
+  El resto de los filtros son lineales, pues solo se recorre la im\'agen una unica vez y esto basta
+  para obtener el resultado requerido.
+  
+  \item[Desarrollo:] 
+  Los m\'ultiples filtros que se implementaron en esta pr\'actica son base para mejorar las condiciones con
+  las que recibimos una im\'agen, pueden ayudar a mejorar su color, brillo, contraste, suavizarla, en otras 
+  palabras, preparla para la extracci\'on de informaci\'on y manipulaci\'on m\'as espec\'ifica dependiendo 
+  del prop\'osito de nuestro procesamiento.
+  
+  \begin{itemize}
+     \item \textbf{Balance de color:} Se usa para mejorar la intensidad del color de las im\'agenes en base 
+     al muestreo de intensidades de color de cada canal en el espectro RGB. Tomando el valor m\'aximo y el m\'inimo
+     en el intervalo [0, 255], y haciendo la regla de correspondencia de estos valores hacia el cero absoluto y el m\'aximo
+     absoluto dentro del intervalo. En im\'agenes con una gama baja y constante de colores, el filtro tiene resultados 
+     visibles, pero, cuando al menos un pixel esta en alguna de los l\'imites del intervalo, su efecto es nulo. 
+     Como soluci\'on a este problema, en lugar de tomar los valores extremos del espectro de intensidades, se puede tomar la
+     media de cada canal, y hacer un proceso similar en dos direcciones, de la media hacia el cero, y de la media hacia el 255. Sus resultados son m\'as visibles cuando se aplica despu\'es de aumentar el brillo del canal de la im\'agen (desplazarla en la escala)
+     
+     \item \textbf{Blending:} Este filtro es de los m\'as sencillos, pues requiere de dos im\'agenes mezclando los
+     pixeles de su \'area de intersecci\'on bajo la siguiente regla de correspondencia:
+     
+   \begin{center}
+       \textit{ C = (1 - $\alpha$)B + $\alpha$F}
+    \end{center}
+     Con B y F las im\'agenes de fondo y de primer plano respectivamente.
+     %\includegraphics{blendingHO}
+     
+    \item \textbf{Ajuste de contraste:} Este filtro tiene mayor presencia en la im\'agen despu\'es de aplicarse,
+    mejora el ajuste general de la imagen, pues no solo hace una correspondencia lineal entre las magnitudes de
+    de los colores de cada canal, si no que toma en cuenta la \textit{funci\'on de probabilidad acumulada} es decir
+    distribuye uniformemente la intensidad de los colores mapeando las tonalidades anteriores a unas nuevas en 
+    funci\'on de su distribuci\'on.
+    
+    \item \textbf{Desenfoque Gaussiano:} Uno de los filtros m\'as importantes dentro del procesamiento de im\'agenes,
+    pues permite que cada pixel tome "informaci\'on" de sus vecinos, ponderando su imporntacia en funci\'on de su
+    distancia, es decir, los vecinos m\'as cercanos, tendr\'an m\'as peso al momento de dejar su parte en el pixel
+    de atenci\'on. Aplicar este filtro, requiere de una matriz de convoluci\'on, es decir, se iterara sobre las
+    dimensiones de la im\'agen, pero adem\'as se recorrera linealmente la matriz (de tamaño 2$\sigma$ + 1) para
+    poder pesar sus pixeles vecinos. Una ventaja de este algoritmo es que su kernel (o matriz de convoluci\'on)
+    es separable, es decir, se puede aplicar primero en sentido horizontal, y despu\'es en vertical obteniendo 
+    el mismo resultado, esta propiedad se debe a que a funci\'on gaussiana es simetrica y radial. Esta propiedad
+    es preciosa en sentido computacional, pues reduce la complejidad del algoritmo.
+    \begin{center}
+     \textit{O(wh4$\sigma$$^{2}$) $\longrightarrow$ O(wh4$\sigma$) }
+     \end{center} 
+     Donde \textit{w, h} son el ancho y alto de la imagen, y \textit{$\sigma$} el tamaño del kernel, en 
+     t\'erminos de tiempo, con una imagen de 12 Megap\'ixeles, el tiempo se reduce de \textit{ 40.95w ms}
+     a tan solo \textit{ 9.8 ms} (Java 8 64 bit GNU/Linux)
+     
+     \item \textbf{Laplaciono del Gaussiano (Aproximaci\'on): } Como vimos en clase, el operador Laplaciano es la regla de 
+     la cadena de doble derivada de la funcion gaussiana, viendo el resultado geom\'etrico, podemos notar que 
+     su resultado es muy similar al de aplicar el filtro Gaussiano a la im\'agen y restar estos valores a sus
+     intensidades originales, de esta manera, obtenemos solo aquellos colores de gama alta, dado que s\'olo es una
+     aproximaci\'on, el resultado es bueno, pero no el m\'as preciso, pero por fines pragm\'aticos, este es el 
+     m\'etodo m\'as utilizado.
+     
+     \item \textbf{Im\'agenes Hibridas: } En este filtro usamos los dos anteriores, primero, tomamos una im\'agen, 
+     aplicamos el desenfoque Gaussiano para eliminar las frecuencias m\'as altas, despu\'es, tomamos una segunda 
+     im\'agen y a esta le aplicacimos el laplaciano, de esta manera nos quedamos las frecuencias m\'as altas de 
+     una y las m\'as altas de la otra, dando un efecto visual, que se percibe  a diferentes distancias. Cabe 
+     mencionar que el valor de la $\sigma$ es independiente para cada filtro, de esta manera, obtendremos el 
+     resultado deseado, y como es evidente, la forma de logra el efecto, es mezclando las imagenes usando el 
+     blending en una proporci\'on de \textit{ $\alpha$ = 0.5}\\
+     
+     \item \textbf{Mundo pequeño: } En cuestion de implementaci\'on, este fue el filtro que m\'as tarde en
+     solucionar. Consiste en tomar una imagen panoramica, rotarla, hacerla cuadrada y por \'ultimo, aplicar
+     una transformacion polar para verla como un c\'irculo. Uno de los problemas que m\'as tarde en resolver 
+     fue el de mapear la imagen cartesiana a formato polar, primero intente iterar sobre un c\'irculo sobre 
+     el di\'ametro y el valor de su radio, pero como consecuencia, muchos de los puntos no estaban definidos
+     bajo esta funci\'on, as\'i que como nos habian mencionado en clase, el truco estaba en iterar sobre la 
+     im\'agen resultado, calculando a cada pixel el valor de \textit{r} y de \textit{$\Theta$}, una vez que los
+     tenemos, solo basta considerar, que el ancho de la imagen equivale a 2$\pi$ y el alto al valor esta en 
+     relaci\'on con \textit{r} y as\'i obtenemos el relleno total de los pixeles destino de la im\'agen.
+     
+     \item \textbf{Interpolaci\'on} Sirve para poder escalar (UpScale, DownScale) una im\'agen, usando
+     la formula matem\'atica de la interpolac\'ion bilienal, usando los pixeles aledaños para calcular
+     el valor del pixel, que esta entre ellos (en caso de que se se este aumentado el tamaño). Es u proceso
+     relativamente r\'apido y con buenos resultados, aunque en mi caso, aun tengo problemas con algunos colores.
+     
+      
+   \end{itemize} 
+   
+   \item[Conclusi\'on:]
+   Los diferentes filtros que se implementaron en esta pr\'actica, son lo fundamental para poder 
+   desarrollar procedimientos m\'as complejos con el tratamiento de im\'agenes, el obejtivo fundamental
+   de tratar las im\'agenes es dejarlas en las mejores condiciones para extraer de ellas las car\'acteristicas
+   que nos pueden dar m\'as informaci\'on de la im\'agen. Mejorar el color, el contraste, cambiar el 
+   tamaño, suavizar y cambiar el sistema de coordenadas, pueden ser de gran utilidad para futuras aplicaciones
+   dentro del curso, as\'i que por esta pr\'actica, considero cumplido el objetivo.
+  
+\end{description}
+
+\end{document}
