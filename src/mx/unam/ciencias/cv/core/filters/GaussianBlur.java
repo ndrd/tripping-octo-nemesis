@@ -131,6 +131,14 @@ public class GaussianBlur extends ImageFilter {
         return gaussianVertical(gaussianHorizontal(img, sigma), sigma);
     }
 
+    public static BufferedImage gaussianBlur2(BufferedImage img, int sigma) {
+        return gaussianVertical(gaussianHorizontal(new FastImage(img), sigma), sigma).getImage();
+    }
+
+    public static FastImage gaussianBlur3(BufferedImage img, int sigma) {
+        return gaussianVertical(gaussianHorizontal(new FastImage(img), sigma), sigma);
+    }
+
     public static BufferedImage gaussianVertical(BufferedImage img, int sigma) {
         
         int ssigma = 2 * sigma;
@@ -218,6 +226,96 @@ public class GaussianBlur extends ImageFilter {
 
         return out.getImage();
     }
+
+    public static FastImage gaussianVertical(FastImage img, int sigma) {
+        
+        int ssigma = 2 * sigma;
+        double [] kernel = kernel(sigma);
+
+        int height = img.getHeight();
+        int width = img.getWidth();
+
+        FastImage in = (img);
+        FastImage out = new FastImage(width, height, img.getType());
+
+        short[] rgb = new short[3];
+        int[] srgb = new int[3];
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                rgb  = in.getPixel(x,y);
+                double red = 0, green = 0, blue = 0;
+
+                for(int i = -sigma, n = 0; i < ((ssigma + 1) - sigma); i++, n++) {
+
+                    if(pxInRange(width, height, x, y+i))
+                        srgb = in.getPixeli(x,y+i);
+                    else if(y+i < 0 )
+                        srgb = in.getPixeli(Math.abs(x),Math.abs(y+i));
+                    else if(y+i > height )
+                        srgb = in.getPixeli(Math.abs(x-i),y-i);
+
+                    red += (int)(srgb[0] * kernel[n]);
+                    green += (int)(srgb[1] * kernel[n]);
+                    blue += (int)(srgb[2] * kernel[n]);
+               }
+
+                rgb[0] = (short)red;
+                rgb[1] = (short)green;
+                rgb[2] = (short)blue;
+
+                out.setPixel(x,y,rgb);
+            }
+        }
+
+        return out;
+    }
+
+    public static FastImage gaussianHorizontal(FastImage img, int sigma) {
+        
+        int ssigma = 2 * sigma;
+        double [] kernel = kernel(sigma);
+
+        int height = img.getHeight();
+        int width = img.getWidth();
+
+        FastImage in = new FastImage(img);
+        FastImage out = new FastImage(width, height, img.getType());
+
+        short[] rgb = new short[3];
+        int[] srgb = new int[3];
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                rgb  = in.getPixel(x,y);
+                double red = 0, green = 0, blue = 0;
+
+                for(int i = -sigma, n = 0; i < ((ssigma + 1) - sigma); i++, n++) {
+                    
+                    if(pxInRange(width, height, x+i, y))
+                        srgb = in.getPixeli(x+i,y);
+                    else if(x+i < 0 )
+                        srgb = in.getPixeli(Math.abs(x+i), Math.abs(y+i));
+                    else if(x+i > width )
+                        srgb = in.getPixeli((x-i), Math.abs(y-i));;
+
+                    red += (int)(srgb[0] * kernel[n]);
+                    green += (int)(srgb[1] * kernel[n]);
+                    blue += (int)(srgb[2] * kernel[n]);
+               }
+
+                rgb[0] = (short)red;
+                rgb[1] = (short)green;
+                rgb[2] = (short)blue;
+
+                out.setPixel(x,y,rgb);
+            }
+        }
+
+        return out;
+    }
+
+
 
 
     	

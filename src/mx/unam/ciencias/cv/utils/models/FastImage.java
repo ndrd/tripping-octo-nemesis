@@ -32,17 +32,33 @@ public class FastImage {
 	private byte [] pixels;
 	protected int width;
 	protected int height;
+	protected int type;
 
 	public FastImage(BufferedImage img) {
-		original =  img;
+		original =  deepCopy(img);
 		width = img.getWidth();
 		height =  img.getHeight();
+		type = img.getType();
 		pixels =  ((DataBufferByte) original.getRaster().getDataBuffer()).getData();
 	}
+
+	public FastImage(FastImage img) {
+		if (img == null)
+			throw new IllegalArgumentException();
+
+		width = img.width;
+		height =  img.height;
+		type = img.type;
+		pixels = new byte[img.pixels.length];
+		for (int i = 0; i < img.pixels.length; pixels[i] = img.pixels[i++]);
+	}
+
+
 
 	public FastImage(int width, int height, int type ) {
 		this.width = width;
 		this.height =  height;
+		this.type = type;
 		original = new BufferedImage(width, height, type);
 		pixels = ((DataBufferByte) original.getRaster().getDataBuffer()).getData();
 	}
@@ -117,8 +133,27 @@ public class FastImage {
 		pixels[index + 0] = (byte) (((int) rgb[2]) & 0xFF);
 	}
 
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getType() {
+		return type;
+	}
+
 	public BufferedImage getImage() {
 		return original;
 	}
+
+	static BufferedImage deepCopy(BufferedImage bi) {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    }
 
 }

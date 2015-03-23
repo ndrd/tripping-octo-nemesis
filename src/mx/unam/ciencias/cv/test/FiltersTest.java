@@ -14,8 +14,8 @@ import org.junit.Test;
 public class FiltersTest {
 	
 	protected BufferedImage img;
-	protected boolean writeFiles = true;
-	protected final int ITERS = 1; 
+	protected boolean writeFiles = false;
+	protected final int ITERS = 20;
 	protected String path = "images/";
 
 	public FiltersTest() {

@@ -2,7 +2,10 @@ package mx.unam.ciencias.cv.views;
 
 import mx.unam.ciencias.cv.core.filters.*;
 import mx.unam.ciencias.cv.core.miscellaneous.*;
+import mx.unam.ciencias.cv.core.detectors.*;
 import java.awt.image.BufferedImage;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 
@@ -64,7 +67,11 @@ public class App extends javax.swing.JFrame {
         details = new javax.swing.JMenuItem();
         FiltersMenu = new javax.swing.JMenu();
         colorMenu = new javax.swing.JMenu();
+        detectorsMenu = new javax.swing.JMenu();
         colorSearch = new javax.swing.JMenuItem();
+        harrisDetector = new javax.swing.JMenuItem();
+        houghDetector = new javax.swing.JMenuItem();
+        cannyDetector = new javax.swing.JMenuItem();
         bAdjust = new javax.swing.JMenuItem();
         cAdjust = new javax.swing.JMenuItem();
         transformationMenu = new javax.swing.JMenu();
@@ -137,133 +144,133 @@ public class App extends javax.swing.JFrame {
         ControlsPane.setBackground(new java.awt.Color(1, 1, 1));
 
         undoRectagle.setText("Undo");
-        undoRectagle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        undoRectagle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 controller.canvasUndo();
             }
         });
 
         k00.setText("0");
-        k00.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k00.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k00ActionPerformed(evt);
             }
         });
 
         k01.setText("0");
-        k01.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k01.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k01ActionPerformed(evt);
             }
         });
 
         k02.setText("0");
-        k02.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k02.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k02ActionPerformed(evt);
             }
         });
 
         k12.setText("0");
-        k12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k12.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k12ActionPerformed(evt);
             }
         });
 
         k11.setText("0");
-        k11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k11.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k11ActionPerformed(evt);
             }
         });
 
         k10.setText("0");
-        k10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k10.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k10ActionPerformed(evt);
             }
         });
 
         k22.setText("0");
-        k22.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k22.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k22ActionPerformed(evt);
             }
         });
 
         k21.setText("0");
-        k21.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k21.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k21ActionPerformed(evt);
             }
         });
 
         k20.setText("0");
-        k20.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k20.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k20ActionPerformed(evt);
             }
         });
 
         k03.setText("0");
-        k03.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k03.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k03ActionPerformed(evt);
             }
         });
 
         k13.setText("0");
-        k13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k13.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k13ActionPerformed(evt);
             }
         });
 
         k23.setText("0");
-        k23.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k23.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k23ActionPerformed(evt);
             }
         });
 
         k33.setText("0");
-        k33.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k33.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k33ActionPerformed(evt);
             }
         });
 
         k32.setText("0");
-        k32.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k32.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k32ActionPerformed(evt);
             }
         });
 
         k31.setText("0");
-        k31.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k31.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k31ActionPerformed(evt);
             }
         });
 
         k30.setText("0");
-        k30.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        k30.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 k30ActionPerformed(evt);
             }
         });
 
         jButton3.setText("Apply Kernel");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        addRectangle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        addRectangle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 controller.newRectangle(evt);
             }
         });
@@ -421,8 +428,8 @@ public class App extends javax.swing.JFrame {
 
         openFile.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, 0));
         openFile.setText("Open...");
-        openFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        openFile.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 openFileActionPerformed(evt);
             }
         });
@@ -430,8 +437,8 @@ public class App extends javax.swing.JFrame {
 
         SaveFile.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, 0));
         SaveFile.setText("Save");
-        SaveFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        SaveFile.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 SaveFileActionPerformed(evt);
             }
         });
@@ -439,8 +446,8 @@ public class App extends javax.swing.JFrame {
         FileMenu.add(jSeparator1);
 
         details.setText("ImageDetails");
-        details.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        details.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 detailsActionPerformed(evt);
             }
         });
@@ -453,36 +460,56 @@ public class App extends javax.swing.JFrame {
         colorMenu.setText("Color");
 
         colorSearch.setText("SearchTrainedColor");
-        colorSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        colorSearch.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 colorSearchActionPerformed(evt);
             }
         });
         colorMenu.add(colorSearch);
 
         bAdjust.setText("BrightnessAdjust");
-        bAdjust.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        bAdjust.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 bAdjustActionPerformed(evt);
             }
         });
         colorMenu.add(bAdjust);
 
         cAdjust.setText("ContrastAdjust");
-        cAdjust.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        cAdjust.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 cAdjustActionPerformed(evt);
             }
         });
         colorMenu.add(cAdjust);
 
+        ActionListener cannyAction =  new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                int sigma = controller.getIntegerValue("Value for sigma: ");
+                int radius = controller.getIntegerValue("Gradient Radius: ");
+                controller.showFilter(CannyEdgeDetector.detect(controller.getOriginalImage(), sigma, radius));
+            }
+        };
+
+        cannyDetector.addActionListener(cannyAction);
+        cannyDetector.setText("Canny");
+        harrisDetector.setText("Harris");
+        houghDetector.setText("Hough");
+
+        detectorsMenu.setText("Detectors");
+        detectorsMenu.add(cannyDetector);
+        detectorsMenu.add(houghDetector);
+        detectorsMenu.add(harrisDetector);
+
         FiltersMenu.add(colorMenu);
+        FiltersMenu.add(detectorsMenu);
+
 
         transformationMenu.setText("Transformation");
 
         toPolar.setText("2Polar");
-        toPolar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        toPolar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 toPolarActionPerformed(evt);
             }
         });
@@ -493,16 +520,16 @@ public class App extends javax.swing.JFrame {
         MixMenu.setText("MixingImages");
 
         blendingMenu.setText("Blending");
-        blendingMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        blendingMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 blendingMenuActionPerformed(evt);
             }
         });
         MixMenu.add(blendingMenu);
 
         hibridMenu.setText("HibridImages");
-        hibridMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        hibridMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 hibridMenuActionPerformed(evt);
             }
         });
@@ -513,8 +540,8 @@ public class App extends javax.swing.JFrame {
         blurMenu.setText("Blur");
 
         gBlurMenu.setText("GaussianBlur");
-        gBlurMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        gBlurMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 gBlurMenuActionPerformed(evt);
             }
         });
@@ -525,8 +552,8 @@ public class App extends javax.swing.JFrame {
         OtherMenu.setText("Others");
 
         laplacianMenu.setText("Laplacian");
-        laplacianMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        laplacianMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 laplacianMenuActionPerformed(evt);
             }
         });
@@ -537,8 +564,8 @@ public class App extends javax.swing.JFrame {
         OtherMenu1.setText("Funny");
 
         smallPMenu.setText("SmallPlanet");
-        smallPMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        smallPMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 smallPMenuActionPerformed(evt);
             }
         });
@@ -553,16 +580,16 @@ public class App extends javax.swing.JFrame {
         jMenu4.setText("ImageColorTraining");
 
         openTrainingSet.setText("Open Training Set");
-        openTrainingSet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        openTrainingSet.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 openTrainingSetActionPerformed(evt);
             }
         });
         jMenu4.add(openTrainingSet);
 
         saveTrainingSet.setText("Save Current Set");
-        saveTrainingSet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        saveTrainingSet.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 saveTrainingSetActionPerformed(evt);
             }
         });
@@ -570,8 +597,8 @@ public class App extends javax.swing.JFrame {
         jMenu4.add(jSeparator2);
 
         loadTrainingSet.setText("Load Training File");
-        loadTrainingSet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        loadTrainingSet.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 loadTrainingSetActionPerformed(evt);
             }
         });
@@ -586,15 +613,15 @@ public class App extends javax.swing.JFrame {
         views.setText("View");
 
         iinfoMenu.setText("Info");
-        iinfoMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        iinfoMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 controller.showInfo();
             }
         });
 
         viewHistograms.setText("Show histograms");
-        viewHistograms.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        viewHistograms.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 controller.showHistograms(null);
             }
         });
@@ -608,116 +635,116 @@ public class App extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void openTrainingSetActionPerformed(java.awt.event.ActionEvent evt) {                                                
+    private void openTrainingSetActionPerformed(ActionEvent evt) {                                                
         // TODO add your handling code here:
     }                                               
 
-    private void saveTrainingSetActionPerformed(java.awt.event.ActionEvent evt) {                                                
+    private void saveTrainingSetActionPerformed(ActionEvent evt) {                                                
         // TODO add your handling code here:
     }                                               
 
-    private void loadTrainingSetActionPerformed(java.awt.event.ActionEvent evt) {                                                
+    private void loadTrainingSetActionPerformed(ActionEvent evt) {                                                
         // TODO add your handling code here:
     }                                               
 
-    private void k00ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k00ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k02ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k02ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k01ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k01ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k12ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k12ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k11ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k11ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k10ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k10ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k22ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k22ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k21ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k21ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k20ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k20ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k03ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k03ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k13ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k13ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k23ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k23ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k33ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k33ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k32ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k32ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k31ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k31ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void k30ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void k30ActionPerformed(ActionEvent evt) {                                    
         // TODO add your handling code here:
     }                                   
 
-    private void colorSearchActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void colorSearchActionPerformed(ActionEvent evt) {                                            
        //controller.showFilter(ColorFilters.)
     }                                           
 
-    private void toPolarActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    private void toPolarActionPerformed(ActionEvent evt) {                                        
         controller.showFilter(PolarFilter.rectangle2PolarA(controller.getOriginalImage()));
     }                                       
 
-    private void gBlurMenuActionPerformed(java.awt.event.ActionEvent evt) {  
+    private void gBlurMenuActionPerformed(ActionEvent evt) {  
         new SliderGUI(this);                                 
         int sigma = controller.getIntegerValue("Value for sigma: ");                                           
         controller.showFilter(GaussianBlur.gaussianBlur4(controller.getOriginalImage(), sigma));
     }                                         
 
-    private void blendingMenuActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void blendingMenuActionPerformed(ActionEvent evt) {                                             
         BufferedImage second =  controller.getImage();
         int percentaje = controller.getIntegerValue("Percentaje ");
         controller.showFilter(MixingFilters.blending(controller.getOriginalImage(), second, percentaje));
     }                                            
 
-    private void laplacianMenuActionPerformed(java.awt.event.ActionEvent evt) {   
+    private void laplacianMenuActionPerformed(ActionEvent evt) {   
         int sigma = controller.getIntegerValue("Value for sigma: ");                                           
         controller.showFilter(LaplacianFilter.aproxLaplacian(controller.getOriginalImage(), sigma));
     }                                             
 
-    private void bAdjustActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    private void bAdjustActionPerformed(ActionEvent evt) {                                        
         controller.showFilter(ColorFilters.histogramEqualization(controller.getOriginalImage()));
     }                                       
 
-    private void cAdjustActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    private void cAdjustActionPerformed(ActionEvent evt) {                                        
         controller.showFilter(ColorFilters.contrastEqualization(controller.getOriginalImage()));
     }                                       
 
-    private void hibridMenuActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void hibridMenuActionPerformed(ActionEvent evt) {                                           
         BufferedImage second =  controller.getImage();
         int sigma1 = controller.getIntegerValue("Value for sigma1: ");
         int sigma2 = controller.getIntegerValue("Value for sigma2: ");
@@ -725,28 +752,28 @@ public class App extends javax.swing.JFrame {
 
     }                                          
 
-    private void detailsActionPerformed(java.awt.event.ActionEvent evt) {                                        
+    private void detailsActionPerformed(ActionEvent evt) {                                        
         // TODO add your handling code here:
     }                                       
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton3ActionPerformed(ActionEvent evt) {                                         
         // TODO add your handling code here:
     }                                        
 
-    private void smallPMenuActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void smallPMenuActionPerformed(ActionEvent evt) {                                           
         controller.showFilter(SmallPlanet.cosmogenesis(controller.getOriginalImage()));
     }                                          
 
-    private void openFileActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void openFileActionPerformed(ActionEvent evt) {                                         
         controller.openImage(evt);
     }                                        
 
-    private void SaveFileActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void SaveFileActionPerformed(ActionEvent evt) {                                         
         controller.saveImage(evt);
 
     }                                        
 
-    private void iinfoMenuActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void iinfoMenuActionPerformed(ActionEvent evt) {                                          
         // TODO add your handling code here:
     }                                         
 
@@ -782,7 +809,11 @@ public class App extends javax.swing.JFrame {
     private Leinen canvas1;
     private javax.swing.JPanel canvasPanel;
     private javax.swing.JMenu colorMenu;
+    private javax.swing.JMenu detectorsMenu;
     private javax.swing.JMenuItem colorSearch;
+    private javax.swing.JMenuItem harrisDetector;
+    private javax.swing.JMenuItem houghDetector;
+    private javax.swing.JMenuItem cannyDetector;
     private javax.swing.JMenuItem details;
     private javax.swing.JMenuItem gBlurMenu;
     private javax.swing.JMenuItem hibridMenu;

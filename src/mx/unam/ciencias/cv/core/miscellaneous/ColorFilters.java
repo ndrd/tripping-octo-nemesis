@@ -66,7 +66,7 @@ public class ColorFilters extends ImageFilter {
 	}
 
 	/* Makes a grayscale image */
-	public static BufferedImage grayScale(BufferedImage img) {
+	public static FastImage grayScalei(BufferedImage img) {
 	  xSize = img.getWidth();
 	  ySize = img.getHeight();
 	  
@@ -78,13 +78,17 @@ public class ColorFilters extends ImageFilter {
 		  for(int x= 0; x < xSize; x++) {
 
 			rgb = in.getPixel(x,y);
-			short prom = (short)((rgb[0] + rgb[1] +  rgb[2]) * 0.333333);
+			short prom = (short)(Math.round(0.299f * rgb[0] + 0.587f * rgb[1] + 0.114f * rgb[2]));
 			rgb[0] = rgb[1] = rgb[2] = prom;
 			out.setPixel(x, y,rgb);
 
 		  }
 	  }
-	  return out.getImage();
+	  return out;
+	}
+
+	public static BufferedImage grayScale(BufferedImage img) {
+		return grayScalei(img).getImage();
 	}
 
 	/** 

@@ -60,7 +60,7 @@ public class GaussianBlurTest extends FiltersTest {
 					saveImage(tmp, GaussianBlur.getName() + i);
 
 			}
-		    System.out.println(String.format( ITERS  + " iters for BsBLur4, total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format( ITERS  + " iters for BsBLur, total time %s", SpeedTest.timeFormat(total)));
 			
 			
 		} catch (Exception e) {
@@ -83,7 +83,7 @@ public class GaussianBlurTest extends FiltersTest {
 					saveImage(tmp, GaussianBlur.getName() + i + "vv");
 
 			}
-		    System.out.println(String.format( ITERS  + " iters for BsBLur4Ver, total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format( ITERS  + " iters for BsBLurVer, total time %s", SpeedTest.timeFormat(total)));
 			
 			
 		} catch (Exception e) {
@@ -106,7 +106,7 @@ public class GaussianBlurTest extends FiltersTest {
 					saveImage(tmp, GaussianBlur.getName() + i + "hh");
 
 			}
-		    System.out.println(String.format( ITERS  + " iters for BsBLur4Hor, total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format( ITERS  + " iters for BsBLurHor, total time %s", SpeedTest.timeFormat(total)));
 			
 			
 		} catch (Exception e) {
@@ -129,7 +129,7 @@ public class GaussianBlurTest extends FiltersTest {
 					saveImage(tmp, GaussianBlur.getName() + i + "dd");
 
 			}
-		    System.out.println(String.format( ITERS  + " iters for BsBLur4Hora, total time %s", SpeedTest.timeFormat(total)));
+		    System.out.println(String.format( ITERS  + " iters for BsBLurHorizontalVertical, total time %s", SpeedTest.timeFormat(total)));
 			
 			
 		} catch (Exception e) {
@@ -138,7 +138,28 @@ public class GaussianBlurTest extends FiltersTest {
 		}
 	}
 
+	@Test  public void BsBLurHorizontalYZZ() {
+		
+		try {
+			long total = 0;
+			for (int i = 0; i < ITERS ; i++) {
+				long startTime = System.nanoTime();
+				BufferedImage tmp = GaussianBlur.gaussianBlur2(img, 10);
+				long endTime = System.nanoTime();
+				total += (endTime - startTime);
 
+				if (writeFiles) 
+					saveImage(tmp, GaussianBlur.getName() + i + "zz");
+
+			}
+		    System.out.println(String.format( ITERS  + " iters for <---></--->FastImageBidireccional , total time %s", SpeedTest.timeFormat(total)));
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 
 	
 }
