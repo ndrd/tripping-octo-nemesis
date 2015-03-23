@@ -20,7 +20,8 @@ package mx.unam.ciencias.cv.core.filters;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
-import mx.unam.ciencias.cv.utils.FastImage;
+import mx.unam.ciencias.cv.utils.models.FastImage;
+
 
 public class GaussianBlur extends ImageFilter {
 

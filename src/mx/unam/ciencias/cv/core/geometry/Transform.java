@@ -1,4 +1,4 @@
-package mx.unam.ciencias.cv.utils;
+package mx.unam.ciencias.cv.core.geometry;
 
 /*
  * This file is part of visual-cosmic-rainbown
@@ -23,6 +23,9 @@ package mx.unam.ciencias.cv.utils;
 * Deals with the transformation matrix, takes the params to
 * make an apropiete matrix
 */
+import mx.unam.ciencias.cv.utils.models.Matrix;
+import mx.unam.ciencias.cv.utils.models.HCoords;
+
 public class Transform {
 
 	/** 

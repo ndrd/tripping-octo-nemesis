@@ -17,7 +17,9 @@ package mx.unam.ciencias.cv.views;
  * You should have received a copy of the GNU General Public License
  * along with visual-cosmic-rainbown. If not, see <http://www.gnu.org/licenses/>.
  */
-import mx.unam.ciencias.cv.utils.*;
+import mx.unam.ciencias.cv.utils.models.*;
+import mx.unam.ciencias.cv.core.geometry.*;
+
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Canvas;

@@ -19,7 +19,8 @@ package mx.unam.ciencias.cv.core.filters;
  */
 
 import java.awt.image.BufferedImage;
-import mx.unam.ciencias.cv.utils.FastImage;
+import mx.unam.ciencias.cv.utils.models.FastImage;
+
 
 public class LaplacianFilter extends ImageFilter {
 

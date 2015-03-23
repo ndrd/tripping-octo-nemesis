@@ -5,7 +5,8 @@ import java.awt.image.DataBufferByte;
 import java.io.IOException;
 import java.io.File;
 import javax.imageio.ImageIO;
-import mx.unam.ciencias.cv.utils.*;
+import mx.unam.ciencias.cv.utils.models.*;
+
 import org.junit.Assert;
 import org.junit.Test;
 

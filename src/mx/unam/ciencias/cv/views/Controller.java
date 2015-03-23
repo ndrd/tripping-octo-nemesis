@@ -33,9 +33,12 @@ import javax.swing.JProgressBar;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
+
 import mx.unam.ciencias.cv.core.filters.*;
 import mx.unam.ciencias.cv.core.miscellaneous.*;
-import mx.unam.ciencias.cv.utils.*;
+import mx.unam.ciencias.cv.core.geometry.*;
+import mx.unam.ciencias.cv.utils.models.*;
+import mx.unam.ciencias.cv.utils.trainer.*;
 import mx.unam.ciencias.cv.test.SpeedTest;
 
 public class Controller {

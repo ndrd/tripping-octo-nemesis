@@ -23,9 +23,9 @@ import java.awt.Color;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Iterator;
-import mx.unam.ciencias.cv.utils.ImageD;
-import mx.unam.ciencias.cv.utils.FastImage;
-import mx.unam.ciencias.cv.utils.Histogram;
+import mx.unam.ciencias.cv.utils.models.ImageD;
+import mx.unam.ciencias.cv.utils.models.FastImage;
+import mx.unam.ciencias.cv.utils.models.Histogram;
 import mx.unam.ciencias.cv.core.filters.ImageFilter;
 
 public class ColorFilters extends ImageFilter {

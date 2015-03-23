@@ -1,4 +1,4 @@
-package mx.unam.ciencias.cv.utils;
+package mx.unam.ciencias.cv.utils.models;
 
 /*
  * This file is part of visual-cosmic-rainbown

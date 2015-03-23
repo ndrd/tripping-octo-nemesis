@@ -1,4 +1,4 @@
-package mx.unam.ciencias.cv.utils;
+package mx.unam.ciencias.cv.core.geometry;
 /*
  * This file is part of visual-cosmic-rainbown
  *
@@ -21,6 +21,8 @@ package mx.unam.ciencias.cv.utils;
  /**
  * Works with the points that going to be transformed by a transformationMatrix
  */
+import mx.unam.ciencias.cv.utils.models.Matrix;
+import mx.unam.ciencias.cv.utils.models.HCoords;
 
 public class Transformation2D {
 	private Matrix matrix;

@@ -1,4 +1,4 @@
-package mx.unam.ciencias.cv.utils;
+package mx.unam.ciencias.cv.utils.trainer;
 
 /*
  * This file is part of visual-cosmic-rainbown
@@ -31,7 +31,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Color;
 import javax.imageio.ImageIO;
 
-import mx.unam.ciencias.cv.utils.*;
+import mx.unam.ciencias.cv.utils.models.*;
 
 public class ImageTrainer implements java.io.Serializable {
 

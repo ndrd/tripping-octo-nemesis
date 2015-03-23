@@ -19,7 +19,8 @@ package mx.unam.ciencias.cv.core.miscellaneous;
  */
 
 import java.awt.image.BufferedImage;
-import mx.unam.ciencias.cv.utils.FastImage;
+import mx.unam.ciencias.cv.utils.models.FastImage;
+
 import mx.unam.ciencias.cv.core.miscellaneous.ScaleImage;
 import mx.unam.ciencias.cv.core.filters.PolarFilter;
 import mx.unam.ciencias.cv.core.filters.ImageFilter;
