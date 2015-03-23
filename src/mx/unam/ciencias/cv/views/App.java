@@ -1,6 +1,7 @@
 package mx.unam.ciencias.cv.views;
 
-import mx.unam.ciencias.cv.filters.*;
+import mx.unam.ciencias.cv.core.filters.*;
+import mx.unam.ciencias.cv.core.miscellaneous.*;
 import java.awt.image.BufferedImage;
 
 

@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.io.File;
 import javax.imageio.ImageIO;
 import mx.unam.ciencias.cv.utils.*;
-import mx.unam.ciencias.cv.filters.*;
+import mx.unam.ciencias.cv.core.filters.*;
+import mx.unam.ciencias.cv.core.miscellaneous.*;
 import org.junit.Assert;
 import org.junit.Test;
 

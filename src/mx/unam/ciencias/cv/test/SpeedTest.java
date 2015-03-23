@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import mx.unam.ciencias.cv.filters.FiltersBeta;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -122,19 +121,5 @@ public class SpeedTest {
       }
    }
 
-   public void bitshiftBI() throws Exception {
-      BufferedImage hugeImage = ImageIO.read(SpeedTest.class.getResource("images/12000X12000.jpg"));
-      long startTime = System.nanoTime();
-      FiltersBeta.grayScalei(hugeImage);
-      long endTime = System.nanoTime();
-      System.out.println(String.format("BS %-2d: %s", 1, timeFormat(endTime - startTime)));
-   }
 
-   public void writableRaster() throws Exception {
-      BufferedImage hugeImage = ImageIO.read(SpeedTest.class.getResource("images/12000X12000.jpg"));
-      long startTime = System.nanoTime();
-      FiltersBeta.grayScale(hugeImage);
-      long endTime = System.nanoTime();
-      System.out.println(String.format("WR %-2d: %s", 1, timeFormat(endTime - startTime)));
-   }
 }
