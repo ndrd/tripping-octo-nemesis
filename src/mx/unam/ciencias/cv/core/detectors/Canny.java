@@ -15,7 +15,7 @@ import java.util.Arrays;
  * 
  * <pre><code>
  * //create the detector
- * CannyEdgeDetector detector = new CannyEdgeDetector();
+ * Canny detector = new Canny();
  * //adjust its parameters as desired
  * detector.setLowThreshold(0.5f);
  * detector.setHighThreshold(1f);
@@ -32,7 +32,7 @@ import java.util.Arrays;
  *
  */
 
-public class CannyEdgeDetector {
+public class Canny {
 
 	// statics
 	
@@ -68,7 +68,7 @@ public class CannyEdgeDetector {
 	 * Constructs a new detector with default parameters.
 	 */
 	
-	public CannyEdgeDetector() {
+	public Canny() {
 		lowThreshold = 2.5f;
 		highThreshold = 7.5f;
 		gaussianKernelRadius = 2f;
