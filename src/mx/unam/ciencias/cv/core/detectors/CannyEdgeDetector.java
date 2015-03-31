@@ -30,37 +30,23 @@ public class CannyEdgeDetector {
 	private static int INITIAL_SIGMA = 3;
 
 	public static BufferedImage detect (BufferedImage in, int sigma, int gradientRadius) {
+		/*
+		Canny detector = new Canny();
+		detector.setSourceImage(in);
+  		detector.process();
+ 		return detector.getEdgesImage();
+ 		*/
+ 		in = GaussianBlur.gaussianBlur(in, sigma);
+ 		return yGradient(in);
 
-		int width = in.getWidth();
-		int height = in.getHeight();
+	}
 
-		in = ColorFilters.contrastEqualization(in);
-		FastImage gScale  = GaussianBlur.gaussianBlur3(ColorFilters.grayScale(in), sigma);
-		FastImage gx = GaussianBlur.gaussianVertical(gScale, sigma);
-		FastImage gy = GaussianBlur.gaussianHorizontal(gScale, sigma);
+	public static BufferedImage xGradient(BufferedImage img) {
+		return ImageFilter.convolution(img, Kernel.SOBEL_HORIZONTAL().toArray());
+	}
 
-		double[][] gradient  = new double[width][height];
-		double[][] direction =  new double[width][height];
-
-		short [] xg = new short[3];
-		short [] yg = new short[3];
-
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++ ) {
-
-				xg = gx.getPixel(x,y);
-				yg = gy.getPixel(x,y);
-
-				gradient[x][y] = Math.hypot(xg[0], yg[0]);
-				/* the sign of the direction is irrelevant */
-				direction[x][y] = Math.abs(Math.atan2(yg[0],xg[0]));
-			}
-		}
-
-		boolean[][] maximus = nonMaximumSuppresion(gradient, direction, gradientRadius); 
-		drawMaximum(gScale, maximus);
-		return gScale.getImage();
-
+	public static BufferedImage yGradient(BufferedImage img) {
+		return ImageFilter.convolution(img, Kernel.SOBEL_VERTICAL().toArray());
 	}
 
 	static void drawMaximum(FastImage in, boolean [][] maximus) {
@@ -102,9 +88,6 @@ public class CannyEdgeDetector {
 					int ny = (int)(y+r*slope);
 					if (pxInRange(width, height, nx, ny))
 						esMaximo = (magnitude > gradient[nx][ny]);
-					else
-						System.out.println("No tin range");
-
 				}
 
 				if (esMaximo) {
@@ -121,10 +104,6 @@ public class CannyEdgeDetector {
 	static boolean pxInRange(int width, int height, int x, int y) { 
          return (x < width && y < height && x >= 0 && y >= 0);
     }
-
-
-
-
 
 	void drawEdges(int data[], int width, int height) {
 		edges = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);

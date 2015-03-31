@@ -143,6 +143,10 @@ public class Matrix {
 			matrix[x][y] = value;
 	}
 
+	public double[][] toArray() {
+		return  matrix;
+	}
+
 	@Override public String toString() {
 		String s = "";
 		for (int i = 0; i < rows ; i++) {

@@ -51,11 +51,7 @@ public class PolarFilter extends ImageFilter {
 		}
 	}
 
-	private static boolean pxInRange(int width, int height, int x, int y) { 
-         return (x < width && y < height && x >= 0 && y >= 0);
-    }
-
-
+	
 	public static BufferedImage rectangle2Polar(BufferedImage img) {
 		/* We suppose that is a square*/
 		int width = img.getWidth();

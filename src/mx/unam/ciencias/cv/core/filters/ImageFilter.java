@@ -18,6 +18,8 @@ package mx.unam.ciencias.cv.core.filters;
  * along with visual-cosmic-rainbown. If not, see <http://www.gnu.org/licenses/>.
  */
 import mx.unam.ciencias.cv.utils.models.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 
 public abstract class ImageFilter {
 
@@ -42,15 +44,18 @@ public abstract class ImageFilter {
 		return name;
 	}
 
-	protected static FastImage convolution(FastImage img, Matrix kernel) {
-		
+	public static FastImage convolution(FastImage img, Matrix kernel) {
+
+		System.out.println("Convolving...");
+		System.out.println(kernel);
+
 		int w = img.getWidth();
 		int h = img.getHeight();
 
 		FastImage out  = new FastImage(w, h, img.getType());
 
-		int kx = (kernel.nRows() - 1) / 2;
-		int ky = (kernel.nCols() - 1) / 2;
+		int kx = kernel.nRows() / 2;
+		int ky = kernel.nCols() / 2;
 
 		short [] rgb = new short[3];
 		short [] nrgb =  new short[3];
@@ -61,25 +66,68 @@ public abstract class ImageFilter {
 				for (int k = -kx, i = 0; k < (kernel.nRows() - kx) ; k++, i++ ) {
 					for (int l = -ky, j = 0; l < (kernel.nCols() - ky) ; l++, j++ ) {
 						
-						if (pxInRange(w, h, x+k, y+l))
+						if (pxInRange(w, h, x+k, y+l)){
 							rgb = img.getPixel(x+k,y+l);
-						else if((x+k < 0 || y+l < 0 )&& ( x+k < w && y+l < h))
-                         	rgb = img.getPixel(Math.abs(x+k),Math.abs(y+l));
+							nrgb[0] += (short) (rgb[0] * kernel.get(i,j)); 
+	                        nrgb[1] += (short) (rgb[1] * kernel.get(i,j)); 
+	                        nrgb[2] += (short) (rgb[2] * kernel.get(i,j)); 
 
-                        nrgb[0] = (short) (rgb[0] * kernel.get(i,j)); 
-                        nrgb[1] = (short) (rgb[1] * kernel.get(i,j)); 
-                        nrgb[2] = (short) (rgb[2] * kernel.get(i,j)); 
+						}
+
 					}
 				}
-
-				nrgb[0] = (nrgb[0] > 255) ? 255 : (nrgb[0] < 0 ) ? 0 : nrgb[0];
-				nrgb[1] = (nrgb[1] > 255) ? 255 : (nrgb[1] < 0 ) ? 0 : nrgb[1];
-				nrgb[2] = (nrgb[2] > 255) ? 255 : (nrgb[2] < 0 ) ? 0 : nrgb[2];
-
-				out.setPixel(x, y, rgb);
+				
+				nrgb[0] = (short) ((nrgb[0] >= 255) ? 0 : (nrgb[0] <= 0 ) ? 255 : 255 - nrgb[0]);
+				nrgb[1] = (short) ((nrgb[1] >= 255) ? 0 : (nrgb[1] <= 0 ) ? 255 : 255 - nrgb[1]);
+				nrgb[2] = (short) ((nrgb[2] >= 255) ? 0 : (nrgb[2] <= 0 ) ? 255 : 255 - nrgb[2]);
+				
+				out.setPixel(x, y, nrgb);
 			}
 		}
 		return out;
+	}
+
+	public static BufferedImage convolution(BufferedImage img, double [][]kernel) {
+		
+		int width = img.getWidth();
+		int height = img.getHeight();
+
+		BufferedImage outImg = new BufferedImage(width, height, img.getType());
+		WritableRaster out = outImg.getRaster();
+		WritableRaster in = img.getRaster();
+
+		double rgb[] = new double[3];
+		double srgb[] = new double[3];
+		int kx = (int)Math.floor(kernel.length / 2.0f);
+		int ky = (int)Math.floor(kernel[0].length / 2.0f);
+
+		for (int x = 0; x < width ; x++ ) {
+			for (int y = 0; y < height ; y++) {
+
+				for (int k = -kx, i = 0; k < (kernel.length - kx) ; k++, i++ ) {
+					for (int l = -ky, j = 0; l < (kernel[0].length - ky) ; l++, j++ ) {
+						if (pxInRange(width, height, x+k, y+l)){
+							rgb = in.getPixel(x+k, y+l, rgb);
+							srgb[0] += kernel[i][j] * rgb[0];
+							srgb[1] += kernel[i][j] * rgb[1];
+							srgb[2] += kernel[i][j] * rgb[2];
+						}
+					}
+				}
+				
+				normalizeColor(srgb);
+				out.setPixel(x,y, srgb);
+			}
+		}
+
+		return outImg;
+
+	}
+
+	static void normalizeColor(double[] rgb) {
+		rgb[0] = (rgb[0] < 0) ? 0 : (rgb[0] > 255) ? 255 : rgb[0];
+		rgb[1] = (rgb[1] < 0) ? 0 : (rgb[1] > 255) ? 255 : rgb[1];
+		rgb[2] = (rgb[2] < 0) ? 0 : (rgb[2] > 255) ? 255 : rgb[2];
 	}
 
 	protected static boolean pxInRange(int width, int height, int x, int y) { 

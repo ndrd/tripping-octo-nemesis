@@ -1,3 +1,5 @@
+package mx.unam.ciencias.cv.core.detectors;
+
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 

@@ -44,9 +44,6 @@ public class GaussianBlur extends ImageFilter {
 		return kernel;
 	}
 
-	private static boolean pxInRange(int width, int height, int x, int y) { 
-         return (x < width && y < height && x >= 0 && y >= 0);
-    }
 
     public static BufferedImage gaussianBlur(BufferedImage img, int sigma) {
         return gaussianBlur4(img, sigma);
