@@ -1,4 +1,6 @@
 package mx.unam.ciencias.cv.core.detectors;
+import java.awt.image.BufferedImage;
+
 /*
  * This file is part of visual-cosmic-rainbown
  *
@@ -18,27 +20,10 @@ package mx.unam.ciencias.cv.core.detectors;
  * along with visual-cosmic-rainbown. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import mx.unam.ciencias.cv.utils.models.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
+public abstract interface Detector {
 
-public class HoughTrasform implements Detector {
-
-	public static class HoughParams extends Detector.Params {
-
-		int maxRange;
-
-		public HoughParams() {
-			int maxRange = 50;
-		}
-	}
-
-	public static BufferedImage detect(BufferedImage img, HoughParams hp) {
-		return img;
-	}
-
-	public static HoughParams defaultParams() {
-		return new HoughParams();
-	}
+	public abstract class Params {
 	
+	}
+
 }

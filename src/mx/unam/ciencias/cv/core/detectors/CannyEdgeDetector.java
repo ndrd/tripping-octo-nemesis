@@ -23,7 +23,11 @@ import mx.unam.ciencias.cv.core.miscellaneous.*;
 import mx.unam.ciencias.cv.core.filters.*;
 
 
-public class CannyEdgeDetector {
+public class CannyEdgeDetector implements Detector {
+
+	public static class CannyParams  {
+
+	}
 
 	private BufferedImage edges;
 	private BufferedImage in;

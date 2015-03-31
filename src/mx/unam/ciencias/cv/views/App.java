@@ -491,9 +491,27 @@ public class App extends javax.swing.JFrame {
             }
         };
 
+        ActionListener harrisAction =  new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                int sigma = controller.getIntegerValue("Value for sigma: ");
+                int radius = controller.getIntegerValue("Gradient Radius: ");
+                controller.showFilter(HarrisCornerDetector.detect(controller.getOriginalImage(), sigma, radius));
+            }
+        };
+
+        ActionListener houghAction =  new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                int sigma = controller.getIntegerValue("Value for sigma: ");
+                int radius = controller.getIntegerValue("Gradient Radius: ");
+                controller.showFilter(HoughTrasform.detect(controller.getOriginalImage(), HoughTrasform.defaultParams()));
+            }
+        };
+
         cannyDetector.addActionListener(cannyAction);
         cannyDetector.setText("Canny");
+        harrisDetector.addActionListener(harrisAction);
         harrisDetector.setText("Harris");
+        houghDetector.addActionListener(houghAction);
         houghDetector.setText("Hough");
 
         detectorsMenu.setText("Detectors");

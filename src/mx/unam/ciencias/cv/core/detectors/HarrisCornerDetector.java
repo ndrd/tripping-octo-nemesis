@@ -17,6 +17,23 @@ package mx.unam.ciencias.cv.core.detectors;
  * You should have received a copy of the GNU General Public License
  * along with visual-cosmic-rainbown. If not, see <http://www.gnu.org/licenses/>.
  */
-public class HarrisCornerDetector {
+
+import mx.unam.ciencias.cv.utils.models.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+
+public class HarrisCornerDetector implements Detector {
+
+	public static class HarrisParams {
+
+	}
+
+	public static HarrisParams defaultParams() {
+		return new HarrisParams();
+	}
+
+	public static BufferedImage detect(BufferedImage img, int s, int r) {
+		return img;
+	}
 	
 }
