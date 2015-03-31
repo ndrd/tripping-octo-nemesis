@@ -23,7 +23,7 @@ import mx.unam.ciencias.cv.core.miscellaneous.*;
 import mx.unam.ciencias.cv.core.filters.*;
 
 
-public class CannyEdgeDetector implements Detector {
+public class CannyEdgeDetector extends Detector {
 
 	public static class CannyParams  {
 
@@ -41,16 +41,16 @@ public class CannyEdgeDetector implements Detector {
  		return detector.getEdgesImage();
  		*/
  		in = GaussianBlur.gaussianBlur(in, sigma);
- 		return yGradient(in);
+ 		return xGradient(in);
 
 	}
 
 	public static BufferedImage xGradient(BufferedImage img) {
-		return ImageFilter.convolution(img, Kernel.SOBEL_HORIZONTAL().toArray());
+		return Detector.xSobel(new FastImage(img)).getImage();
 	}
 
 	public static BufferedImage yGradient(BufferedImage img) {
-		return ImageFilter.convolution(img, Kernel.SOBEL_VERTICAL().toArray());
+		return Detector.ySobel(new FastImage(img)).getImage();
 	}
 
 	static void drawMaximum(FastImage in, boolean [][] maximus) {

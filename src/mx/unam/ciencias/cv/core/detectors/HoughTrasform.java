@@ -22,9 +22,9 @@ import mx.unam.ciencias.cv.utils.models.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
-public class HoughTrasform implements Detector {
+public class HoughTrasform extends Detector {
 
-	public static class HoughParams extends Detector.Params {
+	public static class HoughParams  {
 
 		int maxRange;
 

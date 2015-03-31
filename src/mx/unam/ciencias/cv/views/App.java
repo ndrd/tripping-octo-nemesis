@@ -71,7 +71,11 @@ public class App extends javax.swing.JFrame {
         colorSearch = new javax.swing.JMenuItem();
         harrisDetector = new javax.swing.JMenuItem();
         houghDetector = new javax.swing.JMenuItem();
-        cannyDetector = new javax.swing.JMenuItem();
+        cannyDetector = new javax.swing.JMenu();
+        cannyDetectorGx = new javax.swing.JMenuItem();
+        cannyDetectorGy = new javax.swing.JMenuItem();
+        cannyDetectorMin = new javax.swing.JMenuItem();
+        cannyDetectorFull = new javax.swing.JMenuItem();
         bAdjust = new javax.swing.JMenuItem();
         cAdjust = new javax.swing.JMenuItem();
         transformationMenu = new javax.swing.JMenu();
@@ -491,6 +495,18 @@ public class App extends javax.swing.JFrame {
             }
         };
 
+        ActionListener cannyActionY =  new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                controller.showFilter(CannyEdgeDetector.yGradient(controller.getOriginalImage()));
+            }
+        };
+
+         ActionListener cannyActionX =  new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                controller.showFilter(CannyEdgeDetector.xGradient(controller.getOriginalImage()));
+            }
+        };
+
         ActionListener harrisAction =  new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 int sigma = controller.getIntegerValue("Value for sigma: ");
@@ -507,8 +523,25 @@ public class App extends javax.swing.JFrame {
             }
         };
 
-        cannyDetector.addActionListener(cannyAction);
         cannyDetector.setText("Canny");
+
+        cannyDetectorGy.setText("Y-Gradient");
+        cannyDetectorGy.addActionListener(cannyActionY);
+
+        cannyDetectorGx.setText("X-Gradient");
+        cannyDetectorGx.addActionListener(cannyActionX);
+
+        cannyDetectorFull.setText("Detector");
+        cannyDetectorFull.addActionListener(cannyAction);
+
+        cannyDetectorMin.setText("NonHisteresis");
+        cannyDetectorFull.addActionListener(cannyAction);
+
+        cannyDetector.add(cannyDetectorGy);
+        cannyDetector.add(cannyDetectorGx);
+        cannyDetector.add(cannyDetectorMin);
+        cannyDetector.add(cannyDetectorFull);
+
         harrisDetector.addActionListener(harrisAction);
         harrisDetector.setText("Harris");
         houghDetector.addActionListener(houghAction);
@@ -831,7 +864,11 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JMenuItem colorSearch;
     private javax.swing.JMenuItem harrisDetector;
     private javax.swing.JMenuItem houghDetector;
-    private javax.swing.JMenuItem cannyDetector;
+    private javax.swing.JMenu cannyDetector;
+    private javax.swing.JMenuItem cannyDetectorGy;
+    private javax.swing.JMenuItem cannyDetectorGx;
+    private javax.swing.JMenuItem cannyDetectorFull;
+    private javax.swing.JMenuItem cannyDetectorMin;
     private javax.swing.JMenuItem details;
     private javax.swing.JMenuItem gBlurMenu;
     private javax.swing.JMenuItem hibridMenu;

@@ -281,7 +281,12 @@ public class Controller {
     }
 
     public int getIntegerValue(String msg) {
-         return Integer.parseInt(JOptionPane.showInputDialog(msg));
+        int n  = 1;
+        try {
+            return Integer.parseInt(JOptionPane.showInputDialog(msg));
+        } catch (Exception e) {
+            return n;
+        }
 
     }
 

@@ -87,6 +87,41 @@ public abstract class ImageFilter {
 		return out;
 	}
 
+	public static FastImage convolutionX(FastImage img, double [] kernel, double w) {
+
+		int width =  img.getWidth();
+		int height =  img.getHeight();
+		FastImage out =  new FastImage(width, height, img.getType());
+		int delta = kernel.length / 2;
+
+		short [] rgb = new short[3];
+		double [] nrgb =  new double[3]; 
+
+		for (int y = 0; y < height ; y++ ) {
+			for (int x = 0; x < width; x++) {
+
+				for (int kx = -delta, i = 0; i < kernel.length ; kx++, i++ ) {
+					int nx = ((x + kx) >= 0) ? ( x + kx < width) ? x : width - 1: 0;
+					rgb = img.getPixel(nx,y);
+
+					nrgb[0] += rgb[0] * kernel[i];
+					nrgb[1] += rgb[1] * kernel[i];
+					nrgb[2] += rgb[2] * kernel[i];
+
+				}
+
+				rgb[0] = (short) (nrgb[0] * w);
+				rgb[1] = (short) (nrgb[1] * w);
+				rgb[2] = (short) (nrgb[2] * w);
+
+				out.setPixel(x,y,rgb);
+
+			}
+		}
+		return out;
+
+	}
+
 	public static BufferedImage convolution(BufferedImage img, double [][]kernel) {
 		
 		int width = img.getWidth();
@@ -133,6 +168,7 @@ public abstract class ImageFilter {
 	protected static boolean pxInRange(int width, int height, int x, int y) { 
          return (x < width && y < height && x >= 0 && y >= 0);
     }
+
 
 	
 }

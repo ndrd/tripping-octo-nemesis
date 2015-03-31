@@ -22,7 +22,7 @@ import mx.unam.ciencias.cv.utils.models.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
-public class HarrisCornerDetector implements Detector {
+public class HarrisCornerDetector extends Detector {
 
 	public static class HarrisParams {
 
