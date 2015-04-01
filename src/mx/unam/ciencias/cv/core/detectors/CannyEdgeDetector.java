@@ -30,23 +30,23 @@ public class CannyEdgeDetector extends Detector {
 
 	public static class CannyParams  {
 		int gSigma;
-		int lowThreadshold;
-		int highThreadshold;
+		int lowThreshold;
+		int highThreshold;
 		boolean hysteresis;
 		boolean equalize;
 
 		public CannyParams() {
 			gSigma = 3;
-			lowThreadshold = 15;
-			highThreadshold = 50;
+			lowThreshold = 15;
+			highThreshold = 50;
 			hysteresis = true;
 			equalize = false;
 		}
 
 		public CannyParams(int sigma, int low, int hight, boolean hist, boolean eq) {
 			gSigma = sigma;
-			lowThreadshold = low;
-			highThreadshold = hight;
+			lowThreshold = low;
+			highThreshold = hight;
 			hysteresis = hist;
 			equalize = eq;
 		}
@@ -75,13 +75,16 @@ public class CannyEdgeDetector extends Detector {
 
 		/* non-maximum supression */
 		float [][] maximums = nonMaximumSuppresion(gx, gy);
+		
+		threSholding(maximums, params.lowThreshold, (params.highThreshold - params.lowThreshold) / 2);
 
 		if (params.hysteresis)
-			hysteresis(maximums, params.lowThreadshold, params.highThreadshold);
+			hysteresis(maximums, params.lowThreshold, params.highThreshold);
 		
+
 		drawMaximum(out, maximums);
 
-		return   out.getImage();
+		return  out.getImage();
 
 	}
 
@@ -186,16 +189,25 @@ public class CannyEdgeDetector extends Detector {
 		int y0 = (y-1 < 0) ? 0 : y-1;
 		int y2 = (y+1 >= data[0].length -1) ? data[0].length - 1 : y+1;
 
-		data[x][y] = 200;
+		data[x][y] = 255;
 
 		for (int x1 = x0; x1 < x2; x1++) {
 			for (int y1 = y0; y1 < y2; y1++) {
 				if ((x != x1 || y != y1) && data[x1][y1] >= low) {
 					persecute(data,x1,y1,low);
 					return;
-				}
+				} 
 			}
 		}
+	}
+
+	static void threSholding (float [][] maximums, int low, int medium) {
+		
+		for (int x = 0; x < maximums.length  ; x++) 
+			for (int y = 0; y < maximums[0].length  ; y++) 
+				maximums[x][y] = maximums[x][y] <= low ? 0 
+					: maximums[x][y] > low && maximums[x][y] <= medium ? 127 : 200;
+		
 	}
 
 
