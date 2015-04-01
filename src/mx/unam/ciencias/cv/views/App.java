@@ -489,9 +489,7 @@ public class App extends javax.swing.JFrame {
 
         ActionListener cannyAction =  new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                int sigma = controller.getIntegerValue("Value for sigma: ");
-                int radius = controller.getIntegerValue("Gradient Radius: ");
-                controller.showFilter(CannyEdgeDetector.detect(controller.getOriginalImage(), sigma, radius));
+                cannyD();
             }
         };
 
@@ -684,7 +682,28 @@ public class App extends javax.swing.JFrame {
         setJMenuBar(MenuBar);
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold> 
+
+    private void cannyD() {
+
+        int sigma = controller.getIntegerValue("Value for smoth (GaussianBlur): ");
+        if (sigma == -1)
+            return;
+
+        boolean equalize = controller.getTFValue("Perfom contrast adjust?");
+
+        int low = controller.getIntegerValue("Low threadshold (histeresys): ");
+        if (low == -1)
+            return;
+
+        int high = controller.getIntegerValue("High threadshold (histeresys): ");
+        if (high == -1)
+            return;
+        CannyEdgeDetector.CannyParams params =  CannyEdgeDetector.newParams(sigma, 
+                                        equalize , low, high);
+        controller.showFilter(CannyEdgeDetector.detect(controller.getOriginalImage(), params ));
+
+    }
 
     private void openTrainingSetActionPerformed(ActionEvent evt) {                                                
         // TODO add your handling code here:
@@ -835,7 +854,11 @@ public class App extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new App().setVisible(true);
+                try {
+                    new App().setVisible(true);
+                } catch (Exception e){
+                    System.out.println(e);
+                }
             }
         });
     }

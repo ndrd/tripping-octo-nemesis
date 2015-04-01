@@ -283,11 +283,21 @@ public class Controller {
     public int getIntegerValue(String msg) {
         int n  = 1;
         try {
-            return Integer.parseInt(JOptionPane.showInputDialog(msg));
+            n = Integer.parseInt(JOptionPane.showInputDialog(msg));
         } catch (Exception e) {
-            return n;
+            n = -1;
         }
 
+        return n;
+
+    }
+
+    public boolean getTFValue(String msg) {
+        try {
+            return (JOptionPane.showConfirmDialog(null, msg) == 1);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private void fillMatrix() {

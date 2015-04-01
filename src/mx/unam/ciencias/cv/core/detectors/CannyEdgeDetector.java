@@ -25,32 +25,63 @@ import mx.unam.ciencias.cv.core.filters.*;
 
 public class CannyEdgeDetector extends Detector {
 
-	private final static float MAGNITUDE_SCALE = 100F;
-	private final static float MAGNITUDE_LIMIT = 1000F;
-	private final static int MAGNITUDE_MAX = (int) (MAGNITUDE_SCALE * MAGNITUDE_LIMIT);
+	private final static float BLACK_SHIFT = 10f;
 	private final static float RGBIZE = (float) 1.0f / 127.0f;
 
 	public static class CannyParams  {
+		int gSigma;
+		int lowThreadshold;
+		int highThreadshold;
+		boolean hysteresis;
+		boolean equalize;
+
+		public CannyParams() {
+			gSigma = 3;
+			lowThreadshold = 15;
+			highThreadshold = 50;
+			hysteresis = true;
+			equalize = false;
+		}
+
+		public CannyParams(int sigma, int low, int hight, boolean hist, boolean eq) {
+			gSigma = sigma;
+			lowThreadshold = low;
+			highThreadshold = hight;
+			hysteresis = hist;
+			equalize = eq;
+		}
+
 
 	}
 
-	private BufferedImage edges;
-	private BufferedImage in;
-	private static int INITIAL_SIGMA = 3;
+	public  static CannyParams defaultParams() {
+		return new CannyParams();
+	}
+	public  static CannyParams newParams(int sigma, boolean equalize, int low, int hight) {
+		return new CannyParams(sigma, low, hight, true, equalize);
+	}
 
-	public static BufferedImage detect (BufferedImage in, int sigma, int radius) {
+	public static BufferedImage detect (BufferedImage in, CannyParams params) {
 		/* Smoth image with gaussian filter */
 		FastImage out =  new FastImage(in);
-		FastImage ini = new FastImage(GaussianBlur.gaussianBlur(in, sigma));
+
+		if (params.equalize)
+			in = ColorFilters.contrastEqualization(in);
+
+		FastImage ini = new FastImage(GaussianBlur.gaussianBlur(in, params.gSigma));
 		/* compute gradients and orientation */
 		float [][] gx = Detector.sobelX(ini);
 		float [][] gy = Detector.sobelY(ini);
 
+		/* non-maximum supression */
+		float [][] maximums = nonMaximumSuppresion(gx, gy);
 
-		 /* non-maximum supression */
-		 float [][] maximus = nonMaximumSuppresion(gx, gy, radius);
-		 drawMaximum(out, maximus);
-		 return   out.getImage();
+		if (params.hysteresis)
+			hysteresis(maximums, params.lowThreadshold, params.highThreadshold);
+		
+		drawMaximum(out, maximums);
+
+		return   out.getImage();
 
 	}
 
@@ -58,7 +89,7 @@ public class CannyEdgeDetector extends Detector {
 		return Detector.xSobel(new FastImage(img)).getImage();
 	}
 
-	public static BufferedImage  yGradient(BufferedImage img) {
+	public static BufferedImage yGradient(BufferedImage img) {
 		return Detector.ySobel(new FastImage(img)).getImage();
 	}
 
@@ -72,20 +103,19 @@ public class CannyEdgeDetector extends Detector {
 
 		for (int x = 0; x < width ;x++ ) {
 			for (int y = 0; y < height ; y++ ) {
-				mark[0] = mark[1] = mark[2] = (short) maximus[x][y];
+				mark[0] = mark[1] = mark[2] = (short) Math.ceil(maximus[x][y]);
 				in.setPixel(x,y, mark);
 			}
 		}
 
 	}
 
-	static float[][] nonMaximumSuppresion(float[][] gx, float[][] gy, int radius) {
-
-			float normalize = 1f / (255f * 255f);
+	static float[][] nonMaximumSuppresion(float[][] gx, float[][] gy) {
 
 			float [][] magnitudes = new float[gx.length][gy[0].length];
 			short [][] orientation = new short[gx.length][gy[0].length];
-			/* neighbords magnitudes */
+			
+			// neighbords magnitudes 
 			float mm, mx, my, n1, n2;
 
 			for (int x = 0; x < gx.length  ; x++) 
@@ -102,13 +132,13 @@ public class CannyEdgeDetector extends Detector {
 					mm = 0;
 					
 					if (angle >= 0 && angle <= 45) {
-						/* East and West */
+						// East and West 
 						n1 = gx[x+1][y] * gy[x+1][y];
 						n2 = gx[x-1][y] * gy[x-1][y];
 						mm = (mx * my >= n1 && mx * my > n2) ? mx * my : 0;
 
 					} else if (angle > 45 && angle <= 90) {
-						/* NorthEast and SouthWest */
+						// NorthEast and SouthWest 
 						n1 = gx[x+1][y+1] * gy[x+1][y+1];
 						n2 = gx[x-1][y-1] * gy[x-1][y-1];
 						mm = (mx * my >= n1 && mx * my > n2) ? mx * my : 0;
@@ -127,20 +157,51 @@ public class CannyEdgeDetector extends Detector {
 
 					}
 
-					magnitudes[x][y] = mm;
+					magnitudes[x][y] = (mm == 0) ?  0 : mm + BLACK_SHIFT;
 				}	
 			}
 
 			return magnitudes;
 	}
 
+	static float[][] hysteresis (float[][] maximums, int low, int high) {
+		
+		low = low < 0 || low > 255 ? 10 : low; 
+		high = high < 0 || high > 255 ? 20 : low == high ? high + 10 : high; 
+
+		for (int x = 0; x < maximums.length; x++ ) {
+			for (int y = 0; y < maximums[0].length; y++) {
+				if (maximums[x][y] >= high) 
+					persecute(maximums,x,y,low);
+			}
+		}
+
+		return maximums;
+	}
+
+	static void persecute(float[][] data, int x, int y, int low) {
+
+		int x0 = (x-1 < 0) ? 0 : x-1;
+		int x2 = (x+1 >= data.length -1) ? data.length - 1 : x+1;
+		int y0 = (y-1 < 0) ? 0 : y-1;
+		int y2 = (y+1 >= data[0].length -1) ? data[0].length - 1 : y+1;
+
+		data[x][y] = 200;
+
+		for (int x1 = x0; x1 < x2; x1++) {
+			for (int y1 = y0; y1 < y2; y1++) {
+				if ((x != x1 || y != y1) && data[x1][y1] >= low) {
+					persecute(data,x1,y1,low);
+					return;
+				}
+			}
+		}
+	}
+
+
 	static boolean pxInRange(int width, int height, int x, int y) { 
          return (x < width && y < height && x >= 0 && y >= 0);
     }
 
-	void drawEdges(int data[], int width, int height) {
-		edges = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		edges.getWritableTile(0, 0).setDataElements(0, 0, width, height, data);
-	}
 
 }
