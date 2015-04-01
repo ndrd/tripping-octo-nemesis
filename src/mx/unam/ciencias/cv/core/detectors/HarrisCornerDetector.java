@@ -19,6 +19,7 @@ package mx.unam.ciencias.cv.core.detectors;
  */
 
 import mx.unam.ciencias.cv.utils.models.*;
+import mx.unam.ciencias.cv.core.filters.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.LinkedList;
@@ -33,7 +34,7 @@ public class HarrisCornerDetector extends Detector {
 
 		public HarrisParams() {
 			sigma = 3;
-			k = 0.04;
+			k = 0.04f;
 			minMeasure = 50;
 		}
 
@@ -48,9 +49,9 @@ public class HarrisCornerDetector extends Detector {
 
 		int x;
 		int y;
-		float measure;
+		double measure;
 
-		public Corner(int x, int y, float mes) {
+		public Corner(int x, int y, double mes) {
 			this.x = x;
 			this.y = y;
 			this.measure = mes;
@@ -63,22 +64,24 @@ public class HarrisCornerDetector extends Detector {
 
 	public static BufferedImage detect(BufferedImage img, HarrisParams hp) {
 		
-		FastImage in =  new FastImage(GaussianBlur.gaussianBlur(img, hp.sigma));
+		FastImage ini = new FastImage(GaussianBlur.gaussianBlur(img, hp.sigma));
 
-		float [][] dx = Detector.xSobel(in);
-		float [][] dy = Detector.ySobel(in);
+		float [][] dx = Detector.sobelX(ini);
+		float [][] dy = Detector.sobelY(ini);
 
-		float measures = calculateMeasure(dx,dy);
+		double [][] measures = calculateMeasure(dx,dy, hp.k);
 		LinkedList<Corner> locals = localMaximums(measures, hp.minMeasure);
+		System.out.println("Corners : " + locals.size());
 
+		return ini.getImage();
 	}
 
-	static float[][] calculateMeasure(float[][] gx. float[][] gy) {
+	static double[][] calculateMeasure(float[][] dx, float[][] dy, float k) {
 
-		float [][] map = new float[gx.length][gx[0].length];
+		double [][] map = new double[dx.length][dx[0].length];
 
-		int xx,xy,yy;
-		float max = 0;
+		float xx,xy,yy, determinant = 0, trace = 0;
+		double max = 0;
 
 		for (int x = 0; x < dx.length  ; x++) {
 			for (int y = 0; y < dy[0].length  ; y++) {
@@ -87,26 +90,32 @@ public class HarrisCornerDetector extends Detector {
 				xy = dx[x][y] * dy[x][y];
 				yy = dy[x][y] * dy[x][y];
 				/* calculate the measure of the point */
-				float determinant = xx * yy - xy * xy;
-				float trace = (xx + yy) * (xx + yy);
+				determinant = xx * yy - xy * xy;
+				trace = (xx + yy) * (xx + yy);
 				 /* m = det - lamda * trace^2) */
-				float  measure = determinant - hp.k * trace;
+				double  measure = determinant - k * trace;
 				map[x][y] = measure;
-				max = measure > max ? measure : max;
+
+				max = measure >= max ? measure : max;
 			}
 		}
-
+		
 		/* normalize to 0-100 */
 		for (int x = 0; x < dx.length  ; x++) {
 			for (int y = 0; y < dy[0].length  ; y++) {
-				measure[x][y]  = measure[x][y]  < 0 ? 0 : (measure[x][y] / max) * 100f ;
+
+				map[x][y] = (map[x][y] > 0) ? 0 : 1.0f - (Math.log(10 + map[x][y]) / Math.log(10 + max)) * 100 ;
+
+				if (map[x][y] < 100){
+				}
+
 			}
 		}
 
 		return map;
 	}
 
-	static LinkedList<Corner> localMaximums(float [][] mes, int min) {
+	static LinkedList<Corner> localMaximums(double [][] mes, int min) {
 
 		LinkedList<Corner> corners = new LinkedList<>();
 
@@ -125,6 +134,8 @@ public class HarrisCornerDetector extends Detector {
 					corners.add(new Corner(x,y, mes[x][y]));
 			}
 		}
+
+		return corners;
 
 	}
 	

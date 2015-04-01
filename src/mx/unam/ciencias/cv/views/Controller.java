@@ -133,6 +133,7 @@ public class Controller {
     public BufferedImage getOriginalImage() {
         if (source == null)
             source =  getImage();
+        
         return source;
     }
 
@@ -201,38 +202,43 @@ public class Controller {
  
 
     public BufferedImage getImage() {
+
         BufferedImage result = null;
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new File("."));
-        openFail = false;
-        
-        FileNameExtensionFilter fExt = new FileNameExtensionFilter("BMP  (*.bmp), GIF  (*.gif), JPEG (*.jpg), PNG  (*.png)", 
-                                                                    "bmp", "gif", "jpg", "png");
-        String[] ext = fExt.getExtensions();
-        chooser.setFileFilter(fExt);
 
-        int r = chooser.showOpenDialog(component);
-        if (r == JFileChooser.CANCEL_OPTION) {
-            openFail = true;
-            throw new IllegalArgumentException("Cannot open file");
-        } else if (r == JFileChooser.APPROVE_OPTION) {
-            String dir = chooser.getSelectedFile().getPath();
-            if (dir == null || dir.equals("")) {
+        try {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new File("."));
+            openFail = false;
+            
+            FileNameExtensionFilter fExt = new FileNameExtensionFilter("BMP  (*.bmp), GIF  (*.gif), JPEG (*.jpg), PNG  (*.png)", 
+                                                                        "bmp", "gif", "jpg", "png");
+            String[] ext = fExt.getExtensions();
+            chooser.setFileFilter(fExt);
+
+            int r = chooser.showOpenDialog(component);
+            if (r == JFileChooser.CANCEL_OPTION) {
                 openFail = true;
-                System.out.print("Archivo invalido, saliendo");
-                System.exit((0));
+                throw new IllegalArgumentException("Cannot open file");
+            } else if (r == JFileChooser.APPROVE_OPTION) {
+                String dir = chooser.getSelectedFile().getPath();
+                if (dir == null || dir.equals("")) {
+                    openFail = true;
+                    System.out.print("Archivo invalido, saliendo");
+                    System.exit((0));
+                }
+                try {
+                    result = ImageIO.read(new File(dir));               
+                } 
+                catch(Exception e) {
+                    openFail = true;
+                }
             }
-            try {
-                result = ImageIO.read(new File(dir));               
-            } 
-            catch(Exception e) {
-                openFail = true;
-            }
+            
+            if (result == null)
+                throw new IllegalArgumentException("Cannot open file");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(component, "" +  e.getMessage());
         }
-        
-        if (result == null)
-            throw new IllegalArgumentException("Cannot open file");
-
         return result;
     }
 

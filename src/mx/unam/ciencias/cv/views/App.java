@@ -516,8 +516,7 @@ public class App extends javax.swing.JFrame {
         ActionListener harrisAction =  new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 int sigma = controller.getIntegerValue("Value for sigma: ");
-                int radius = controller.getIntegerValue("Gradient Radius: ");
-                controller.showFilter(HarrisCornerDetector.detect(controller.getOriginalImage(), sigma, radius));
+                controller.showFilter(HarrisCornerDetector.detect(controller.getOriginalImage(), HarrisCornerDetector.defaultParams()));
             }
         };
 
