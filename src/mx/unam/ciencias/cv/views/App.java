@@ -535,7 +535,7 @@ public class App extends javax.swing.JFrame {
         cannyDetectorFull.addActionListener(cannyAction);
 
         cannyDetectorMin.setText("NonHisteresis");
-        cannyDetectorFull.addActionListener(cannyAction);
+        //cannyDetectorFull.addActionListener(cannyAction);
 
         cannyDetector.add(cannyDetectorGy);
         cannyDetector.add(cannyDetectorGx);

@@ -24,11 +24,11 @@ import mx.unam.ciencias.cv.utils.models.*;
 
 public abstract class Detector {
 
-	private static double[][] sobelX (FastImage img) {
-				System.out.println("Sobel Y");
+	static float[][] sobelX (FastImage img) {
+				System.out.println("Sobel X");
 
 
-		double sobel[][] = new double[img.getWidth()][img.getHeight()];
+		float sobel[][] = new float[img.getWidth()][img.getHeight()];
 
 		int x0,x2,y0,y2;
 		short [][] maps =  new short[3][3];
@@ -54,7 +54,7 @@ public abstract class Detector {
 				maps[2][1] = img.getPixel(x2,y)[0];
 				maps[2][2] = img.getPixel(x2,y2)[0];
 
-				sobel[x][y] = ((maps[2][0] + 2 * maps[2][1] + maps[2][2]) - (maps[0][0] + 2 * maps[0][1] + maps[0][2])) / 8.0;
+				sobel[x][y] = ((maps[2][0] + 2 * maps[2][1] + maps[2][2]) - (maps[0][0] + 2 * maps[0][1] + maps[0][2])) / 8.0f;
 
 			}
 		}
@@ -62,10 +62,10 @@ public abstract class Detector {
 		return sobel;
 	}
 
-	private static double[][] sobelY (FastImage img) {
+	static float[][] sobelY (FastImage img) {
 		System.out.println("Sobel Y");
 
-		double sobel[][] = new double[img.getWidth()][img.getHeight()];
+		float sobel[][] = new float[img.getWidth()][img.getHeight()];
 
 		int x0,x2,y0,y2;
 		short [][] maps =  new short[3][3];
@@ -91,7 +91,7 @@ public abstract class Detector {
 				maps[2][1] = img.getPixel(x2,y)[0];
 				maps[2][2] = img.getPixel(x2,y2)[0];
 
-				sobel[x][y] = ((maps[0][2] + 2 * maps[1][2] + maps[2][2]) - (maps[0][0] + 2 * maps[1][0] + maps[2][0])) / 8.0;
+				sobel[x][y] = ((maps[0][2] + 2 * maps[1][2] + maps[2][2]) - (maps[0][0] + 2 * maps[1][0] + maps[2][0])) / 8.0f;
 
 			}
 		}
@@ -103,7 +103,7 @@ public abstract class Detector {
 		
 		FastImage out =  new FastImage(in.getWidth(), in.getHeight(), in.getType());
 		
-		double [][] sobel =  sobelX(in);
+		float [][] sobel =  sobelX(in);
 		short [] rgb =  new short[3];
 
 		for (int x = 0; x < in.getWidth() ; x++ ) { 
@@ -120,7 +120,7 @@ public abstract class Detector {
 		
 		FastImage out =  new FastImage(in.getWidth(), in.getHeight(), in.getType());
 		
-		double [][] sobel =  sobelY(in);
+		float [][] sobel =  sobelY(in);
 		short [] rgb =  new short[3];
 
 		for (int x = 0; x < in.getWidth() ; x++ ) { 

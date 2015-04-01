@@ -381,10 +381,12 @@ public class Canny {
 				float sMag = hypot(xGradient[indexS], yGradient[indexS]);
 				float wMag = hypot(xGradient[indexW], yGradient[indexW]);
 				float eMag = hypot(xGradient[indexE], yGradient[indexE]);
+				
 				float neMag = hypot(xGradient[indexNE], yGradient[indexNE]);
 				float seMag = hypot(xGradient[indexSE], yGradient[indexSE]);
 				float swMag = hypot(xGradient[indexSW], yGradient[indexSW]);
 				float nwMag = hypot(xGradient[indexNW], yGradient[indexNW]);
+				
 				float tmp;
 				/*
 				 * An explanation of what's happening here, for those who want

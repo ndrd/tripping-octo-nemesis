@@ -25,6 +25,11 @@ import mx.unam.ciencias.cv.core.filters.*;
 
 public class CannyEdgeDetector extends Detector {
 
+	private final static float MAGNITUDE_SCALE = 100F;
+	private final static float MAGNITUDE_LIMIT = 1000F;
+	private final static int MAGNITUDE_MAX = (int) (MAGNITUDE_SCALE * MAGNITUDE_LIMIT);
+	private final static float RGBIZE = (float) 1.0f / 127.0f;
+
 	public static class CannyParams  {
 
 	}
@@ -33,15 +38,19 @@ public class CannyEdgeDetector extends Detector {
 	private BufferedImage in;
 	private static int INITIAL_SIGMA = 3;
 
-	public static BufferedImage detect (BufferedImage in, int sigma, int gradientRadius) {
-		/*
-		Canny detector = new Canny();
-		detector.setSourceImage(in);
-  		detector.process();
- 		return detector.getEdgesImage();
- 		*/
- 		in = GaussianBlur.gaussianBlur(in, sigma);
- 		return xGradient(in);
+	public static BufferedImage detect (BufferedImage in, int sigma, int radius) {
+		/* Smoth image with gaussian filter */
+		FastImage out =  new FastImage(in);
+		FastImage ini = new FastImage(GaussianBlur.gaussianBlur(in, sigma));
+		/* compute gradients and orientation */
+		float [][] gx = Detector.sobelX(ini);
+		float [][] gy = Detector.sobelY(ini);
+
+
+		 /* non-maximum supression */
+		 float [][] maximus = nonMaximumSuppresion(gx, gy, radius);
+		 drawMaximum(out, maximus);
+		 return   out.getImage();
 
 	}
 
@@ -49,60 +58,80 @@ public class CannyEdgeDetector extends Detector {
 		return Detector.xSobel(new FastImage(img)).getImage();
 	}
 
-	public static BufferedImage yGradient(BufferedImage img) {
+	public static BufferedImage  yGradient(BufferedImage img) {
 		return Detector.ySobel(new FastImage(img)).getImage();
 	}
 
-	static void drawMaximum(FastImage in, boolean [][] maximus) {
+	static void drawMaximum(FastImage in, float [][] maximus) {
 		
 		int width = in.getWidth();
 		int height = in.getHeight();
 		
-		short [] mark = {255,0,0};
+		short [] mark = {0,0,0};
+		short [] back = {255,255,255};
 
 		for (int x = 0; x < width ;x++ ) {
 			for (int y = 0; y < height ; y++ ) {
-				if (maximus[x][y])
-					in.setPixel(x,y,mark);
+				mark[0] = mark[1] = mark[2] = (short) maximus[x][y];
+				in.setPixel(x,y, mark);
 			}
 		}
 
 	}
 
-	static boolean[][] nonMaximumSuppresion(double[][] gradient, double[][] direction, int radius) {
-		
-		short[] rgb = new short[3];
-		double slope = 0;
-		double magnitude = 0;
+	static float[][] nonMaximumSuppresion(float[][] gx, float[][] gy, int radius) {
 
-		int width = direction.length;
-		int height = direction[0].length;
+			float normalize = 1f / (255f * 255f);
 
-		boolean [][] isMax = new boolean[width][height];
+			float [][] magnitudes = new float[gx.length][gy[0].length];
+			short [][] orientation = new short[gx.length][gy[0].length];
+			/* neighbords magnitudes */
+			float mm, mx, my, n1, n2;
 
-		for (int x = radius + 1; x < width - radius ;x++ ) {
-			for (int y = radius + 1; y < height - radius ;y++ ) {
+			for (int x = 0; x < gx.length  ; x++) 
+				for (int y = 0; y < gy[0].length  ; y++) 
+					orientation[x][y] = (short) Math.abs(Math.toDegrees(Math.atan2(gx[x][y],gy[x][y])));
 				
-				boolean esMaximo = true;
-				slope = Math.tan(direction[x][y]);
-				magnitude = gradient[x][y];
-				
-				for (int r = -radius; r < radius && esMaximo; r++ ) {
-					int nx = x+r;
-					int ny = (int)(y+r*slope);
-					if (pxInRange(width, height, nx, ny))
-						esMaximo = (magnitude > gradient[nx][ny]);
-				}
+			for (int x = 1; x < gx.length - 1 ; x++) {
+				for (int y = 1; y < gy[0].length - 1 ; y++) {
+					
+					mx = gx[x][y];
+					my = gy[x][y];
+					short angle = orientation[x][y];
 
-				if (esMaximo) {
-					isMax[x][y] = esMaximo;	
+					mm = 0;
+					
+					if (angle >= 0 && angle <= 45) {
+						/* East and West */
+						n1 = gx[x+1][y] * gy[x+1][y];
+						n2 = gx[x-1][y] * gy[x-1][y];
+						mm = (mx * my >= n1 && mx * my > n2) ? mx * my : 0;
 
-				}
+					} else if (angle > 45 && angle <= 90) {
+						/* NorthEast and SouthWest */
+						n1 = gx[x+1][y+1] * gy[x+1][y+1];
+						n2 = gx[x-1][y-1] * gy[x-1][y-1];
+						mm = (mx * my >= n1 && mx * my > n2) ? mx * my : 0;
 
-				
+					} else if (angle > 90 && angle <= 135) {
+						/* Nort and South */
+						n1 = gx[x][y+1] * gy[x][y+1];
+						n2 = gx[x][y-1] * gy[x][y-1];
+						mm = (mx * my >= n1 && mx * my > n2) ? mx * my : 0;
+
+					} else if (angle > 135 && angle <= 180) {
+						/* SouthEast and NorthWest */
+						n1 = gx[x+1][y-1] * gy[x+1][y-1];
+						n2 = gx[x-1][y+1] * gy[x-1][y+1];
+						mm = (mx * my >= n1 && mx * my > n2) ? mx * my : 0;
+
+					}
+
+					magnitudes[x][y] = mm;
+				}	
 			}
-		}
-		return isMax;
+
+			return magnitudes;
 	}
 
 	static boolean pxInRange(int width, int height, int x, int y) { 
