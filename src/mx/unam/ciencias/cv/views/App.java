@@ -493,6 +493,14 @@ public class App extends javax.swing.JFrame {
             }
         };
 
+        ActionListener cannyActionH =  new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                controller.showFilter(CannyEdgeDetector.detect(controller.getOriginalImage(), 
+                    CannyEdgeDetector.defaultParams()));
+
+            }
+        };
+
         ActionListener cannyActionY =  new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 controller.showFilter(CannyEdgeDetector.yGradient(controller.getOriginalImage()));
@@ -533,7 +541,7 @@ public class App extends javax.swing.JFrame {
         cannyDetectorFull.addActionListener(cannyAction);
 
         cannyDetectorMin.setText("NonHisteresis");
-        //cannyDetectorFull.addActionListener(cannyAction);
+        cannyDetectorMin.addActionListener(cannyActionH);
 
         cannyDetector.add(cannyDetectorGy);
         cannyDetector.add(cannyDetectorGx);

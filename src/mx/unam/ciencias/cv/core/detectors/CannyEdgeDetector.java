@@ -39,7 +39,7 @@ public class CannyEdgeDetector extends Detector {
 			gSigma = 3;
 			lowThreshold = 15;
 			highThreshold = 50;
-			hysteresis = true;
+			hysteresis = false;
 			equalize = false;
 		}
 

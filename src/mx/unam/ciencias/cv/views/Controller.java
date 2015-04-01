@@ -214,7 +214,7 @@ public class Controller {
         int r = chooser.showOpenDialog(component);
         if (r == JFileChooser.CANCEL_OPTION) {
             openFail = true;
-            return result;
+            throw new IllegalArgumentException("Cannot open file");
         } else if (r == JFileChooser.APPROVE_OPTION) {
             String dir = chooser.getSelectedFile().getPath();
             if (dir == null || dir.equals("")) {
@@ -229,6 +229,10 @@ public class Controller {
                 openFail = true;
             }
         }
+        
+        if (result == null)
+            throw new IllegalArgumentException("Cannot open file");
+
         return result;
     }
 
